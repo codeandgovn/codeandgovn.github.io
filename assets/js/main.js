@@ -2,17 +2,34 @@
 
 const STORAGE_KEY = "codeandgo_progress_v1";
 
+function defaultProgress() {
+  return {
+    points: 0,
+    completedTasks: {},
+    username: "",
+    streak: 0,
+    longestStreak: 0,
+    lastActiveDate: null,
+    collectedCards: {},
+    currentCombo: 0,
+    maxCombo: 0,
+    wrongAnswers: 0,
+    nightOwl: false,
+    earlyBird: false
+  };
+}
+
 function getProgress() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) throw new Error("empty");
     const parsed = JSON.parse(raw);
-    if (!parsed.completedTasks) parsed.completedTasks = {};
-    if (typeof parsed.points !== "number") parsed.points = 0;
-    if (!parsed.username) parsed.username = "";
-    return parsed;
+    const withDefaults = Object.assign(defaultProgress(), parsed);
+    withDefaults.completedTasks = parsed.completedTasks || {};
+    withDefaults.collectedCards = parsed.collectedCards || {};
+    return withDefaults;
   } catch (e) {
-    return { points: 0, completedTasks: {}, username: "" };
+    return defaultProgress();
   }
 }
 
