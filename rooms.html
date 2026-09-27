@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rooms — Code&amp;Go</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
+    <div class="nav-links">
+      <a href="index.html" data-page="index.html">Home</a>
+      <a href="rooms.html" data-page="rooms.html" class="active">Rooms</a>
+      <a href="paths.html" data-page="paths.html">Paths</a>
+      <a href="profile.html" data-page="profile.html">Profile</a>
+    </div>
+    <div class="nav-cta">
+      <span class="points-pill" id="nav-points">⭐ 0 pts</span>
+    </div>
+    <button class="hamburger" aria-label="menu">☰</button>
+  </div>
+</nav>
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <h2>All Rooms</h2>
+      <p>Bite-sized Python modules. Filter by difficulty or search by topic.</p>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <input type="search" id="search" placeholder="Search rooms… e.g. loops, classes, strings">
+    <span class="chip active" data-diff="all">All</span>
+    <span class="chip" data-diff="Easy">Easy</span>
+    <span class="chip" data-diff="Medium">Medium</span>
+    <span class="chip" data-diff="Hard">Hard</span>
+  </div>
+
+  <div class="grid" id="room-grid"></div>
+  <p id="no-results" class="empty-state" style="display:none;">No rooms match your search. Try a different keyword.</p>
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 Code&amp;Go — Learn Python by doing.</div>
+    <div><a href="rooms.html">Rooms</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a></div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  let activeDiff = "all";
+  let query = "";
+
+  function diffClass(d) {
+    if (d === "Easy") return "tag-easy";
+    if (d === "Medium") return "tag-medium";
+    return "tag-hard";
+  }
+
+  function renderRoomCard(room) {
+    const done = roomIsComplete(room);
+    const completedCount = roomCompletedCount(room);
+    const pct = Math.round((completedCount / room.tasks.length) * 100);
+    return `
+      <a class="room-card" href="room.html?id=${room.id}">
+        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : ''}
+        <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${room.icon}</div>
+        <div class="room-body">
+          <h3>${room.title}</h3>
+          <p class="room-desc">${room.description}</p>
+          <div class="room-meta">
+            <span class="tag ${diffClass(room.difficulty)}">${room.difficulty}</span>
+            <span class="room-points">${roomTotalPoints(room)} pts</span>
+          </div>
+          <div class="progress-bar"><span style="width:${pct}%"></span></div>
+        </div>
+      </a>`;
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById("room-grid");
+    const noResults = document.getElementById("no-results");
+    const q = query.trim().toLowerCase();
+
+    const filtered = ROOMS.filter(r => {
+      const matchesDiff = activeDiff === "all" || r.difficulty === activeDiff;
+      const haystack = (r.title + " " + r.description + " " + r.tags.join(" ")).toLowerCase();
+      const matchesQuery = !q || haystack.includes(q);
+      return matchesDiff && matchesQuery;
+    });
+
+    grid.innerHTML = filtered.map(renderRoomCard).join("");
+    noResults.style.display = filtered.length ? "none" : "block";
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderGrid();
+
+    document.getElementById("search").addEventListener("input", (e) => {
+      query = e.target.value;
+      renderGrid();
+    });
+
+    document.querySelectorAll(".chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeDiff = chip.getAttribute("data-diff");
+        renderGrid();
+      });
+    });
+  });
+</script>
+</body>
+</html>

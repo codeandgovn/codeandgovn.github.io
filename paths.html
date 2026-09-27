@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Paths — Code&amp;Go</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
+    <div class="nav-links">
+      <a href="index.html" data-page="index.html">Home</a>
+      <a href="rooms.html" data-page="rooms.html">Rooms</a>
+      <a href="paths.html" data-page="paths.html" class="active">Paths</a>
+      <a href="profile.html" data-page="profile.html">Profile</a>
+    </div>
+    <div class="nav-cta">
+      <span class="points-pill" id="nav-points">⭐ 0 pts</span>
+    </div>
+    <button class="hamburger" aria-label="menu">☰</button>
+  </div>
+</nav>
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <h2>Learning Paths</h2>
+      <p>Rooms grouped in the order we recommend tackling them.</p>
+    </div>
+  </div>
+
+  <div id="path-list" style="display:flex; flex-direction:column; gap:22px;"></div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 Code&amp;Go — Learn Python by doing.</div>
+    <div><a href="rooms.html">Rooms</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a></div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  function diffClass(d) {
+    if (d === "Easy") return "tag-easy";
+    if (d === "Medium") return "tag-medium";
+    return "tag-hard";
+  }
+
+  function renderPathCard(path) {
+    const doneCount = pathCompletedCount(path);
+    const totalRooms = path.rooms.length;
+    const pct = Math.round((doneCount / totalRooms) * 100);
+    const totalPathPoints = path.rooms.reduce((sum, rid) => sum + roomTotalPoints(getRoom(rid)), 0);
+
+    const roomRows = path.rooms.map((rid, i) => {
+      const room = getRoom(rid);
+      const done = roomIsComplete(room);
+      return `
+        <a href="room.html?id=${room.id}" class="room-card" style="display:flex; flex-direction:row; align-items:center; gap:14px; padding:14px 16px;">
+          <div style="font-size:1.4rem; width:34px; text-align:center;">${done ? "✅" : (i+1)}</div>
+          <div style="flex:1;">
+            <div style="font-weight:700;">${room.icon} ${room.title}</div>
+            <div style="color:var(--text-dim); font-size:0.82rem;">${room.description}</div>
+          </div>
+          <span class="tag ${diffClass(room.difficulty)}">${room.difficulty}</span>
+          <span class="room-points">${roomTotalPoints(room)} pts</span>
+        </a>`;
+    }).join("");
+
+    return `
+      <div class="path-card" id="${path.id}" style="flex-direction:column; align-items:stretch;">
+        <div style="display:flex; gap:22px; align-items:flex-start;">
+          <div class="path-icon">${path.icon}</div>
+          <div style="flex:1;">
+            <h3>${path.title}</h3>
+            <p>${path.description}</p>
+            <div class="room-meta" style="margin-bottom:8px;">
+              <span>${doneCount}/${totalRooms} rooms complete</span>
+              <span class="room-points">${totalPathPoints} pts total</span>
+            </div>
+            <div class="progress-bar"><span style="width:${pct}%"></span></div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
+          ${roomRows}
+        </div>
+      </div>`;
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("path-list").innerHTML = PATHS.map(renderPathCard).join("");
+  });
+</script>
+</body>
+</html>

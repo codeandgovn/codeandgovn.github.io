@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code&amp;Go — Learn Python by Doing</title>
+<meta name="description" content="Learn Python through hands-on rooms and guided paths, TryHackMe-style — free, in your browser.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
+    <div class="nav-links">
+      <a href="index.html" data-page="index.html" class="active">Home</a>
+      <a href="rooms.html" data-page="rooms.html">Rooms</a>
+      <a href="paths.html" data-page="paths.html">Paths</a>
+      <a href="profile.html" data-page="profile.html">Profile</a>
+    </div>
+    <div class="nav-cta">
+      <span class="points-pill" id="nav-points">⭐ 0 pts</span>
+      <a href="rooms.html" class="btn btn-primary btn-sm">Start Learning</a>
+    </div>
+    <button class="hamburger" aria-label="menu">☰</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div>
+      <h1>Learn <span class="hl">Python</span> the hands-on way.</h1>
+      <p class="lead">Code&amp;Go is a free, browser-based platform for learning Python through
+      bite-sized <b>rooms</b> and guided <b>learning paths</b> — read a little, write real code,
+      answer a quick check, earn points. No setup, no signup, no cost.</p>
+      <div class="hero-actions">
+        <a href="rooms.html" class="btn btn-primary">Browse Rooms</a>
+        <a href="paths.html" class="btn btn-outline">View Learning Paths</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b id="stat-rooms">7</b><span>Rooms</span></div>
+        <div class="stat"><b id="stat-paths">2</b><span>Learning Paths</span></div>
+        <div class="stat"><b>100%</b><span>Free</span></div>
+      </div>
+    </div>
+    <div class="hero-terminal">
+      <div class="tbar"><span></span><span></span><span></span></div>
+      <pre><span class="cm"># room: python-basics — task 2</span>
+&gt;&gt;&gt; name = "World"
+&gt;&gt;&gt; print(f"Hello, {name}!")
+<span class="out">Hello, World!</span>
+
+<span class="cm"># ✔ correct! +10 points</span></pre>
+    </div>
+  </div>
+</header>
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <h2>Why Code&amp;Go?</h2>
+      <p>Built like the platforms you already like using — just for Python.</p>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="card feature-card">
+      <div class="icon">🧪</div>
+      <h3>Learn by doing</h3>
+      <p>Every task pairs an explanation with real, runnable code and a quick question — not
+      passive reading.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="icon">🗺️</div>
+      <h3>Guided paths</h3>
+      <p>Rooms are grouped into structured paths so you always know what to learn next.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="icon">⭐</div>
+      <h3>Points &amp; progress</h3>
+      <p>Earn points for every correct answer and track completed rooms on your profile.</p>
+    </div>
+    <div class="card feature-card">
+      <div class="icon">🆓</div>
+      <h3>Totally free</h3>
+      <p>No accounts, no paywalls. Progress is saved locally right in your browser.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <h2>Popular Rooms</h2>
+      <p>Short, focused modules you can finish in one sitting.</p>
+    </div>
+    <a href="rooms.html" class="btn btn-outline btn-sm">See all rooms →</a>
+  </div>
+  <div class="grid" id="home-room-grid"></div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <h2>Learning Paths</h2>
+      <p>Follow a curated order from beginner to intermediate.</p>
+    </div>
+    <a href="paths.html" class="btn btn-outline btn-sm">See all paths →</a>
+  </div>
+  <div class="grid" id="home-path-grid" style="grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));"></div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 Code&amp;Go — Learn Python by doing.</div>
+    <div>
+      <a href="rooms.html">Rooms</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("stat-rooms").textContent = ROOMS.length;
+    document.getElementById("stat-paths").textContent = PATHS.length;
+
+    const roomGrid = document.getElementById("home-room-grid");
+    ROOMS.slice(0, 3).forEach(room => {
+      roomGrid.innerHTML += renderRoomCard(room);
+    });
+
+    const pathGrid = document.getElementById("home-path-grid");
+    PATHS.forEach(path => {
+      pathGrid.innerHTML += renderPathCardMini(path);
+    });
+  });
+
+  function diffClass(d) {
+    if (d === "Easy") return "tag-easy";
+    if (d === "Medium") return "tag-medium";
+    return "tag-hard";
+  }
+
+  function renderRoomCard(room) {
+    const done = roomIsComplete(room);
+    const completedCount = roomCompletedCount(room);
+    const pct = Math.round((completedCount / room.tasks.length) * 100);
+    return `
+      <a class="room-card" href="room.html?id=${room.id}">
+        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : ''}
+        <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${room.icon}</div>
+        <div class="room-body">
+          <h3>${room.title}</h3>
+          <p class="room-desc">${room.description}</p>
+          <div class="room-meta">
+            <span class="tag ${diffClass(room.difficulty)}">${room.difficulty}</span>
+            <span class="room-points">${roomTotalPoints(room)} pts</span>
+          </div>
+          <div class="progress-bar"><span style="width:${pct}%"></span></div>
+        </div>
+      </a>`;
+  }
+
+  function renderPathCardMini(path) {
+    const done = pathCompletedCount(path);
+    return `
+      <div class="path-card">
+        <div class="path-icon">${path.icon}</div>
+        <div>
+          <h3>${path.title}</h3>
+          <p>${path.description}</p>
+          <div class="path-rooms-mini">
+            ${path.rooms.map(rid => `<span>${getRoom(rid).icon} ${getRoom(rid).title}</span>`).join("")}
+          </div>
+          <a href="paths.html#${path.id}" class="btn btn-outline btn-sm">${done}/${path.rooms.length} rooms complete →</a>
+        </div>
+      </div>`;
+  }
+</script>
+</body>
+</html>
