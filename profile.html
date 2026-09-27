@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile — Code&amp;Go</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
+    <div class="nav-links">
+      <a href="index.html" data-page="index.html">Home</a>
+      <a href="rooms.html" data-page="rooms.html">Rooms</a>
+      <a href="paths.html" data-page="paths.html">Paths</a>
+      <a href="profile.html" data-page="profile.html" class="active">Profile</a>
+    </div>
+    <div class="nav-cta">
+      <span class="points-pill" id="nav-points">⭐ 0 pts</span>
+    </div>
+    <button class="hamburger" aria-label="menu">☰</button>
+  </div>
+</nav>
+
+<header class="profile-header container">
+  <div class="avatar" id="avatar">?</div>
+  <div style="flex:1;">
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+      <h1 id="display-name" style="margin:0;">Anonymous Coder</h1>
+      <button class="btn btn-outline btn-sm" id="edit-name-btn">Set name</button>
+    </div>
+    <div class="profile-stats">
+      <div class="stat"><b id="pf-points">0</b><span>Points</span></div>
+      <div class="stat"><b id="pf-rooms">0</b><span>Rooms completed</span></div>
+      <div class="stat"><b id="pf-tasks">0</b><span>Tasks completed</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="section container">
+  <div class="section-head">
+    <div><h2>Badges</h2><p>Earned by completing rooms.</p></div>
+  </div>
+  <div class="badge-grid" id="badge-grid"></div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <div><h2>Room Progress</h2><p>Where you've been and what's next.</p></div>
+  </div>
+  <div class="grid" id="progress-grid"></div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <div><h2>Reset</h2><p>Clear all local progress and start fresh.</p></div>
+  </div>
+  <button class="btn btn-outline" id="reset-btn">Reset all progress</button>
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 Code&amp;Go — Learn Python by doing.</div>
+    <div><a href="rooms.html">Rooms</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a></div>
+  </div>
+</footer>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script>
+  function diffClass(d) {
+    if (d === "Easy") return "tag-easy";
+    if (d === "Medium") return "tag-medium";
+    return "tag-hard";
+  }
+
+  const BADGES = [
+    { id: "first-steps", name: "First Steps", icon: "👣", check: () => Object.keys(getProgress().completedTasks).length >= 1 },
+    { id: "python-basics", name: "Basics Master", icon: "🐍", check: () => roomIsComplete(getRoom("python-basics")) },
+    { id: "control-flow", name: "Loop Wrangler", icon: "🔀", check: () => roomIsComplete(getRoom("control-flow")) },
+    { id: "data-structures", name: "Data Organizer", icon: "🧺", check: () => roomIsComplete(getRoom("data-structures")) },
+    { id: "functions", name: "Function Builder", icon: "🧩", check: () => roomIsComplete(getRoom("functions")) },
+    { id: "strings", name: "String Slinger", icon: "🔤", check: () => roomIsComplete(getRoom("strings")) },
+    { id: "errors-files", name: "Bug Squasher", icon: "📁", check: () => roomIsComplete(getRoom("errors-files")) },
+    { id: "oop-basics", name: "Class Act", icon: "🏗️", check: () => roomIsComplete(getRoom("oop-basics")) },
+    { id: "path-fundamentals", name: "Fundamentals Grad", icon: "🎓", check: () => pathCompletedCount(getPath("python-fundamentals")) === getPath("python-fundamentals").rooms.length },
+    { id: "all-rooms", name: "Code&Go Champion", icon: "🏆", check: () => completedRoomsList().length === ROOMS.length }
+  ];
+
+  function renderProfile() {
+    const progress = getProgress();
+    document.getElementById("pf-points").textContent = progress.points;
+    document.getElementById("pf-rooms").textContent = completedRoomsList().length + " / " + ROOMS.length;
+    document.getElementById("pf-tasks").textContent = Object.keys(progress.completedTasks).length;
+
+    const name = progress.username || "Anonymous Coder";
+    document.getElementById("display-name").textContent = name;
+    document.getElementById("avatar").textContent = name.trim()[0].toUpperCase();
+
+    document.getElementById("badge-grid").innerHTML = BADGES.map(b => {
+      const earned = b.check();
+      return `
+        <div class="badge ${earned ? '' : 'locked'}">
+          <div class="badge-icon">${b.icon}</div>
+          <div class="badge-name">${b.name}</div>
+        </div>`;
+    }).join("");
+
+    document.getElementById("progress-grid").innerHTML = ROOMS.map(room => {
+      const completed = roomCompletedCount(room);
+      const total = room.tasks.length;
+      const pct = Math.round((completed / total) * 100);
+      const done = roomIsComplete(room);
+      return `
+        <a class="room-card" href="room.html?id=${room.id}">
+          ${done ? '<span class="room-complete-badge">✔ DONE</span>' : ''}
+          <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${room.icon}</div>
+          <div class="room-body">
+            <h3>${room.title}</h3>
+            <div class="room-meta">
+              <span class="tag ${diffClass(room.difficulty)}">${room.difficulty}</span>
+              <span>${completed}/${total} tasks</span>
+            </div>
+            <div class="progress-bar"><span style="width:${pct}%"></span></div>
+          </div>
+        </a>`;
+    }).join("");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderProfile();
+
+    document.getElementById("edit-name-btn").addEventListener("click", () => {
+      const current = getProgress().username || "";
+      const name = prompt("What should we call you?", current);
+      if (name && name.trim()) {
+        setUsername(name.trim());
+        renderProfile();
+      }
+    });
+
+    document.getElementById("reset-btn").addEventListener("click", () => {
+      if (confirm("This will erase all your points and completed tasks on this device. Continue?")) {
+        localStorage.removeItem("codeandgo_progress_v1");
+        renderProfile();
+        location.reload();
+      }
+    });
+  });
+</script>
+</body>
+</html>
