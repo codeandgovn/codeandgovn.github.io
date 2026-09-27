@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — Code&amp;Go</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
+  </div>
+</nav>
+
+<section class="section container" style="max-width:420px;">
+  <div class="card" style="padding:32px;">
+    <h1 style="margin-top:0; font-size:1.5rem;">Sign in</h1>
+    <p style="color:var(--text-dim); font-size:0.9rem;">Pick up your streak, points, and Codex right where you left off.</p>
+
+    <form id="login-form" style="display:flex; flex-direction:column; gap:14px; margin-top:10px;">
+      <div>
+        <label style="font-size:0.85rem; color:var(--text-dim); display:block; margin-bottom:6px;">Email</label>
+        <input type="email" id="login-email" required autocomplete="email"
+          style="width:100%; background:#0a0f16; border:1px solid var(--border); border-radius:6px; padding:10px 14px; color:var(--text); font-size:0.95rem;">
+      </div>
+      <div>
+        <label style="font-size:0.85rem; color:var(--text-dim); display:block; margin-bottom:6px;">Password</label>
+        <input type="password" id="login-password" required autocomplete="current-password"
+          style="width:100%; background:#0a0f16; border:1px solid var(--border); border-radius:6px; padding:10px 14px; color:var(--text); font-size:0.95rem;">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="login-submit">Sign In</button>
+      <p class="answer-feedback hidden" id="login-feedback"></p>
+    </form>
+
+    <p style="margin-top:18px; font-size:0.9rem; color:var(--text-dim);">
+      New to Code&amp;Go? <a href="signup.html" id="signup-link">Create an account</a>
+    </p>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  function getParam(name) {
+    return new URLSearchParams(location.search).get(name);
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const next = getParam("next");
+    const signupLink = document.getElementById("signup-link");
+    if (next) signupLink.href = "signup.html?next=" + encodeURIComponent(next);
+
+    const existingUser = await getSessionUser();
+    if (existingUser) {
+      location.href = next ? decodeURIComponent(next) : "rooms.html";
+      return;
+    }
+
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value;
+      const feedback = document.getElementById("login-feedback");
+      const submitBtn = document.getElementById("login-submit");
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Signing in…";
+
+      const { error } = await signInWithEmail(email, password);
+
+      if (error) {
+        feedback.textContent = "✘ " + error.message;
+        feedback.className = "answer-feedback wrong";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Sign In";
+        return;
+      }
+
+      location.href = next ? decodeURIComponent(next) : "rooms.html";
+    });
+  });
+</script>
+</body>
+</html>

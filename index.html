@@ -19,10 +19,8 @@
       <a href="paths.html" data-page="paths.html">Paths</a>
       <a href="profile.html" data-page="profile.html">Profile</a>
     </div>
-    <div class="nav-cta">
-      <span class="level-pill" id="nav-level">Lv.1 Novice</span>
-      <span class="streak-pill" id="nav-streak">🔥 0</span>
-      <span class="points-pill" id="nav-points">⭐ 0 pts</span>
+    <div class="nav-cta-wrap">
+      <div class="nav-cta" id="nav-cta"></div>
       <a href="rooms.html" class="btn btn-primary btn-sm">Start Learning</a>
     </div>
     <button class="hamburger" aria-label="menu">☰</button>
@@ -32,10 +30,10 @@
 <header class="hero">
   <div class="container">
     <div>
-      <h1>Learn <span class="hl">Python</span> the hands-on way.</h1>
-      <p class="lead">Code&amp;Go is a free, browser-based platform for learning Python through
-      bite-sized <b>rooms</b> and guided <b>learning paths</b> — read a little, write real code,
-      answer a quick check, earn points. No setup, no signup, no cost.</p>
+      <h1>Learn <span class="hl">Python &amp; AI</span> the hands-on way.</h1>
+      <p class="lead">Code&amp;Go is a free platform for learning Python and AI/ML through structured
+      <b>paths</b> you unlock one at a time — each one full of hands-on <b>challenge rooms</b> you can
+      tackle in any order. Read a little, build something real, earn points.</p>
       <div class="hero-actions">
         <a href="rooms.html" class="btn btn-primary">Browse Rooms</a>
         <a href="paths.html" class="btn btn-outline">View Learning Paths</a>
@@ -77,19 +75,19 @@
       passive reading.</p>
     </div>
     <div class="card feature-card">
-      <div class="icon">🗺️</div>
-      <h3>Guided paths</h3>
-      <p>Rooms are grouped into structured paths so you always know what to learn next.</p>
+      <div class="icon">🔒</div>
+      <h3>Structured paths</h3>
+      <p>Paths unlock one at a time as you finish the last one, so you always know what's next.</p>
     </div>
     <div class="card feature-card">
       <div class="icon">⭐</div>
       <h3>Points &amp; progress</h3>
-      <p>Earn points for every correct answer and track completed rooms on your profile.</p>
+      <p>Earn points for every correct answer, tied to your free account across every device.</p>
     </div>
     <div class="card feature-card">
       <div class="icon">🆓</div>
       <h3>Totally free</h3>
-      <p>No accounts, no paywalls. Progress is saved locally right in your browser.</p>
+      <p>No paywalls, ever — just a free account so your streak and Codex follow you anywhere.</p>
     </div>
   </div>
 </section>
@@ -97,8 +95,8 @@
 <section class="section container">
   <div class="section-head">
     <div>
-      <h2>Popular Rooms</h2>
-      <p>Short, focused modules you can finish in one sitting.</p>
+      <h2 id="home-room-heading">Start Here</h2>
+      <p id="home-room-sub">Hands-on challenges from your current path.</p>
     </div>
     <a href="rooms.html" class="btn btn-outline btn-sm">See all rooms →</a>
   </div>
@@ -125,21 +123,35 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/gamify.js"></script>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
+    await initPublicNav();
+
     document.getElementById("stat-rooms").textContent = ROOMS.length;
     document.getElementById("stat-paths").textContent = PATHS.length;
 
+    const activePath = currentActivePath();
+    if (activePath) {
+      document.getElementById("home-room-heading").textContent = `Continue: ${activePath.title}`;
+      document.getElementById("home-room-sub").textContent = "Pick any of these hands-on challenges — you can tackle them in any order.";
+    } else {
+      document.getElementById("home-room-heading").textContent = "You've completed every path! 🏆";
+      document.getElementById("home-room-sub").textContent = "Revisit any room below for a refresher.";
+    }
     const roomGrid = document.getElementById("home-room-grid");
-    ROOMS.slice(0, 3).forEach(room => {
+    const previewRooms = (activePath ? activePath.rooms.map(getRoom) : ROOMS).slice(0, 3);
+    previewRooms.forEach(room => {
       roomGrid.innerHTML += renderRoomCard(room);
     });
 
     const pathGrid = document.getElementById("home-path-grid");
-    PATHS.forEach(path => {
+    PATH_ORDER.slice(0, 4).map(getPath).filter(Boolean).forEach(path => {
       pathGrid.innerHTML += renderPathCardMini(path);
     });
 
@@ -187,16 +199,17 @@
 
   function renderPathCardMini(path) {
     const done = pathCompletedCount(path);
+    const unlocked = isPathUnlocked(path.id);
     return `
-      <div class="path-card">
-        <div class="path-icon">${path.icon}</div>
+      <div class="path-card ${unlocked ? '' : 'path-locked'}">
+        <div class="path-icon">${unlocked ? path.icon : "🔒"}</div>
         <div>
           <h3>${path.title}</h3>
           <p>${path.description}</p>
           <div class="path-rooms-mini">
             ${path.rooms.map(rid => `<span>${getRoom(rid).icon} ${getRoom(rid).title}</span>`).join("")}
           </div>
-          <a href="paths.html#${path.id}" class="btn btn-outline btn-sm">${done}/${path.rooms.length} rooms complete →</a>
+          <a href="paths.html#${path.id}" class="btn btn-outline btn-sm">${unlocked ? `${done}/${path.rooms.length} rooms complete →` : "🔒 Locked — see paths →"}</a>
         </div>
       </div>`;
   }

@@ -18,11 +18,7 @@
       <a href="paths.html" data-page="paths.html">Paths</a>
       <a href="profile.html" data-page="profile.html">Profile</a>
     </div>
-    <div class="nav-cta">
-      <span class="level-pill" id="nav-level">Lv.1 Novice</span>
-      <span class="streak-pill" id="nav-streak">🔥 0</span>
-      <span class="points-pill" id="nav-points">⭐ 0 pts</span>
-    </div>
+    <div class="nav-cta" id="nav-cta"></div>
     <button class="hamburger" aria-label="menu">☰</button>
   </div>
 </nav>
@@ -31,7 +27,7 @@
   <div class="section-head">
     <div>
       <h2>All Rooms</h2>
-      <p>Bite-sized Python modules. Filter by difficulty or search by topic.</p>
+      <p>Hands-on challenges, grouped into paths you unlock one at a time. Filter by difficulty or search by topic.</p>
     </div>
   </div>
 
@@ -56,6 +52,9 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/gamify.js"></script>
@@ -79,20 +78,23 @@
     const done = roomIsComplete(room);
     const completedCount = roomCompletedCount(room);
     const pct = Math.round((completedCount / room.tasks.length) * 100);
+    const unlocked = isRoomUnlocked(room.id);
+    const tag = unlocked ? "a" : "div";
+    const href = unlocked ? `href="room.html?id=${room.id}"` : "";
     return `
-      <a class="room-card" href="room.html?id=${room.id}">
-        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : ''}
-        <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${room.icon}</div>
+      <${tag} class="room-card ${unlocked ? '' : 'locked'}" ${href}>
+        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : (unlocked ? '' : '<span class="room-complete-badge locked-badge">🔒 LOCKED</span>')}
+        <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${unlocked ? room.icon : "🔒"}</div>
         <div class="room-body">
           <h3>${room.title}</h3>
-          <p class="room-desc">${room.description}</p>
+          <p class="room-desc">${unlocked ? room.description : "Finish the previous path to unlock this challenge."}</p>
           <div class="room-meta">
             <span class="tag ${diffClass(room.difficulty)}">${room.difficulty}</span>
             <span class="room-points">${roomTotalPoints(room)} pts</span>
           </div>
-          <div class="progress-bar"><span style="width:${pct}%"></span></div>
+          <div class="progress-bar"><span style="width:${unlocked ? pct : 0}%"></span></div>
         </div>
-      </a>`;
+      </${tag}>`;
   }
 
   function renderGrid() {
@@ -114,10 +116,16 @@
       `Showing ${filtered.length} of ${ROOMS.length} rooms`;
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
+    const ok = await requireAuth();
+    if (!ok) return;
+
     const pathSelect = document.getElementById("path-filter");
-    PATHS.forEach(p => {
-      pathSelect.innerHTML += `<option value="${p.id}">${p.icon} ${p.title}</option>`;
+    PATH_ORDER.forEach(id => {
+      const p = getPath(id);
+      if (!p) return;
+      const locked = !isPathUnlocked(p.id);
+      pathSelect.innerHTML += `<option value="${p.id}">${locked ? "🔒" : p.icon} ${p.title}${locked ? " (locked)" : ""}</option>`;
     });
 
     renderGrid();

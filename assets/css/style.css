@@ -114,7 +114,8 @@ code.inline {
 .nav-links a.active,
 .nav-links a:hover { color: var(--text); }
 
-.nav-cta {
+.nav-cta,
+.nav-cta-wrap {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -354,6 +355,16 @@ section.section {
   font-weight: 800;
   padding: 3px 9px;
 }
+.room-complete-badge.locked-badge {
+  background: var(--text-dim);
+  color: #0d1117;
+}
+.room-card.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.6);
+}
+.room-card.locked:hover { border-color: var(--border); background: var(--card); }
 .progress-bar {
   height: 6px;
   border-radius: 999px;
@@ -424,6 +435,7 @@ section.section {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
+.path-card.path-locked { opacity: 0.6; }
 .path-card h3 { margin: 0 0 6px; }
 .path-card p { color: var(--text-dim); margin: 0 0 14px; }
 .path-rooms-mini {

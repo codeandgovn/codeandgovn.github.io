@@ -18,11 +18,7 @@
       <a href="paths.html" data-page="paths.html" class="active">Paths</a>
       <a href="profile.html" data-page="profile.html">Profile</a>
     </div>
-    <div class="nav-cta">
-      <span class="level-pill" id="nav-level">Lv.1 Novice</span>
-      <span class="streak-pill" id="nav-streak">🔥 0</span>
-      <span class="points-pill" id="nav-points">⭐ 0 pts</span>
-    </div>
+    <div class="nav-cta" id="nav-cta"></div>
     <button class="hamburger" aria-label="menu">☰</button>
   </div>
 </nav>
@@ -31,7 +27,7 @@
   <div class="section-head">
     <div>
       <h2>Learning Paths</h2>
-      <p>Rooms grouped in the order we recommend tackling them.</p>
+      <p>Complete each path to unlock the next one — rooms inside an unlocked path are hands-on challenges you can tackle in any order.</p>
     </div>
   </div>
 
@@ -45,6 +41,9 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/gamify.js"></script>
@@ -55,39 +54,47 @@
     return "tag-hard";
   }
 
-  function renderPathCard(path) {
+  function renderPathCard(path, unlocked) {
     const doneCount = pathCompletedCount(path);
     const totalRooms = path.rooms.length;
     const pct = Math.round((doneCount / totalRooms) * 100);
     const totalPathPoints = path.rooms.reduce((sum, rid) => sum + roomTotalPoints(getRoom(rid)), 0);
+    const isDone = doneCount === totalRooms;
 
     const roomRows = path.rooms.map((rid, i) => {
       const room = getRoom(rid);
       const done = roomIsComplete(room);
+      const tag = unlocked ? "a" : "div";
+      const href = unlocked ? `href="room.html?id=${room.id}"` : "";
       return `
-        <a href="room.html?id=${room.id}" class="room-card" style="display:flex; flex-direction:row; align-items:center; gap:14px; padding:14px 16px;">
-          <div style="font-size:1.4rem; width:34px; text-align:center;">${done ? "✅" : (i+1)}</div>
+        <${tag} ${href} class="room-card ${unlocked ? '' : 'locked'}" style="display:flex; flex-direction:row; align-items:center; gap:14px; padding:14px 16px;">
+          <div style="font-size:1.4rem; width:34px; text-align:center;">${done ? "✅" : (unlocked ? (i+1) : "🔒")}</div>
           <div style="flex:1;">
-            <div style="font-weight:700;">${room.icon} ${room.title}</div>
+            <div style="font-weight:700;">${unlocked ? room.icon : "🔒"} ${room.title}</div>
             <div style="color:var(--text-dim); font-size:0.82rem;">${room.description}</div>
           </div>
           <span class="tag ${diffClass(room.difficulty)}">${room.difficulty}</span>
           <span class="room-points">${roomTotalPoints(room)} pts</span>
-        </a>`;
+        </${tag}>`;
     }).join("");
 
     return `
-      <div class="path-card" id="${path.id}" style="flex-direction:column; align-items:stretch;">
+      <div class="path-card ${unlocked ? '' : 'path-locked'}" id="${path.id}" style="flex-direction:column; align-items:stretch;">
         <div style="display:flex; gap:22px; align-items:flex-start;">
-          <div class="path-icon">${path.icon}</div>
+          <div class="path-icon">${unlocked ? path.icon : "🔒"}</div>
           <div style="flex:1;">
-            <h3>${path.title}</h3>
-            <p>${path.description}</p>
-            <div class="room-meta" style="margin-bottom:8px;">
-              <span>${doneCount}/${totalRooms} rooms complete</span>
-              <span class="room-points">${totalPathPoints} pts total</span>
+            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+              <h3 style="margin:0;">${path.title}</h3>
+              ${isDone ? '<span class="tag tag-easy">✔ COMPLETE</span>' : (unlocked ? '<span class="tag tag-medium">IN PROGRESS</span>' : '<span class="tag tag-hard">LOCKED</span>')}
             </div>
-            <div class="progress-bar"><span style="width:${pct}%"></span></div>
+            <p>${path.description}</p>
+            ${unlocked ? `
+              <div class="room-meta" style="margin-bottom:8px;">
+                <span>${doneCount}/${totalRooms} rooms complete</span>
+                <span class="room-points">${totalPathPoints} pts total</span>
+              </div>
+              <div class="progress-bar"><span style="width:${pct}%"></span></div>
+            ` : `<p style="color:var(--text-dim); font-size:0.85rem;">🔒 Finish the path above to unlock this one.</p>`}
           </div>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
@@ -96,8 +103,15 @@
       </div>`;
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("path-list").innerHTML = PATHS.map(renderPathCard).join("");
+  document.addEventListener("DOMContentLoaded", async () => {
+    const ok = await requireAuth();
+    if (!ok) return;
+
+    document.getElementById("path-list").innerHTML = PATH_ORDER
+      .map(id => getPath(id))
+      .filter(Boolean)
+      .map(path => renderPathCard(path, isPathUnlocked(path.id)))
+      .join("");
   });
 </script>
 </body>

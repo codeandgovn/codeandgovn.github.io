@@ -233,6 +233,27 @@ function renderRoom(room) {
   room.tasks.forEach((t, i) => wireUpTask(room, t, i));
 }
 
+function renderLocked(room) {
+  const path = getPathForRoom(room.id);
+  const idx = path ? PATH_ORDER.indexOf(path.id) : -1;
+  const prevPath = idx > 0 ? getPath(PATH_ORDER[idx - 1]) : null;
+
+  document.getElementById("room-root").innerHTML = `
+    <section class="section container">
+      <div class="empty-state">
+        <h2>🔒 ${room.title} is locked</h2>
+        <p>Code&Go paths unlock one at a time. ${prevPath
+          ? `Finish every room in <b>${prevPath.title}</b> first to unlock <b>${path.title}</b>.`
+          : `Finish the previous path first to unlock <b>${path ? path.title : "this path"}</b>.`}</p>
+        <div style="margin-top:14px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          ${prevPath ? `<a href="paths.html#${prevPath.id}" class="btn btn-primary">Go to ${prevPath.title}</a>` : ""}
+          <a href="paths.html" class="btn btn-outline">View all paths</a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
 function renderNotFound() {
   document.getElementById("room-root").innerHTML = `
     <section class="section container">
@@ -245,12 +266,19 @@ function renderNotFound() {
   `;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  const ok = await requireAuth();
+  if (!ok) return;
+
   const id = getParam("id");
   const room = id ? getRoom(id) : null;
-  if (room) {
-    renderRoom(room);
-  } else {
+  if (!room) {
     renderNotFound();
+    return;
   }
+  if (!isRoomUnlocked(room.id)) {
+    renderLocked(room);
+    return;
+  }
+  renderRoom(room);
 });

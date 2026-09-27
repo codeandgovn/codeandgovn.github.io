@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up — Code&amp;Go</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
+  </div>
+</nav>
+
+<section class="section container" style="max-width:420px;">
+  <div class="card" style="padding:32px;">
+    <h1 style="margin-top:0; font-size:1.5rem;">Create your account</h1>
+    <p style="color:var(--text-dim); font-size:0.9rem;">Free forever. Your points, streak, and Codex are saved to your account.</p>
+
+    <form id="signup-form" style="display:flex; flex-direction:column; gap:14px; margin-top:10px;">
+      <div>
+        <label style="font-size:0.85rem; color:var(--text-dim); display:block; margin-bottom:6px;">Username</label>
+        <input type="text" id="signup-username" required autocomplete="nickname" maxlength="40"
+          style="width:100%; background:#0a0f16; border:1px solid var(--border); border-radius:6px; padding:10px 14px; color:var(--text); font-size:0.95rem;">
+      </div>
+      <div>
+        <label style="font-size:0.85rem; color:var(--text-dim); display:block; margin-bottom:6px;">Email</label>
+        <input type="email" id="signup-email" required autocomplete="email"
+          style="width:100%; background:#0a0f16; border:1px solid var(--border); border-radius:6px; padding:10px 14px; color:var(--text); font-size:0.95rem;">
+      </div>
+      <div>
+        <label style="font-size:0.85rem; color:var(--text-dim); display:block; margin-bottom:6px;">Password</label>
+        <input type="password" id="signup-password" required autocomplete="new-password" minlength="6"
+          style="width:100%; background:#0a0f16; border:1px solid var(--border); border-radius:6px; padding:10px 14px; color:var(--text); font-size:0.95rem;">
+        <p style="font-size:0.78rem; color:var(--text-dim); margin:4px 0 0;">At least 6 characters.</p>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block" id="signup-submit">Create Account</button>
+      <p class="answer-feedback hidden" id="signup-feedback"></p>
+    </form>
+
+    <p style="margin-top:18px; font-size:0.9rem; color:var(--text-dim);">
+      Already have an account? <a href="login.html" id="login-link">Sign in</a>
+    </p>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+  function getParam(name) {
+    return new URLSearchParams(location.search).get(name);
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const next = getParam("next");
+    const loginLink = document.getElementById("login-link");
+    if (next) loginLink.href = "login.html?next=" + encodeURIComponent(next);
+
+    const existingUser = await getSessionUser();
+    if (existingUser) {
+      location.href = next ? decodeURIComponent(next) : "rooms.html";
+      return;
+    }
+
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("signup-username").value.trim();
+      const email = document.getElementById("signup-email").value.trim();
+      const password = document.getElementById("signup-password").value;
+      const feedback = document.getElementById("signup-feedback");
+      const submitBtn = document.getElementById("signup-submit");
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Creating account…";
+
+      const { data, error } = await signUpWithEmail(email, password, username);
+
+      if (error) {
+        feedback.textContent = "✘ " + error.message;
+        feedback.className = "answer-feedback wrong";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Create Account";
+        return;
+      }
+
+      if (data && data.session) {
+        // Email confirmation is off for this project — signed in immediately.
+        location.href = next ? decodeURIComponent(next) : "rooms.html";
+        return;
+      }
+
+      // Email confirmation is required before a session exists.
+      feedback.textContent = "✔ Account created! Check your email to confirm it, then sign in.";
+      feedback.className = "answer-feedback correct";
+      submitBtn.textContent = "Check your email";
+    });
+  });
+</script>
+</body>
+</html>

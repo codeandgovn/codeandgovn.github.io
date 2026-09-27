@@ -199,12 +199,14 @@ function earnedBadgeIds(p) {
   return new Set(BADGES.filter(b => b.check(p)).map(b => b.id));
 }
 
-/* ---- Daily challenge spotlight: a deterministic pick that rotates once per day ---- */
+/* ---- Daily challenge spotlight: a deterministic pick (from unlocked rooms only) that rotates once per day ---- */
 function pickDailyRoom() {
+  const unlocked = ROOMS.filter(r => isRoomUnlocked(r.id));
+  const pool = unlocked.length ? unlocked : ROOMS;
   const seed = todayStr();
   let hash = 0;
   for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
-  return ROOMS[hash % ROOMS.length];
+  return pool[hash % pool.length];
 }
 
 /* ---- Toast + confetti UI ---- */
@@ -239,17 +241,3 @@ function burstConfetti(x, y) {
     setTimeout(() => piece.remove(), 950);
   }
 }
-
-/* ---------- Navbar: level + streak pills (points pill stays in main.js) ---------- */
-document.addEventListener("DOMContentLoaded", () => {
-  const p = getProgress();
-  const levelPill = document.getElementById("nav-level");
-  if (levelPill) {
-    const info = getLevelInfo(p.points || 0);
-    levelPill.textContent = `Lv.${info.level} ${info.title}`;
-  }
-  const streakPill = document.getElementById("nav-streak");
-  if (streakPill) {
-    streakPill.textContent = "🔥 " + (p.streak || 0);
-  }
-});

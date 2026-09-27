@@ -18056,6 +18056,1319 @@ print(len(pw))</pre>
     }
   ]
 },
+
+  /* ---- ai-ml-batch.js ---- */
+  {
+  id: "ai-ml-intro",
+  title: "What Is Machine Learning?",
+  icon: "🤖",
+  difficulty: "Easy",
+  tags: ["ai", "machine-learning", "concepts"],
+  description: "Understand what machine learning actually is, how it differs from traditional programming, and where it quietly powers apps you already use.",
+  tasks: [
+    {
+      title: "Two Ways to Solve a Problem",
+      points: 0,
+      content: `
+    <p>Machine learning (ML) is a way of getting computers to perform tasks without being
+    explicitly told every rule for how to do it. Instead of a programmer writing out every
+    'if this, then that' rule, the computer looks at lots of examples and works out the
+    pattern for itself.</p>
+    <p>You already use ML every day: the spam filter in your inbox, the recommendations on a
+    video app, the autocomplete on your phone's keyboard, and the face-tagging in your photo
+    app are all powered by models that learned from data rather than from hand-written
+    instructions.</p>
+    <p>This course walks through hands-on rooms using entirely free tools — no paid signups,
+    no expensive hardware — so you can build real intuition for how AI works under the hood.</p>
+  `
+    },
+    {
+      title: "Rules vs. Examples",
+      points: 10,
+      content: `
+    <p>In traditional programming, a human writes the exact rules: <code class="inline">if
+    temperature &gt; 30, say 'hot'</code>. The computer just follows the instructions it was
+    given, step by step.</p>
+    <p>In machine learning, you flip that around. You give the computer lots of examples (the
+    data) along with the correct answers, and the model itself works out the rule that best
+    fits those examples. Once trained, it can apply that learned rule to new examples it has
+    never seen before.</p>
+  `,
+      question: "In machine learning, what does a model learn its rules from instead of hand-written instructions?",
+      answer: "data",
+      hint: "It's the examples you feed the model, not code a programmer typed out."
+    },
+    {
+      title: "Supervised, Unsupervised, Reinforcement",
+      points: 10,
+      content: `
+    <p>Machine learning comes in a few main flavors. In <b>supervised learning</b>, the model
+    trains on labeled examples where the correct answer is already known — like photos already
+    tagged 'cat' or 'dog'. In <b>unsupervised learning</b>, the model looks for structure or
+    groupings in data that has no labels at all. In <b>reinforcement learning</b>, an agent
+    learns by trial and error, getting rewards or penalties for its actions.</p>
+    <p>Most of the tools in this course, including Teachable Machine, are examples of
+    supervised learning: you show the model examples of each category you care about, and it
+    learns to tell them apart.</p>
+  `,
+      question: "Which type of machine learning trains on labeled examples where the correct answer is already known?",
+      answer: "supervised learning",
+      hint: "The name describes a teacher checking the model's answers as it learns."
+    },
+    {
+      title: "Training vs. Using a Model",
+      points: 15,
+      content: `
+    <p>Building a machine learning system generally happens in two stages. <b>Training</b> is
+    the stage where the model looks at example data and adjusts its internal settings to
+    reduce its mistakes. This can take anywhere from seconds to weeks, depending on how big
+    the model and dataset are.</p>
+    <p>Once training is done, you can use the finished model to make predictions on brand-new
+    data it has never seen. Using an already-trained model this way is called
+    <b>inference</b> — it's the fast, lightweight step that happens every time a spam filter
+    checks a new email or a phone unlocks with your face.</p>
+  `,
+      question: "What is the term for using an already-trained model to make a prediction on new data?",
+      answer: "inference",
+      hint: "It's the opposite stage of training — using the model rather than teaching it."
+    }
+  ]
+},
+{
+  id: "teachable-machine-image",
+  title: "Teachable Machine: Train an Image Classifier",
+  icon: "📷",
+  difficulty: "Easy",
+  tags: ["ai", "teachable-machine", "no-code"],
+  description: "Use Google's free, no-code Teachable Machine to train your own webcam-based image classifier and watch it recognize objects live.",
+  tasks: [
+    {
+      title: "Meet Teachable Machine",
+      points: 0,
+      content: `
+    <p>Teachable Machine is a free tool from Google that lets you train real machine learning
+    models directly in your browser — no coding, no installs, and no account required. It
+    offers three project types: <b>Image</b>, <b>Audio</b>, and <b>Pose</b>.</p>
+    <p>In this room you'll use the Image project type to train a model that tells apart
+    different things you show it through your webcam. Head to
+    teachablemachine.withgoogle.com and click 'Get Started' to try it yourself.</p>
+  `
+    },
+    {
+      title: "Start a New Image Project",
+      points: 10,
+      content: `
+    <p>Click 'New Project' and choose <b>Image Project</b>, then pick the 'Standard image
+    model'. You'll land on a screen with two empty class boxes. A <b>class</b> is simply a
+    category you want the model to learn to recognize — for example 'Mug' and 'Nothing'.</p>
+    <p>Rename the two default classes to whatever objects you want to tell apart, and add a
+    third class if you like. Every project needs at least two classes, because the model has
+    to have at least two things to choose between.</p>
+  `,
+      question: "In Teachable Machine, what do you call each category you want the model to recognize?",
+      answer: "a class",
+      hint: "It's the box you rename before recording any samples."
+    },
+    {
+      title: "Record Webcam Samples",
+      points: 10,
+      content: `
+    <p>Under each class, click 'Webcam' and hold the recording button to capture a burst of
+    images for that class. Try to vary the angle, distance, and background a little between
+    samples — this helps the model generalize instead of just memorizing one exact pose.</p>
+    <p>Record samples for every class before moving on. The more varied and plentiful your
+    samples are, the better the model will perform on situations it hasn't seen before.</p>
+  `,
+      question: "What input device does Teachable Machine's Image project use to collect samples?",
+      answer: "webcam",
+      hint: "It's the same camera you'd use for a video call."
+    },
+    {
+      title: "Train and Test Live",
+      points: 15,
+      content: `
+    <p>Once every class has samples, click <b>Train Model</b>. Training happens right there in
+    your browser using TensorFlow.js — none of your images are uploaded to a server. Behind
+    the scenes, the model adjusts its internal parameters over and over to get better at
+    telling your classes apart.</p>
+    <p>When training finishes, the Preview panel turns your webcam back on and shows a live
+    probability for each class as you move around. Try triggering each class and watch the
+    percentages update in real time.</p>
+  `,
+      question: "What does Teachable Machine's Image project use to run training directly in your browser?",
+      answer: "TensorFlow.js",
+      hint: "It's a JavaScript version of a well-known machine learning framework."
+    }
+  ]
+},
+{
+  id: "teachable-machine-sound",
+  title: "Teachable Machine: Train a Sound Classifier",
+  icon: "🎙️",
+  difficulty: "Medium",
+  tags: ["ai", "teachable-machine", "audio"],
+  description: "Train a model that recognizes different sounds or spoken words using Teachable Machine's free, browser-based Audio project type.",
+  tasks: [
+    {
+      title: "Meet the Audio Project",
+      points: 0,
+      content: `
+    <p>Besides Image, Teachable Machine also offers an <b>Audio</b> project type, which trains
+    a model to recognize short sound clips — a spoken word, a clap, a whistle, or any distinct
+    noise picked up by your microphone.</p>
+    <p>Head back to teachablemachine.withgoogle.com, click 'New Project', and this time choose
+    'Audio Project' to get started.</p>
+  `
+    },
+    {
+      title: "Record Background Noise First",
+      points: 15,
+      content: `
+    <p>Every Audio project starts with a special class called <b>Background Noise</b>. Click
+    its microphone button and record a sample of the ordinary quiet or ambient sound in your
+    room. This gives the model a baseline of 'nothing interesting is happening' to compare
+    everything else against.</p>
+    <p>Skipping this step, or recording it in a totally different environment than your real
+    sounds, is one of the most common reasons an audio model performs poorly.</p>
+  `,
+      question: "Which special class should you record first in a Teachable Machine Audio project?",
+      answer: "Background Noise",
+      hint: "It captures silence and ambient sound so the model can tell real sounds apart from nothing."
+    },
+    {
+      title: "Add Your Own Sound Classes",
+      points: 15,
+      content: `
+    <p>Add one or more new classes and give each one a name, such as 'Clap' or 'Yes'. Click
+    the microphone button and record several short samples of that sound, leaving the
+    Background Noise class as your baseline for comparison. Then click <b>Train Model</b>.</p>
+    <p>Just like the Image project, everything runs locally in your browser using your
+    computer's built-in audio input, with nothing sent to a server.</p>
+  `,
+      question: "What device does Teachable Machine's Audio project use to capture your samples?",
+      answer: "a microphone",
+      hint: "It's the audio equivalent of the webcam used in Image projects."
+    },
+    {
+      title: "How the Model 'Hears' Sound",
+      points: 20,
+      content: `
+    <p>Under the hood, an audio classifier doesn't listen to raw sound waves directly. It
+    typically converts short slices of audio into a <b>spectrogram</b> — an image-like chart
+    that plots frequency against time — and then treats that picture almost like a computer
+    vision problem.</p>
+    <p>Test your trained model live: talk, clap, or make your target sound near the microphone
+    and watch the class probabilities shift in the Preview panel as new audio streams in.</p>
+  `,
+      question: "What visual, image-like representation of sound do audio machine learning models commonly analyze?",
+      answer: "a spectrogram",
+      hint: "It plots frequency against time, turning sound into something that looks like a picture."
+    }
+  ]
+},
+{
+  id: "teachable-machine-pose",
+  title: "Teachable Machine: Train a Pose Classifier",
+  icon: "🕺",
+  difficulty: "Medium",
+  tags: ["ai", "teachable-machine", "pose-estimation"],
+  description: "Train a model that recognizes body poses through your webcam using Teachable Machine's Pose project type and see pose estimation in action.",
+  tasks: [
+    {
+      title: "Meet the Pose Project",
+      points: 0,
+      content: `
+    <p>Teachable Machine's third project type, <b>Pose</b>, trains a model to recognize the
+    position of a person's body, such as 'arms raised' versus 'sitting down', using nothing
+    more than your webcam.</p>
+    <p>Pose projects work in two steps under the hood: a pose-estimation model first finds
+    points on your body, and then Teachable Machine trains a much simpler classifier on top of
+    those points. Visit teachablemachine.withgoogle.com and start a new 'Pose Project' to try
+    it.</p>
+  `
+    },
+    {
+      title: "What the Model Actually Sees",
+      points: 15,
+      content: `
+    <p>Before it can classify anything, the underlying pose-estimation model locates specific
+    points on your body — shoulders, elbows, wrists, hips, knees, and so on. These points are
+    called <b>keypoints</b>, and together they form a rough skeleton.</p>
+    <p>Teachable Machine's Pose classifier never actually looks at your raw webcam pixels for
+    training — it learns from the arrangement of these keypoints instead, which is part of
+    why it can train so quickly.</p>
+  `,
+      question: "In Teachable Machine's Pose project, what points on the body does the underlying model detect before classifying a pose?",
+      answer: "keypoints",
+      hint: "It's the same term used for the skeletal points in general pose-estimation models."
+    },
+    {
+      title: "Record Poses From Several Angles",
+      points: 15,
+      content: `
+    <p>Create at least two classes, such as 'Arms Up' and 'Neutral', and record webcam samples
+    for each. Try stepping closer and farther from the camera, and varying your position
+    slightly, so the model doesn't just memorize one exact spot in the room. Then click
+    <b>Train Model</b>.</p>
+    <p>Notice that, like the Image project, Pose also relies entirely on your webcam feed for
+    input — it's the Audio project that swaps in a microphone instead.</p>
+  `,
+      question: "Which two Teachable Machine project types both rely on your webcam as the input source?",
+      answer: "Image and Pose",
+      hint: "Audio is the odd one out — it listens instead of watching."
+    },
+    {
+      title: "Test Live and Think of Uses",
+      points: 15,
+      content: `
+    <p>Test your trained model in the Preview panel by physically striking each pose in front
+    of your webcam and watching the probabilities update. Pose classifiers like this one show
+    up in fitness apps that count reps, games that use full-body controls, and accessibility
+    tools that recognize gestures.</p>
+    <p>If you wanted to build a webcam app that recognizes yoga positions, this is exactly the
+    project type built for the job.</p>
+  `,
+      question: "Which Teachable Machine project type would you choose to recognize yoga poses from a webcam?",
+      answer: "Pose",
+      hint: "It's named for exactly what it detects."
+    }
+  ]
+},
+{
+  id: "teachable-machine-export",
+  title: "Exporting & Understanding Your Teachable Machine Model",
+  icon: "📦",
+  difficulty: "Medium",
+  tags: ["ai", "teachable-machine", "deployment"],
+  description: "Export a trained Teachable Machine model and learn what each export format is actually for, from web pages to mobile apps.",
+  tasks: [
+    {
+      title: "Three Ways to Take Your Model Home",
+      points: 0,
+      content: `
+    <p>A model trained in Teachable Machine doesn't have to stay inside the Teachable Machine
+    website. From the <b>Export Model</b> tab you can download or host it in three different
+    formats, each suited to a different kind of project: <b>TensorFlow.js</b>,
+    <b>TensorFlow (Keras)</b>, and <b>TensorFlow Lite</b>.</p>
+    <p>Open any model you've trained (or train a quick throwaway one now) at
+    teachablemachine.withgoogle.com and click over to the Export Model tab to follow along.</p>
+  `
+    },
+    {
+      title: "Exporting for the Web",
+      points: 15,
+      content: `
+    <p>In the Export tab, select <b>Tensorflow.js</b>. This format is built to run inside a
+    web page, using JavaScript in the visitor's own browser rather than on a server. Teachable
+    Machine even gives you a ready-to-copy code snippet, plus an option to upload the model to
+    Google's servers so you get a shareable URL instead of downloading files.</p>
+    <p>This is the format you'd use if you wanted to embed your model in a website using a
+    library like ml5.js.</p>
+  `,
+      question: "Which export format would you choose to run your Teachable Machine model inside a web page?",
+      answer: "TensorFlow.js",
+      hint: "It's the JavaScript flavor of the export options."
+    },
+    {
+      title: "Exporting for Mobile and Embedded Devices",
+      points: 15,
+      content: `
+    <p>Select the <b>Tensorflow Lite</b> option instead. This format is compressed and
+    optimized to run on devices with limited processing power and memory, such as Android
+    phones, Raspberry Pi boards, and other embedded hardware.</p>
+    <p>Because it trades a little accuracy for a much smaller footprint, TensorFlow Lite is
+    the format you'd reach for when your model needs to run fast on a small, low-power
+    device.</p>
+  `,
+      question: "Which Teachable Machine export format is designed for mobile and embedded devices?",
+      answer: "TensorFlow Lite",
+      hint: "The word 'Lite' is a strong clue here."
+    },
+    {
+      title: "Exporting for Python",
+      points: 20,
+      content: `
+    <p>Finally, select the <b>Tensorflow</b> option, which exports your model in the Keras
+    SavedModel format. This is the format to grab if you want to keep working with your model
+    in Python — for example, loading it in a Google Colab notebook to run further tests or
+    combine it with other code.</p>
+    <p>Choosing the right export format is really just about matching the model to where it
+    needs to run next: browser, phone, or Python environment.</p>
+  `,
+      question: "Which export format would you use to continue working with your model in Python, e.g. in Google Colab?",
+      answer: "TensorFlow (Keras)",
+      hint: "It's named after the popular deep learning framework and its high-level API."
+    }
+  ]
+},
+{
+  id: "neural-networks-playground",
+  title: "Visualizing Neural Networks with TensorFlow Playground",
+  icon: "🧠",
+  difficulty: "Medium",
+  tags: ["ai", "neural-networks", "tensorflow-playground"],
+  description: "Experiment with a live neural network right in your browser and see how layers, neurons, and learning rate change what it learns.",
+  tasks: [
+    {
+      title: "A Neural Network You Can Poke At",
+      points: 0,
+      content: `
+    <p>TensorFlow Playground is a free, interactive visualization of a small neural network
+    running entirely in your browser. It classifies simple 2D toy datasets — like two
+    clusters or a spiral — and lets you watch, in real time, how changing the network's
+    structure changes what it learns. No coding is required.</p>
+    <p>Open playground.tensorflow.org in your browser to follow along with each step below.</p>
+  `
+    },
+    {
+      title: "Reading the Dataset",
+      points: 15,
+      content: `
+    <p>In the top-left panel, pick one of the four sample datasets — the simplest is two
+    separate blobs of dots. Each dot is colored either orange or blue.</p>
+    <p>Those colors aren't decoration: they represent the two categories the network is trying
+    to learn to separate. This is the same idea as the classes you created in Teachable
+    Machine, just drawn as points on a 2D plane instead of images or sounds.</p>
+  `,
+      question: "In TensorFlow Playground, what do the orange and blue dots on the dataset represent?",
+      answer: "two classes",
+      hint: "Think back to what a 'class' meant in the Teachable Machine rooms."
+    },
+    {
+      title: "Watching It Learn",
+      points: 15,
+      content: `
+    <p>Click the play button in the top-left corner to start training. As it runs, notice the
+    colored background shading spreading across the plot, and the loss number ticking down in
+    the top-right corner.</p>
+    <p>That background shading is the network's current decision boundary: it shows which
+    regions of the plane the model would currently classify as orange versus blue, updating
+    live as training continues.</p>
+  `,
+      question: "What does the colored background shading in TensorFlow Playground represent once training starts?",
+      answer: "the model's decision boundary",
+      hint: "It shows how the network would currently classify every point on the plane, not just the dots you can see."
+    },
+    {
+      title: "Turning Up the Learning Rate",
+      points: 20,
+      content: `
+    <p>Reset the network, then find the <b>Learning rate</b> dropdown near the top and set it
+    to a very high value like 10. Click play and watch the loss — instead of smoothly
+    decreasing, it will likely bounce around wildly or blow up.</p>
+    <p>The learning rate controls how big a step the network takes each time it updates its
+    internal weights. Too small and training crawls; too large and it can overshoot and never
+    settle down. Set it back to a small value like 0.03 and try again to see the difference.</p>
+  `,
+      question: "What hyperparameter in TensorFlow Playground controls how big a step the network takes when updating its weights?",
+      answer: "the learning rate",
+      hint: "It's the dropdown you changed right before the loss started misbehaving."
+    }
+  ]
+},
+{
+  id: "quick-draw-ai",
+  title: "How AI Recognizes Doodles: Google Quick, Draw!",
+  icon: "✏️",
+  difficulty: "Easy",
+  tags: ["ai", "google", "quick-draw"],
+  description: "Play Google's free Quick, Draw! game to watch a neural network guess your doodles in real time, then learn what's happening behind the scenes.",
+  tasks: [
+    {
+      title: "A Doodle-Guessing Neural Network",
+      points: 0,
+      content: `
+    <p>Quick, Draw! is a free experiment from Google Creative Lab. You're given a word and a
+    short time limit to sketch it, while a neural network watches your strokes and tries to
+    guess what you're drawing — often before you've even finished.</p>
+    <p>Visit quickdraw.withgoogle.com and click 'Let's Draw!' to play a round yourself before
+    continuing.</p>
+  `
+    },
+    {
+      title: "Guessing Before You Finish",
+      points: 10,
+      content: `
+    <p>Play a full round and pay attention to the guesses appearing above the canvas while you
+    are still drawing, not just at the end. The model re-evaluates your sketch continuously as
+    new strokes are added, updating its top guesses on the fly.</p>
+    <p>This shows that the model isn't waiting for a 'finished' picture — it's doing the same
+    kind of pattern recognition you saw in Teachable Machine's Image project, just applied
+    frame by frame as your doodle grows.</p>
+  `,
+      question: "What company created Quick, Draw!?",
+      answer: "Google",
+      hint: "It's the same company behind Teachable Machine and Colab."
+    },
+    {
+      title: "Trained on Millions of Doodles",
+      points: 10,
+      content: `
+    <p>Quick, Draw!'s recognizer wasn't trained on a handful of example sketches — it learned
+    from millions of doodles submitted by other players around the world, all playing the
+    same game before you.</p>
+    <p>That huge, varied collection of doodles is actually released publicly as one of the
+    largest open doodle datasets around, and researchers use it to train and test other
+    sketch-recognition models.</p>
+  `,
+      question: "What is Quick, Draw!'s neural network trained on?",
+      answer: "millions of doodles",
+      hint: "The answer is basically in the previous paragraph — think about where the training examples came from."
+    },
+    {
+      title: "Racing the Clock",
+      points: 15,
+      content: `
+    <p>Notice that each doodle round is timed. That short window forces quick, messy,
+    real-world sketches rather than careful drawings, which is exactly the kind of noisy input
+    a recognizer needs to be trained and tested against to work well in practice.</p>
+    <p>Play another round or two and see how the timer affects how confidently — and how
+    quickly — the model locks onto the right guess.</p>
+  `,
+      question: "How many seconds do you get to draw each doodle in Quick, Draw!?",
+      answer: "20 seconds",
+      hint: "It's a short countdown you'll see ticking above the canvas."
+    }
+  ]
+},
+{
+  id: "intro-to-colab",
+  title: "Intro to Google Colab: Your Free ML Notebook",
+  icon: "📓",
+  difficulty: "Easy",
+  tags: ["ai", "google-colab", "python"],
+  description: "Create your first Google Colab notebook, a free, cloud-hosted place to write and run real Python machine learning code with no installs.",
+  tasks: [
+    {
+      title: "A Notebook in the Cloud",
+      points: 0,
+      content: `
+    <p>Google Colab is a free, hosted version of a Jupyter notebook that runs entirely in your
+    browser. There's nothing to install: you write and run real Python code on Google's
+    servers, and Colab even gives you free access to a GPU for heavier workloads.</p>
+    <p>Colab is a favorite tool for real machine learning work with libraries like scikit-learn
+    and pandas, because you can go from an empty page to running code in seconds. Head to
+    colab.research.google.com to create your first notebook.</p>
+  `
+    },
+    {
+      title: "Code Cells and Text Cells",
+      points: 10,
+      content: `
+    <p>Click 'New Notebook'. A Colab notebook is made of a sequence of cells you can run one
+    at a time, in any order you like. There are two main types: <b>code cells</b>, which run
+    actual Python, and <b>text cells</b>, which hold formatted notes and explanations using
+    Markdown.</p>
+    <p>Mixing the two is what makes notebooks great for learning and experimenting — you can
+    explain what a piece of code does right above or below the code itself.</p>
+  `,
+      question: "What are the two main types of cells in a Colab notebook?",
+      answer: "code and text",
+      hint: "One type runs Python, the other holds formatted notes."
+    },
+    {
+      title: "Running Your First Cell",
+      points: 10,
+      content: `
+    <p>Click into the first empty code cell and type a simple line of Python:</p>
+    <pre>print('Hello, ML!')</pre>
+    <p>Press <code class="inline">Shift+Enter</code> to run the cell. Colab executes it on a
+    remote machine and prints the output directly below the cell, then automatically moves you
+    to the next one.</p>
+  `,
+      question: "What keyboard shortcut runs the current cell in Colab?",
+      answer: "Shift+Enter",
+      hint: "It's two keys pressed together, one of them the same one used to type a capital letter."
+    },
+    {
+      title: "Turning On a Free GPU",
+      points: 15,
+      content: `
+    <p>Open the <b>Runtime</b> menu at the top of the page and choose 'Change runtime type'.
+    In the dialog that appears, set 'Hardware accelerator' to GPU and save. Colab now runs
+    your code on a free graphics card, which can dramatically speed up heavier machine
+    learning tasks.</p>
+    <p>You won't need a GPU for tiny examples like the one above, but it's good to know it's
+    there, free, the moment your notebook needs real horsepower.</p>
+  `,
+      question: "Which menu in Colab do you use to switch on a free GPU?",
+      answer: "Runtime",
+      hint: "It's the same menu you'd use to restart or manage your notebook's execution environment."
+    }
+  ]
+},
+{
+  id: "colab-first-model",
+  title: "Training Your First Model in Colab",
+  icon: "🧪",
+  difficulty: "Medium",
+  tags: ["ai", "google-colab", "scikit-learn"],
+  description: "Write and run a tiny real machine learning example in Google Colab using Python and scikit-learn, from raw data to a trained model.",
+  tasks: [
+    {
+      title: "From No-Code to Real Code",
+      points: 0,
+      content: `
+    <p>Everything so far in this course has been no-code. This room takes the same ideas —
+    classes, training, prediction — and shows what they look like as a few lines of real
+    Python, using <b>scikit-learn</b>, a free machine learning library that comes
+    preinstalled in every Colab notebook.</p>
+    <p>Open a fresh notebook at colab.research.google.com and follow along by typing each
+    snippet into its own code cell.</p>
+  `
+    },
+    {
+      title: "Loading Data and Fitting a Model",
+      points: 15,
+      content: `
+    <p>Type the following into a code cell and run it:</p>
+    <pre>from sklearn.datasets import load_iris
+from sklearn.tree import DecisionTreeClassifier
+
+data = load_iris()
+model = DecisionTreeClassifier()
+model.fit(data.data, data.target)</pre>
+    <p>This loads a small, built-in flower-measurement dataset, creates a decision tree
+    classifier, and then calls <code class="inline">fit()</code> to train it. That single call
+    is the training step: the model looks at the measurements (<code class="inline">data.data</code>)
+    alongside the correct species (<code class="inline">data.target</code>) and learns the
+    pattern between them.</p>
+  `,
+      question: "In scikit-learn, what is the name of the method used to train a model on data?",
+      answer: "fit",
+      hint: "It's the method call right after you create the model object."
+    },
+    {
+      title: "Making a Prediction",
+      points: 15,
+      content: `
+    <p>In a new cell, try asking the trained model to guess the species of a single new
+    flower measurement:</p>
+    <pre>print(model.predict([data.data[0]]))</pre>
+    <p>The <code class="inline">predict()</code> method is inference in action: it hands a
+    brand-new (or in this case borrowed) example to your already-trained model and returns its
+    best guess, with no further training involved.</p>
+  `,
+      question: "What scikit-learn method do you call to get predictions from an already-trained model?",
+      answer: "predict",
+      hint: "It's the counterpart to fit — used after training, not during it."
+    },
+    {
+      title: "Don't Grade Your Own Homework",
+      points: 20,
+      content: `
+    <p>The example above tested the model on data it had already seen during training, which
+    can make it look better than it really is. In real projects, you split your dataset into a
+    training set and a separate testing set, so you can check performance on examples the
+    model has never encountered.</p>
+    <p>scikit-learn provides a ready-made helper for exactly this, found in
+    <code class="inline">sklearn.model_selection</code>.</p>
+  `,
+      question: "What is the name of the scikit-learn function commonly used to split data into training and testing sets?",
+      answer: "train_test_split",
+      hint: "Its name literally describes what it does."
+    }
+  ]
+},
+{
+  id: "intro-to-kaggle",
+  title: "Intro to Kaggle: Datasets & Notebooks",
+  icon: "📊",
+  difficulty: "Easy",
+  tags: ["ai", "kaggle", "datasets"],
+  description: "Create a free Kaggle account and explore the public datasets and notebooks that other people around the world have shared.",
+  tasks: [
+    {
+      title: "A Hub for Data and Code",
+      points: 0,
+      content: `
+    <p>Kaggle is a free platform packed with public datasets, shared code notebooks, and
+    friendly competitions, all built around real machine learning work. It's a great place to
+    find data to practice on and to see how other people actually solve problems.</p>
+    <p>Visit kaggle.com to create a free account before continuing.</p>
+  `
+    },
+    {
+      title: "Signing Up for Free",
+      points: 10,
+      content: `
+    <p>Click 'Register' and create an account using an email address or an existing Google
+    account. There's no payment information required and no paid tier needed for anything in
+    this course — datasets, notebooks, and Kaggle Learn are all free.</p>
+    <p>Once signed in, use the search bar to look for a beginner-friendly dataset, such as one
+    about housing prices or the Titanic passenger list.</p>
+  `,
+      question: "What must you create for free on Kaggle before you can download datasets or run notebooks?",
+      answer: "an account",
+      hint: "It costs nothing and only needs an email address."
+    },
+    {
+      title: "Reading a Dataset Page",
+      points: 10,
+      content: `
+    <p>Open any dataset's page and look at its 'Data Card': a description of what the data
+    contains, its license, and its file structure. Then click over to the 'Code' tab attached
+    to that dataset to see notebooks other users have published using it.</p>
+    <p>Kaggle's hosted, shareable notebooks are officially called Notebooks today, but you'll
+    still often hear them called by their older, informal name.</p>
+  `,
+      question: "What are Kaggle's hosted, shareable code notebooks historically also known as?",
+      answer: "kernels",
+      hint: "This older nickname is still used casually even though the feature is now labeled 'Notebooks'."
+    },
+    {
+      title: "Running Someone Else's Notebook",
+      points: 15,
+      content: `
+    <p>Open one of the notebooks you found and look for a button that lets you make your own
+    editable copy of it, rather than only viewing it. Kaggle provides free compute (including
+    optional GPUs) to run your copy, similar to what Google Colab offers.</p>
+    <p>This is one of the fastest ways to learn: start from someone else's working example and
+    tweak it, instead of writing everything from a blank notebook.</p>
+  `,
+      question: "What button do you click on a Kaggle notebook to create your own editable copy of it?",
+      answer: "Copy and Edit",
+      hint: "It's the option that turns 'someone else's notebook' into 'your own notebook'."
+    }
+  ]
+},
+{
+  id: "kaggle-learn-path",
+  title: "Kaggle Learn: Free Micro-Courses",
+  icon: "🎓",
+  difficulty: "Easy",
+  tags: ["ai", "kaggle", "kaggle-learn"],
+  description: "Discover Kaggle Learn's free, bite-sized micro-courses for going deeper into machine learning with hands-on, in-browser exercises.",
+  tasks: [
+    {
+      title: "Short Courses, Real Exercises",
+      points: 0,
+      content: `
+    <p>Kaggle Learn is a collection of free micro-courses covering topics like Python, pandas,
+    data visualization, and machine learning. Each course is broken into short lessons with a
+    hands-on coding exercise at the end of every one.</p>
+    <p>Go to kaggle.com/learn to see the full list of available courses.</p>
+  `
+    },
+    {
+      title: "Finding Intro to Machine Learning",
+      points: 10,
+      content: `
+    <p>Browse the course list and open the one called 'Intro to Machine Learning'. Look at its
+    outline: it walks through ideas like decision trees, model validation, underfitting and
+    overfitting, and random forests, in a logical, beginner-friendly order.</p>
+    <p>This course is a natural next step after the hands-on rooms in this track, since it puts
+    real code behind concepts like 'training' and 'prediction' that you've already practiced
+    with no-code tools.</p>
+  `,
+      question: "What is the name of Kaggle Learn's beginner course covering decision trees and model validation?",
+      answer: "Intro to Machine Learning",
+      hint: "Its title says exactly what it teaches."
+    },
+    {
+      title: "Where the Exercises Actually Run",
+      points: 10,
+      content: `
+    <p>Open the first lesson of any Kaggle Learn course and scroll to its exercise. You don't
+    need to install anything or switch to a separate app — the exercise is an embedded
+    notebook that runs right there in your browser, with instant feedback on your code.</p>
+    <p>That tight loop of 'read a short lesson, then immediately try it' is what makes Kaggle
+    Learn courses fast to get through compared to a traditional textbook.</p>
+  `,
+      question: "Where do you complete Kaggle Learn's hands-on exercises?",
+      answer: "directly in the browser",
+      hint: "No separate app or install is needed — think about what you've been using this whole course."
+    },
+    {
+      title: "Finishing a Course",
+      points: 15,
+      content: `
+    <p>Work through a course's lessons in order, completing each exercise as you go. When you
+    finish the final lesson, Kaggle awards you something to mark the achievement and show
+    others what you've learned.</p>
+    <p>It's a small thing, but it's a nice, concrete way to track your own progress as you work
+    through multiple free micro-courses over time.</p>
+  `,
+      question: "What do you receive after completing a Kaggle Learn course?",
+      answer: "a certificate",
+      hint: "It's a shareable proof of completion, similar to what many online courses offer."
+    }
+  ]
+},
+{
+  id: "hugging-face-spaces",
+  title: "Hugging Face: Trying a Pretrained Model",
+  icon: "🤗",
+  difficulty: "Medium",
+  tags: ["ai", "hugging-face", "pretrained-models"],
+  description: "Try a real pretrained AI model instantly using a free Hugging Face Space, with no training, installs, or account required.",
+  tasks: [
+    {
+      title: "Thousands of Ready-Made Demos",
+      points: 0,
+      content: `
+    <p>Hugging Face Spaces hosts thousands of free, shareable demo apps that let you try
+    pretrained AI models — image classifiers, text generators, chatbots, and more — directly
+    in your browser. Many Spaces work without creating an account at all.</p>
+    <p>Browse to huggingface.co/spaces to see what's available before continuing.</p>
+  `
+    },
+    {
+      title: "Finding a Space",
+      points: 15,
+      content: `
+    <p>Use the search or filters on the Spaces page to find one that matches a task you're
+    curious about, such as image classification or text generation. Open one and look at its
+    simple, ready-made interface: a box or upload area for input, and a result shown right
+    below it.</p>
+    <p>These interfaces are what Hugging Face calls Spaces — a hosted, interactive demo built
+    on top of a real underlying model.</p>
+  `,
+      question: "What are Hugging Face's free hosted demo apps for trying models called?",
+      answer: "Spaces",
+      hint: "It's the same word used in the room title and the site's URL."
+    },
+    {
+      title: "Trying a Pretrained Model",
+      points: 15,
+      content: `
+    <p>Enter your own input into the Space — a sentence, a photo, whatever it accepts — and
+    read the result it generates. Notice that you didn't train anything yourself; the model
+    behind the Space was already trained by someone else on a large dataset before you ever
+    arrived.</p>
+    <p>A model that's ready to use as-is, without any training on your part, is called a
+    <b>pretrained</b> model. It's the AI equivalent of buying a finished tool instead of
+    forging one from scratch.</p>
+  `,
+      question: "What term describes a model that has already been trained by someone else and is ready to use as-is?",
+      answer: "pretrained",
+      hint: "The prefix tells you the training already happened, before you got involved."
+    },
+    {
+      title: "What's Powering the Interface",
+      points: 20,
+      content: `
+    <p>Most Hugging Face Spaces aren't built from scratch — creators commonly use one of two
+    popular, beginner-friendly Python libraries to wrap a model in a simple web interface:
+    <b>Gradio</b> or <b>Streamlit</b>. Both let someone go from a working model to a shareable
+    web demo in a small amount of code.</p>
+    <p>Next time you open a Space, look near the bottom of the page — it often quietly credits
+    which of the two frameworks was used to build it.</p>
+  `,
+      question: "Name one of the two popular Python libraries commonly used to build the interactive UI of a Hugging Face Space.",
+      answer: "Gradio",
+      hint: "The other valid answer is Streamlit — either one counts."
+    }
+  ]
+},
+{
+  id: "ml5js-in-browser",
+  title: "ml5.js: Running Machine Learning in the Browser",
+  icon: "🌐",
+  difficulty: "Medium",
+  tags: ["ai", "ml5js", "javascript"],
+  description: "Learn how ml5.js lets you run machine learning models, including ones you trained yourself, directly on a web page in a few lines of code.",
+  tasks: [
+    {
+      title: "Machine Learning for Web Developers",
+      points: 0,
+      content: `
+    <p>ml5.js is a free, beginner-friendly JavaScript library built on top of TensorFlow.js. It
+    wraps common machine learning tasks — like image classification, pose detection, or
+    running your own exported model — into a handful of simple function calls, so you don't
+    need a deep math or data science background to get started.</p>
+    <p>Browse ml5js.org to see its documentation and examples before working through the steps
+    below.</p>
+  `
+    },
+    {
+      title: "Loading a Built-In Model",
+      points: 15,
+      content: `
+    <p>A basic ml5.js image classifier can be set up with just a few lines of JavaScript:</p>
+    <pre>let classifier;
+
+function preload() {
+  classifier = ml5.imageClassifier('MobileNet');
+}
+
+function gotResult(error, results) {
+  console.log(results);
+}</pre>
+    <p>Here, <code class="inline">'MobileNet'</code> refers to a well-known pretrained image
+    classification model bundled with ml5.js, so you can recognize thousands of everyday
+    objects without training anything yourself.</p>
+  `,
+      question: "What is the name of the pretrained image-classification model commonly bundled with ml5.js?",
+      answer: "MobileNet",
+      hint: "It's the string passed directly into ml5.imageClassifier() in the example above."
+    },
+    {
+      title: "Loading Your Own Teachable Machine Model",
+      points: 15,
+      content: `
+    <p>ml5.js isn't limited to built-in models. If you exported a Teachable Machine project as
+    a shareable web link, you can load that exact link instead of a built-in name, and
+    ml5.imageClassifier() will run your own custom-trained model instead of MobileNet.</p>
+    <p>This is how a model you trained by showing your webcam a few objects turns into
+    something that can run live on any web page you build.</p>
+  `,
+      question: "What must you pass to ml5.imageClassifier() to use a model you trained yourself in Teachable Machine, instead of the built-in model?",
+      answer: "your exported model's URL",
+      hint: "Think back to what Teachable Machine's Export tab can generate for you to share."
+    },
+    {
+      title: "Getting a Prediction",
+      points: 20,
+      content: `
+    <p>Once a classifier is loaded, you get its actual prediction by calling one more method on
+    it, passing in an image or video element and a callback function to receive the results,
+    such as the <code class="inline">gotResult</code> function shown earlier.</p>
+    <p>That single method call is the entire inference step — everything about training and
+    architecture is hidden away behind it, which is exactly the point of a beginner-friendly
+    library like ml5.js.</p>
+  `,
+      question: "What method do you call on an ml5.js classifier object to get its prediction for an image?",
+      answer: "classify",
+      hint: "The method name is a simple verb describing exactly what it does."
+    }
+  ]
+},
+{
+  id: "computer-vision-concepts",
+  title: "Computer Vision Concepts",
+  icon: "👁️",
+  difficulty: "Medium",
+  tags: ["ai", "computer-vision", "concepts"],
+  description: "Understand how computers actually see images as grids of numbers, and how models learn to recognize edges, shapes, and objects within them.",
+  tasks: [
+    {
+      title: "An Image Is Just Numbers",
+      points: 0,
+      content: `
+    <p>To a computer, a photo isn't a picture at all — it's a grid of numbers. Each tiny square
+    in that grid, called a pixel, stores a numeric brightness or color value. Computer vision
+    is the branch of AI concerned with finding patterns in that grid of numbers well enough to
+    recognize edges, shapes, and eventually whole objects.</p>
+    <p>Every image classifier you've trained so far in this course, including Teachable
+    Machine's webcam models, is really just learning patterns across grids of numbers like
+    these.</p>
+  `
+    },
+    {
+      title: "Pixels and Color Channels",
+      points: 15,
+      content: `
+    <p>A standard color photo is made of a grid of pixels, and each pixel usually stores three
+    separate numbers, one each for red, green, and blue intensity. Mixing different amounts of
+    those three colors produces every shade you see on screen.</p>
+    <p>Stack the height, width, and these color values together, and a single photo is really
+    just a large block of numbers waiting to be processed.</p>
+  `,
+      question: "How many color channels does a standard RGB image have?",
+      answer: "3",
+      hint: "Each letter in 'RGB' stands for one channel."
+    },
+    {
+      title: "How CNNs Find Patterns",
+      points: 15,
+      content: `
+    <p>Most modern computer vision models are built as <b>convolutional neural networks</b>
+    (CNNs). Instead of looking at an entire image at once, a CNN scans small patches across
+    it using filters that detect simple features like edges and textures.</p>
+    <p>Deeper layers of the network then combine those simple features into more complex ones —
+    edges into shapes, shapes into parts, and parts into whole recognizable objects.</p>
+  `,
+      question: "What is the name of the neural network architecture most commonly used for computer vision tasks like image classification?",
+      answer: "convolutional neural network",
+      hint: "Its abbreviation is three letters, starting with C."
+    },
+    {
+      title: "Back to Pixels",
+      points: 20,
+      content: `
+    <p>Every time your webcam feeds a frame into a Teachable Machine Image project, or ml5.js
+    runs MobileNet on a photo, all of this is happening under the hood: the raw grid of pixel
+    numbers is what the model actually processes, long before anything resembling 'seeing' an
+    object happens.</p>
+    <p>Recognizing this helps demystify computer vision: it's pattern-finding across numbers,
+    not literal sight.</p>
+  `,
+      question: "In computer vision, what is the smallest unit of an image that a model actually processes as a number?",
+      answer: "a pixel",
+      hint: "It's the term used at the very start of this room."
+    }
+  ]
+},
+{
+  id: "nlp-concepts",
+  title: "Natural Language Processing Concepts",
+  icon: "💬",
+  difficulty: "Medium",
+  tags: ["ai", "nlp", "concepts"],
+  description: "Understand how AI models process and generate human language, from breaking text into tokens to how modern chatbots actually work.",
+  tasks: [
+    {
+      title: "Teaching Computers Language",
+      points: 0,
+      content: `
+    <p>Natural language processing (NLP) is the branch of AI focused on understanding and
+    generating human language. It powers spam filters, machine translation, search engines,
+    voice assistants, and the chatbots so many people use every day.</p>
+    <p>Because computers only work with numbers, every NLP system needs a way to turn text
+    into something numeric before it can do anything useful with it.</p>
+  `
+    },
+    {
+      title: "Breaking Text Into Pieces",
+      points: 15,
+      content: `
+    <p>Before any model can process a sentence, the text is broken into smaller units called
+    tokens — often whole words, or sometimes smaller word-pieces. This step is called
+    <b>tokenization</b>, and it's the very first thing that happens to your text before a
+    language model sees it.</p>
+    <p>Different models split text slightly differently, but the underlying idea is the same:
+    turn a long stream of characters into a manageable sequence of discrete pieces.</p>
+  `,
+      question: "What is the term for breaking a piece of text into smaller units before feeding it into an NLP model?",
+      answer: "tokenization",
+      hint: "The units it produces are called tokens."
+    },
+    {
+      title: "From Tokens to Meaning",
+      points: 15,
+      content: `
+    <p>Once text is tokenized, each token gets converted into a list of numbers called an
+    <b>embedding</b>. A good embedding captures meaning: tokens with similar meanings end up
+    numerically close to each other, so 'cat' and 'kitten' sit nearer each other than 'cat'
+    and 'bicycle' do.</p>
+    <p>These numeric embeddings are what a language model actually computes with — not the
+    letters or words themselves.</p>
+  `,
+      question: "What term describes the numeric, vector representation of a word or token that captures its meaning?",
+      answer: "an embedding",
+      hint: "It's the step that turns tokens into numbers a model can actually compute with."
+    },
+    {
+      title: "How Chatbots Actually Learn",
+      points: 20,
+      content: `
+    <p>Modern large language models, the kind behind popular AI chatbots, are trained on huge
+    amounts of text with a surprisingly simple core task: given everything so far, predict the
+    single next token. Doing that well, over and over across enormous datasets, turns out to
+    require learning an enormous amount about grammar, facts, and reasoning along the way.</p>
+    <p>After this core training, models are typically fine-tuned further so they follow
+    instructions and hold conversations more naturally, rather than just continuing text.</p>
+  `,
+      question: "What do large language models fundamentally learn to predict, one step at a time, during training?",
+      answer: "the next token",
+      hint: "It's the same unit of text produced by the tokenization step."
+    }
+  ]
+},
+{
+  id: "prompt-engineering-basics",
+  title: "Prompt Engineering Basics",
+  icon: "✍️",
+  difficulty: "Easy",
+  tags: ["ai", "prompt-engineering", "chatbots"],
+  description: "Learn practical, no-cost techniques for writing clearer, more effective prompts to get better answers out of any AI chatbot.",
+  tasks: [
+    {
+      title: "Talking to an AI Well",
+      points: 0,
+      content: `
+    <p>Prompt engineering is simply the practice of crafting your input to an AI chatbot so it
+    gives you a better, more useful response. It doesn't require any special tool or paid
+    subscription — just a free chatbot and a bit of technique, which is what this room
+    covers.</p>
+    <p>A vague prompt tends to get a vague answer, while a clear, specific one steers the model
+    toward exactly what you need.</p>
+  `
+    },
+    {
+      title: "Giving the AI a Role",
+      points: 10,
+      content: `
+    <p>One simple, effective trick is asking the AI to respond as if it were a specific role,
+    such as 'You are an experienced Python tutor explaining this to a beginner.' Framing the
+    conversation this way often shifts the tone, vocabulary, and depth of the response to
+    match that persona.</p>
+    <p>This technique is commonly called <b>role prompting</b> (also known as persona
+    prompting), and it's one of the fastest ways to change how an answer feels without
+    changing the underlying question much at all.</p>
+  `,
+      question: "What is the technique called when you ask an AI to respond as if it were a specific role or persona?",
+      answer: "role prompting",
+      hint: "The name describes exactly what you're assigning the AI to play."
+    },
+    {
+      title: "Showing Examples First",
+      points: 10,
+      content: `
+    <p>Instead of only describing what you want in words, you can include one or two example
+    input-output pairs directly in your prompt before asking your real question. Seeing a
+    couple of worked examples helps the model pattern-match the exact format, tone, or style
+    you're after.</p>
+    <p>This technique is known as <b>few-shot prompting</b>, since you're giving the model a
+    small ('few') number of example 'shots' to learn the pattern from.</p>
+  `,
+      question: "What is the term for including a couple of example input-output pairs in your prompt to guide the AI's response format?",
+      answer: "few-shot prompting",
+      hint: "The name refers to the small number of examples you provide."
+    },
+    {
+      title: "Refining Instead of Restarting",
+      points: 15,
+      content: `
+    <p>If a chatbot's first answer isn't quite right, you don't need to start a new
+    conversation from scratch. Simply reply asking it to shorten the answer, add more detail,
+    change the tone, or fix a specific mistake — the AI keeps the earlier conversation as
+    context for the revision.</p>
+    <p>This back-and-forth process of asking the AI to improve its own previous answer is
+    called <b>iterative refinement</b>, and it's often faster than trying to write the perfect
+    prompt on the very first try.</p>
+  `,
+      question: "What is the term for asking an AI to improve its own previous answer instead of starting from scratch?",
+      answer: "iterative refinement",
+      hint: "The word 'iterative' is a big clue — think of it as looping back to improve."
+    }
+  ]
+},
+{
+  id: "ai-ethics-bias",
+  title: "AI Ethics: Bias & Fairness",
+  icon: "⚖️",
+  difficulty: "Medium",
+  tags: ["ai", "ethics", "bias"],
+  description: "Understand how bias creeps into training data and models, and why testing, transparency, and documentation matter for responsible AI.",
+  tasks: [
+    {
+      title: "Models Inherit Their Data's Flaws",
+      points: 0,
+      content: `
+    <p>A machine learning model doesn't invent its own values — it learns patterns from the
+    data it's trained on. If that data reflects historical inequalities or only represents
+    part of the population, the model can reproduce, or even amplify, that bias in its
+    predictions.</p>
+    <p>This has real consequences: biased hiring tools and facial recognition systems that
+    perform worse on some groups than others are well-documented, real-world examples. Building
+    fairer AI starts with understanding where these problems come from.</p>
+  `
+    },
+    {
+      title: "Garbage In, Bias Out",
+      points: 15,
+      content: `
+    <p>Imagine training a face-recognition model almost entirely on photos of one demographic
+    group. It will likely perform noticeably worse on people outside that group, not because
+    the algorithm is flawed, but because the training data never gave it enough examples to
+    learn from.</p>
+    <p>This kind of dataset, which overrepresents some groups and underrepresents others, is
+    usually the root cause of biased model behavior — often more so than the specific
+    algorithm chosen.</p>
+  `,
+      question: "What term describes a training dataset that overrepresents some groups and underrepresents others?",
+      answer: "an imbalanced dataset",
+      hint: "It's the data-side root cause of most model bias, not the algorithm itself."
+    },
+    {
+      title: "Documenting a Model Honestly",
+      points: 15,
+      content: `
+    <p>Responsible AI teams don't just publish a model and hope for the best. Many now publish
+    a short, standardized document alongside the model that discloses its intended uses, known
+    limitations, the data it was trained on, and its evaluation results across different
+    conditions.</p>
+    <p>You'll find one of these attached to nearly every model page on Hugging Face — a quick,
+    honest summary that helps users decide whether a model is appropriate for their use case.</p>
+  `,
+      question: "What is the name for a short, standardized document that discloses a model's intended use, limitations, and evaluation results?",
+      answer: "a model card",
+      hint: "You'll find one on nearly every Hugging Face model page."
+    },
+    {
+      title: "Being Upfront With Users",
+      points: 20,
+      content: `
+    <p>Beyond fixing data and testing across subgroups, responsible AI also means being open
+    with the people affected by a system: telling them clearly when they're interacting with
+    an AI rather than a human, and being honest about how a model works and what data trained
+    it.</p>
+    <p>This principle of openness about how and when AI is being used is a core pillar of most
+    responsible AI guidelines published by major tech companies and researchers alike.</p>
+  `,
+      question: "What term describes being open with users about when they're interacting with an AI system and how it works?",
+      answer: "transparency",
+      hint: "It's the opposite of hiding how a system works from the people using it."
+    }
+  ]
+},
+{
+  id: "orange-no-code-ml",
+  title: "Orange: No-Code Machine Learning Pipelines",
+  icon: "🍊",
+  difficulty: "Hard",
+  tags: ["ai", "orange", "no-code"],
+  description: "Build a full, drag-and-drop machine learning workflow, from loading data to evaluating a classifier, using the free Orange Data Mining tool.",
+  tasks: [
+    {
+      title: "Wiring Up Machine Learning Visually",
+      points: 0,
+      content: `
+    <p>Orange is a free, open-source visual data mining and machine learning tool. Instead of
+    writing code, you build a workflow by dragging widgets — like File, Data Table, and
+    classifiers — onto a canvas and connecting them with wires, so data flows visually from
+    one step to the next.</p>
+    <p>Browse to orangedatamining.com and download the free desktop application (available
+    for Windows, macOS, and Linux) to follow along with the steps below.</p>
+  `
+    },
+    {
+      title: "Loading Data With Widgets",
+      points: 20,
+      content: `
+    <p>Open Orange and drag a <b>File</b> widget onto the empty canvas. Double-click it and
+    select one of Orange's built-in sample datasets, such as 'iris', which it ships with by
+    default.</p>
+    <p>Every step in an Orange workflow — loading data, transforming it, training a model, or
+    evaluating results — is represented by one of these draggable, connectable boxes, which
+    Orange calls a <b>widget</b>.</p>
+  `,
+      question: "In Orange, what is the visual, connectable building block used to represent a data-processing step called?",
+      answer: "a widget",
+      hint: "It's the box you drag from the sidebar onto the canvas."
+    },
+    {
+      title: "Previewing Your Data",
+      points: 20,
+      content: `
+    <p>Drag a <b>Data Table</b> widget onto the canvas, then connect it to your File widget by
+    dragging a wire from one to the other. Double-click the Data Table widget to open it, and
+    you'll see your dataset laid out as familiar rows and columns.</p>
+    <p>Checking your data this way, before building anything else, is a quick sanity check
+    that helps you catch obviously wrong or missing values early.</p>
+  `,
+      question: "Which Orange widget lets you preview your loaded dataset as rows and columns?",
+      answer: "Data Table",
+      hint: "Its name describes exactly what it shows you."
+    },
+    {
+      title: "Adding a Classifier",
+      points: 25,
+      content: `
+    <p>Drag a classifier widget onto the canvas, such as <b>Tree</b> or <b>Naive Bayes</b>, and
+    connect your File widget to it. This represents the model you want to train on your
+    data — with zero lines of code written so far.</p>
+    <p>Now drag a <b>Test and Score</b> widget onto the canvas and connect both your data
+    widget and your classifier widget into it. Test and Score runs the classifier on your
+    data and reports metrics like accuracy and AUC, letting you evaluate performance visually.</p>
+  `,
+      question: "Which Orange widget do you use to evaluate and compare classifier performance, such as accuracy and AUC?",
+      answer: "Test and Score",
+      hint: "Its name describes exactly what it measures."
+    },
+    {
+      title: "Seeing the Whole Pipeline",
+      points: 25,
+      content: `
+    <p>Zoom out and look at your canvas: File connected to Data Table, File connected to a
+    classifier, and both feeding into Test and Score. This connected arrangement of widgets and
+    wires is exactly the same kind of process you wrote as code in the Colab rooms — load data,
+    train a model, evaluate it — just represented visually instead of in Python.</p>
+    <p>You could keep extending this same canvas with widgets like Confusion Matrix or ROC
+    Analysis further downstream, without writing a single line of code.</p>
+  `,
+      question: "What overall term describes the connected set of widgets you build on Orange's canvas?",
+      answer: "a workflow",
+      hint: "It's the same word used to describe the whole connected pipeline, and it appears in this room's own title."
+    }
+  ]
+},
+{
+  id: "ai-capstone-challenge",
+  title: "Capstone: Train, Export, and Ship Your Own Model",
+  icon: "🚀",
+  difficulty: "Hard",
+  tags: ["ai", "capstone", "ml5js"],
+  description: "Combine everything you have learned to train a Teachable Machine model and bring it to life on a real, working web page using ml5.js.",
+  tasks: [
+    {
+      title: "From Idea to Shipped Demo",
+      points: 0,
+      content: `
+    <p>This capstone strings together the whole journey from this course: train a model in
+    Teachable Machine, export it, and load it into a real web page with ml5.js so it runs
+    live for anyone who visits, using only free tools the entire way.</p>
+    <p>You'll need teachablemachine.withgoogle.com for training and export, and a basic grasp
+    of the ml5.js snippets from the earlier ml5.js room, so revisit that room first if it's
+    been a while.</p>
+  `
+    },
+    {
+      title: "Train (or Reuse) a Model",
+      points: 20,
+      content: `
+    <p>Open Teachable Machine and either reuse an Image project from an earlier room or start a
+    fresh one. Make sure it has at least two classes with recorded webcam samples, then click
+    <b>Train Model</b> and confirm it works correctly in the live Preview panel.</p>
+    <p>This is exactly the same requirement every Teachable Machine project shares, no matter
+    which project type: Image, Audio, or Pose.</p>
+  `,
+      question: "What must every Teachable Machine project have at least two of before you can train it?",
+      answer: "classes",
+      hint: "It's the category boxes you name and record samples for."
+    },
+    {
+      title: "Getting a Shareable Model URL",
+      points: 20,
+      content: `
+    <p>On the Export Model tab, choose the TensorFlow.js option and select 'Upload (shareable
+    link)' instead of downloading files to your computer. Teachable Machine hosts your model
+    on Google's servers and hands you back a link.</p>
+    <p>That link is exactly what a piece of ml5.js code needs to load your custom-trained
+    model, instead of a built-in one like MobileNet.</p>
+  `,
+      question: "What does Teachable Machine's export tab generate when you choose to upload and host your model?",
+      answer: "a shareable model URL",
+      hint: "It's a link you can paste straight into code, rather than a file you download."
+    },
+    {
+      title: "Loading It With ml5.js",
+      points: 25,
+      content: `
+    <p>In an HTML page that has ml5.js included, your model's shared URL slots straight into
+    the image classifier function you saw earlier:</p>
+    <pre>classifier = ml5.imageClassifier(modelURL, videoElement, modelReady);
+
+function modelReady() {
+  console.log('Model loaded!');
+}</pre>
+    <p>Here, <code class="inline">videoElement</code> can be a live webcam feed on the page,
+    so your custom-trained model classifies what it sees in real time, exactly like Teachable
+    Machine's own Preview panel — except now it's running on a page you built yourself.</p>
+  `,
+      question: "What ml5.js method is called to run your custom Teachable Machine model on a live input and get a prediction?",
+      answer: "classify",
+      hint: "It's the same method you used earlier to get predictions from MobileNet."
+    },
+    {
+      title: "Publishing It for Free",
+      points: 25,
+      content: `
+    <p>A finished HTML page like this doesn't need expensive hosting to go live. A free
+    static-hosting service, tied directly to a GitHub repository, can publish it as a real
+    website with its own URL that anyone can open in a browser — no installs, no accounts, and
+    no cost.</p>
+    <p>In fact, this exact kind of free hosting is how sites like this very learning platform
+    are commonly published.</p>
+  `,
+      question: "What is the name of the free static-hosting service that publishes sites straight from a GitHub repository?",
+      answer: "GitHub Pages",
+      hint: "Its name combines the platform hosting your code with the word for a published web page."
+    }
+  ]
+},
 ];
 
 const PATHS = [
@@ -18191,7 +19504,40 @@ const PATHS = [
     icon: "🏁",
     description: "Sharpen your skills with classic practice problems, from FizzBuzz to building small CLI apps and games.",
     rooms: ["challenge-fizzbuzz","challenge-palindrome","challenge-prime-checker","challenge-fibonacci","challenge-factorial","challenge-reverse-string","challenge-anagram","challenge-dedup-list","challenge-matrix-transpose","challenge-word-count","challenge-temp-converter","challenge-calculator","challenge-number-guess","challenge-rock-paper-scissors","challenge-todo-cli","challenge-password-generator"]
+  },
+  {
+    id: "ai-and-machine-learning",
+    title: "AI & Machine Learning",
+    icon: "🤖",
+    description: "A hands-on, no-backend-required tour of AI/ML using free tools: Teachable Machine, TensorFlow Playground, Colab, Kaggle, Hugging Face, ml5.js, and Orange.",
+    rooms: ["ai-ml-intro","teachable-machine-image","teachable-machine-sound","teachable-machine-pose","teachable-machine-export","neural-networks-playground","quick-draw-ai","intro-to-colab","colab-first-model","intro-to-kaggle","kaggle-learn-path","hugging-face-spaces","ml5js-in-browser","computer-vision-concepts","nlp-concepts","prompt-engineering-basics","ai-ethics-bias","orange-no-code-ml","ai-capstone-challenge"]
   }
+];
+
+/* Paths must be completed in this order — a path is locked until every room in
+   the previous path is complete. Rooms inside an unlocked path can be tackled
+   in any order (they're independent hands-on challenges). */
+const PATH_ORDER = [
+  "python-fundamentals",
+  "practical-python",
+  "language-internals",
+  "collections-data-wrangling",
+  "functional-python",
+  "object-oriented-python",
+  "errors-debugging-logging",
+  "text-regex-mastery",
+  "files-and-the-os",
+  "modules-packaging-tooling",
+  "data-structures-algorithms",
+  "testing-python-code",
+  "concurrency-performance",
+  "data-analysis-python",
+  "web-development-apis",
+  "databases-with-python",
+  "security-fundamentals",
+  "automation-and-gui",
+  "coding-challenges",
+  "ai-and-machine-learning"
 ];
 
 /* ---- Helpers to look up content ---- */
@@ -18203,4 +19549,33 @@ function getPath(id) {
 }
 function roomTotalPoints(room) {
   return room.tasks.reduce((sum, t) => sum + (t.points || 0), 0);
+}
+
+/* ---- Sequential path locking ---- */
+function getPathForRoom(roomId) {
+  return PATHS.find(p => p.rooms.includes(roomId)) || null;
+}
+
+function isPathUnlocked(pathId) {
+  const idx = PATH_ORDER.indexOf(pathId);
+  if (idx <= 0) return true; // first path (or an unlisted/legacy path) is always open
+  const prevPath = getPath(PATH_ORDER[idx - 1]);
+  if (!prevPath) return true;
+  return pathCompletedCount(prevPath) === prevPath.rooms.length;
+}
+
+function isRoomUnlocked(roomId) {
+  const path = getPathForRoom(roomId);
+  if (!path) return true; // room isn't part of any tracked path — never gated
+  return isPathUnlocked(path.id);
+}
+
+/* The first path in PATH_ORDER whose rooms aren't all complete yet — used for
+   "continue where you left off" CTAs. Returns null once every path is done. */
+function currentActivePath() {
+  for (const id of PATH_ORDER) {
+    const path = getPath(id);
+    if (path && pathCompletedCount(path) < path.rooms.length) return path;
+  }
+  return null;
 }
