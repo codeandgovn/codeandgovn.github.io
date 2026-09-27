@@ -35,14 +35,16 @@
 
   <div class="filter-bar">
     <input type="search" id="search" placeholder="Search rooms… e.g. loops, classes, strings">
+    <select id="path-filter"><option value="all">All Paths</option></select>
     <span class="chip active" data-diff="all">All</span>
     <span class="chip" data-diff="Easy">Easy</span>
     <span class="chip" data-diff="Medium">Medium</span>
     <span class="chip" data-diff="Hard">Hard</span>
   </div>
+  <p id="result-count" style="color:var(--text-dim); font-size:0.85rem; margin:-10px 0 20px;"></p>
 
   <div class="grid" id="room-grid"></div>
-  <p id="no-results" class="empty-state" style="display:none;">No rooms match your search. Try a different keyword.</p>
+  <p id="no-results" class="empty-state" style="display:none;">No rooms match your search. Try a different keyword or path.</p>
 </section>
 
 <footer>
@@ -56,7 +58,13 @@
 <script src="assets/js/main.js"></script>
 <script>
   let activeDiff = "all";
+  let activePath = "all";
   let query = "";
+
+  function roomToPathId(roomId) {
+    const path = PATHS.find(p => p.rooms.includes(roomId));
+    return path ? path.id : null;
+  }
 
   function diffClass(d) {
     if (d === "Easy") return "tag-easy";
@@ -91,20 +99,33 @@
 
     const filtered = ROOMS.filter(r => {
       const matchesDiff = activeDiff === "all" || r.difficulty === activeDiff;
+      const matchesPath = activePath === "all" || roomToPathId(r.id) === activePath;
       const haystack = (r.title + " " + r.description + " " + r.tags.join(" ")).toLowerCase();
       const matchesQuery = !q || haystack.includes(q);
-      return matchesDiff && matchesQuery;
+      return matchesDiff && matchesPath && matchesQuery;
     });
 
     grid.innerHTML = filtered.map(renderRoomCard).join("");
     noResults.style.display = filtered.length ? "none" : "block";
+    document.getElementById("result-count").textContent =
+      `Showing ${filtered.length} of ${ROOMS.length} rooms`;
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    const pathSelect = document.getElementById("path-filter");
+    PATHS.forEach(p => {
+      pathSelect.innerHTML += `<option value="${p.id}">${p.icon} ${p.title}</option>`;
+    });
+
     renderGrid();
 
     document.getElementById("search").addEventListener("input", (e) => {
       query = e.target.value;
+      renderGrid();
+    });
+
+    pathSelect.addEventListener("change", (e) => {
+      activePath = e.target.value;
       renderGrid();
     });
 

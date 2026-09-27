@@ -658,6 +658,125 @@ const PATHS = [
     icon: "🛠️",
     description: "Build on the fundamentals with strings, error handling, file I/O, and object-oriented programming.",
     rooms: ["strings", "errors-files", "oop-basics"]
+  },
+  {
+    id: "language-internals",
+    title: "Language Internals & Idioms",
+    icon: "🧠",
+    description: "Go beyond the basics with operators, scoping rules, copying semantics, and other core-language idioms.",
+    rooms: ["operators-precedence","number-systems","type-casting","boolean-logic","multiple-assignment","string-formatting","escape-sequences","naming-conventions","walrus-operator","ternary-expressions","chained-comparisons","packing-unpacking","swapping-variables","none-and-falsy","identity-vs-equality","mutable-vs-immutable","shallow-deep-copy","variable-scope-legb"]
+  },
+  {
+    id: "collections-data-wrangling",
+    title: "Collections & Data Wrangling",
+    icon: "🧺",
+    description: "Master lists, dicts, sets, tuples, and the collections module for organizing real data.",
+    rooms: ["list-methods","list-comprehensions","nested-lists","dict-comprehensions","dict-methods","nested-dictionaries","set-operations","set-comprehensions","named-tuples","collections-counter","collections-defaultdict","collections-deque","collections-chainmap","sorting-data","sorting-custom-objects","zip-and-enumerate"]
+  },
+  {
+    id: "functional-python",
+    title: "Functional Python",
+    icon: "🧩",
+    description: "Write cleaner, more powerful functions with recursion, closures, decorators, and generators.",
+    rooms: ["recursion-basics","recursion-practice","map-filter-reduce","closures","decorators-basics","decorators-with-arguments","functools-wraps","functools-lru-cache","generators","generator-expressions","first-class-functions","higher-order-functions","partial-functions","type-hints","scope-in-closures"]
+  },
+  {
+    id: "object-oriented-python",
+    title: "Object-Oriented Python",
+    icon: "🏗️",
+    description: "Go deep on classes: properties, inheritance, dunder methods, dataclasses, and design patterns.",
+    rooms: ["class-vs-instance-attrs","classmethods-staticmethods","encapsulation-properties","multiple-inheritance-mro","abstract-base-classes","polymorphism","operator-overloading","eq-and-hash","repr-vs-str","composition-vs-inheritance","mixins","dataclasses","enums","slots","custom-exceptions","singleton-pattern"]
+  },
+  {
+    id: "errors-debugging-logging",
+    title: "Errors, Debugging & Logging",
+    icon: "🪲",
+    description: "Handle failures gracefully and diagnose problems with context managers, pdb, and the logging module.",
+    rooms: ["exception-chaining","context-managers","custom-context-managers","assert-debugging","python-debugger-pdb","logging-basics","logging-handlers","warnings-module","traceback-module"]
+  },
+  {
+    id: "text-regex-mastery",
+    title: "Text & Regex Mastery",
+    icon: "🔤",
+    description: "Process and pattern-match text with regular expressions and the string-processing standard library.",
+    rooms: ["regex-basics","regex-groups","re-module-functions","string-encoding","text-alignment","template-strings","textwrap-module","difflib-module","string-algorithms-palindrome","anagram-detection","caesar-cipher","word-frequency-counter","csv-string-parsing"]
+  },
+  {
+    id: "files-and-the-os",
+    title: "Files & the OS",
+    icon: "📁",
+    description: "Read, write, and manage files, paths, and archives using Python's OS-facing standard library.",
+    rooms: ["pathlib-basics","os-module-basics","csv-files","json-files","pickle-serialization","binary-files","temporary-files","directory-walking","shutil-operations","zip-files"]
+  },
+  {
+    id: "modules-packaging-tooling",
+    title: "Modules, Packaging & Tooling",
+    icon: "📦",
+    description: "Organize code into modules and packages, and use pip, venv, and argparse like a professional.",
+    rooms: ["importing-modules","creating-modules","packages-init","pip-and-pypi","virtual-environments","requirements-txt","argparse-cli","sys-module","stdlib-tour"]
+  },
+  {
+    id: "data-structures-algorithms",
+    title: "Data Structures & Algorithms",
+    icon: "🌳",
+    description: "Implement classic data structures and algorithms from scratch — stacks, trees, graphs, and sorting.",
+    rooms: ["big-o-notation","arrays-vs-lists","stacks","queues","linked-lists","doubly-linked-lists","binary-trees","binary-search-trees","tree-traversals","heaps-priority-queues","hash-tables-internals","graphs-intro","graph-bfs","graph-dfs","linear-search","binary-search","bubble-sort","selection-sort","insertion-sort","merge-sort","quick-sort","dynamic-programming-intro"]
+  },
+  {
+    id: "testing-python-code",
+    title: "Testing Python Code",
+    icon: "✅",
+    description: "Write reliable code with unittest, pytest, mocking, and test-driven development.",
+    rooms: ["intro-to-testing","unittest-basics","pytest-basics","mocking","tdd-concepts","pep8-style","type-checking-mypy"]
+  },
+  {
+    id: "concurrency-performance",
+    title: "Concurrency & Performance",
+    icon: "⚡",
+    description: "Speed things up with threading, multiprocessing, asyncio, profiling, and caching.",
+    rooms: ["threading-basics","multiprocessing-basics","gil-explained","asyncio-basics","async-await-syntax","race-conditions","profiling-python","optimizing-performance","caching-strategies"]
+  },
+  {
+    id: "data-analysis-python",
+    title: "Data Analysis with Python",
+    icon: "📊",
+    description: "Analyze and visualize data using NumPy, Pandas, Matplotlib, and the statistics module.",
+    rooms: ["intro-to-numpy","numpy-arrays","intro-to-pandas","pandas-dataframes","filtering-with-pandas","groupby-pandas","reading-csv-pandas","data-cleaning-basics","intro-to-matplotlib","plotting-basic-charts","datetime-module","random-module","statistics-module"]
+  },
+  {
+    id: "web-development-apis",
+    title: "Web Development & APIs",
+    icon: "🌐",
+    description: "Consume and build web APIs, scrape pages, and create your first Flask application.",
+    rooms: ["http-basics","requests-library","consuming-rest-api","json-apis","web-scraping-basics","intro-to-flask","flask-routes","flask-templates","building-simple-api","sockets-basics","url-parsing","web-scraping-ethics"]
+  },
+  {
+    id: "databases-with-python",
+    title: "Databases with Python",
+    icon: "🗄️",
+    description: "Store and query data with SQL and sqlite3, and understand ORMs and transactions.",
+    rooms: ["intro-to-sql","sqlite3-basics","crud-with-sqlite","orm-concepts","database-design-basics","transactions-commits"]
+  },
+  {
+    id: "security-fundamentals",
+    title: "Security Fundamentals",
+    icon: "🔐",
+    description: "Learn defensive security practices in Python: hashing, secrets, validation, and safe file handling.",
+    rooms: ["hashing-hashlib","password-hashing","secrets-module","input-validation","secure-file-handling","env-secrets-management","basic-python-ctf"]
+  },
+  {
+    id: "automation-and-gui",
+    title: "Automation & GUI",
+    icon: "🤖",
+    description: "Build desktop GUIs and automate everyday tasks: spreadsheets, emails, and scheduled scripts.",
+    rooms: ["intro-to-tkinter","building-gui-app","automating-tasks","working-with-excel","sending-emails","task-scheduling"]
+  },
+  {
+    id: "coding-challenges",
+    title: "Coding Challenges",
+    icon: "🏁",
+    description: "Sharpen your skills with classic practice problems, from FizzBuzz to building small CLI apps and games.",
+    rooms: ["challenge-fizzbuzz","challenge-palindrome","challenge-prime-checker","challenge-fibonacci","challenge-factorial","challenge-reverse-string","challenge-anagram","challenge-dedup-list","challenge-matrix-transpose","challenge-word-count","challenge-temp-converter","challenge-calculator","challenge-number-guess","challenge-rock-paper-scissors","challenge-todo-cli","challenge-password-generator"]
   }
 ];
 
