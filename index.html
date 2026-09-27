@@ -20,6 +20,8 @@
       <a href="profile.html" data-page="profile.html">Profile</a>
     </div>
     <div class="nav-cta">
+      <span class="level-pill" id="nav-level">Lv.1 Novice</span>
+      <span class="streak-pill" id="nav-streak">🔥 0</span>
       <span class="points-pill" id="nav-points">⭐ 0 pts</span>
       <a href="rooms.html" class="btn btn-primary btn-sm">Start Learning</a>
     </div>
@@ -55,6 +57,10 @@
     </div>
   </div>
 </header>
+
+<section class="section container">
+  <div id="daily-challenge"></div>
+</section>
 
 <section class="section container">
   <div class="section-head">
@@ -121,6 +127,7 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/gamify.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("stat-rooms").textContent = ROOMS.length;
@@ -135,6 +142,21 @@
     PATHS.forEach(path => {
       pathGrid.innerHTML += renderPathCardMini(path);
     });
+
+    const daily = pickDailyRoom();
+    document.getElementById("daily-challenge").innerHTML = `
+      <div class="path-card daily-card">
+        <div class="path-icon">${daily.icon}</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <span class="tag tag-hard">🔥 Today's Challenge</span>
+            <span class="tag ${diffClass(daily.difficulty)}">${daily.difficulty}</span>
+          </div>
+          <h3 style="margin-top:10px;">${daily.title}</h3>
+          <p>${daily.description}</p>
+          <a href="room.html?id=${daily.id}" class="btn btn-primary btn-sm">Take on today's room →</a>
+        </div>
+      </div>`;
   });
 
   function diffClass(d) {

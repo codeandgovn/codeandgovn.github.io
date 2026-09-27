@@ -19,6 +19,8 @@
       <a href="profile.html" data-page="profile.html" class="active">Profile</a>
     </div>
     <div class="nav-cta">
+      <span class="level-pill" id="nav-level">Lv.1 Novice</span>
+      <span class="streak-pill" id="nav-streak">🔥 0</span>
       <span class="points-pill" id="nav-points">⭐ 0 pts</span>
     </div>
     <button class="hamburger" aria-label="menu">☰</button>
@@ -36,15 +38,34 @@
       <div class="stat"><b id="pf-points">0</b><span>Points</span></div>
       <div class="stat"><b id="pf-rooms">0</b><span>Rooms completed</span></div>
       <div class="stat"><b id="pf-tasks">0</b><span>Tasks completed</span></div>
+      <div class="stat"><b id="pf-streak">0</b><span>Day streak</span></div>
+      <div class="stat"><b id="pf-cards">0</b><span>Codex cards</span></div>
+    </div>
+    <div class="level-block">
+      <div class="level-block-label">
+        <span id="pf-level-title">Level 1 — Novice</span>
+        <span id="pf-level-next">150 pts to Level 2</span>
+      </div>
+      <div class="progress-bar"><span id="pf-level-bar" style="width:0%"></span></div>
     </div>
   </div>
 </header>
 
 <section class="section container">
   <div class="section-head">
-    <div><h2>Badges</h2><p>Earned by completing rooms.</p></div>
+    <div><h2>Badges</h2><p>Earned through rooms, streaks, combos, and the Codex.</p></div>
   </div>
   <div class="badge-grid" id="badge-grid"></div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <h2>The Python Codex</h2>
+      <p id="codex-count">0 / 0 cards collected — a new card is revealed every time you finish a room.</p>
+    </div>
+  </div>
+  <div class="codex-grid" id="codex-grid"></div>
 </section>
 
 <section class="section container">
@@ -70,6 +91,7 @@
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/main.js"></script>
+<script src="assets/js/gamify.js"></script>
 <script>
   function diffClass(d) {
     if (d === "Easy") return "tag-easy";
@@ -77,36 +99,49 @@
     return "tag-hard";
   }
 
-  const BADGES = [
-    { id: "first-steps", name: "First Steps", icon: "👣", check: () => Object.keys(getProgress().completedTasks).length >= 1 },
-    { id: "python-basics", name: "Basics Master", icon: "🐍", check: () => roomIsComplete(getRoom("python-basics")) },
-    { id: "control-flow", name: "Loop Wrangler", icon: "🔀", check: () => roomIsComplete(getRoom("control-flow")) },
-    { id: "data-structures", name: "Data Organizer", icon: "🧺", check: () => roomIsComplete(getRoom("data-structures")) },
-    { id: "functions", name: "Function Builder", icon: "🧩", check: () => roomIsComplete(getRoom("functions")) },
-    { id: "strings", name: "String Slinger", icon: "🔤", check: () => roomIsComplete(getRoom("strings")) },
-    { id: "errors-files", name: "Bug Squasher", icon: "📁", check: () => roomIsComplete(getRoom("errors-files")) },
-    { id: "oop-basics", name: "Class Act", icon: "🏗️", check: () => roomIsComplete(getRoom("oop-basics")) },
-    { id: "path-fundamentals", name: "Fundamentals Grad", icon: "🎓", check: () => pathCompletedCount(getPath("python-fundamentals")) === getPath("python-fundamentals").rooms.length },
-    { id: "all-rooms", name: "Code&Go Champion", icon: "🏆", check: () => completedRoomsList().length === ROOMS.length }
-  ];
-
   function renderProfile() {
     const progress = getProgress();
     document.getElementById("pf-points").textContent = progress.points;
     document.getElementById("pf-rooms").textContent = completedRoomsList().length + " / " + ROOMS.length;
     document.getElementById("pf-tasks").textContent = Object.keys(progress.completedTasks).length;
+    document.getElementById("pf-streak").textContent = progress.streak || 0;
+    document.getElementById("pf-cards").textContent = collectedCardCount();
 
     const name = progress.username || "Anonymous Coder";
     document.getElementById("display-name").textContent = name;
     document.getElementById("avatar").textContent = name.trim()[0].toUpperCase();
 
+    const info = getLevelInfo(progress.points);
+    document.getElementById("pf-level-title").textContent = `Level ${info.level} — ${info.title}`;
+    document.getElementById("pf-level-next").textContent = info.next
+      ? `${info.pointsToNext} pts to Level ${info.next.level} (${info.next.title})`
+      : "Max level reached 👑";
+    document.getElementById("pf-level-bar").style.width = info.pct + "%";
+
     document.getElementById("badge-grid").innerHTML = BADGES.map(b => {
-      const earned = b.check();
+      const earned = b.check(progress);
       return `
-        <div class="badge ${earned ? '' : 'locked'}">
+        <div class="badge ${earned ? '' : 'locked'}" title="${b.desc}">
           <div class="badge-icon">${b.icon}</div>
           <div class="badge-name">${b.name}</div>
         </div>`;
+    }).join("");
+
+    const collected = progress.collectedCards || {};
+    document.getElementById("codex-count").textContent =
+      `${Object.keys(collected).length} / ${CARDS.length} cards collected — a new card is revealed every time you finish a room.`;
+    document.getElementById("codex-grid").innerHTML = CARDS.map(c => {
+      const has = !!collected[c.id];
+      return has
+        ? `<div class="card-slot rarity-${c.rarity}">
+             <div class="card-slot-icon">${c.icon}</div>
+             <div class="card-slot-source">${c.source}</div>
+             <div class="card-slot-text">"${c.text}"</div>
+           </div>`
+        : `<div class="card-slot locked">
+             <div class="card-slot-icon">❓</div>
+             <div class="card-slot-text">Complete a room to reveal this card</div>
+           </div>`;
     }).join("");
 
     document.getElementById("progress-grid").innerHTML = ROOMS.map(room => {

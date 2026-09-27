@@ -133,6 +133,26 @@ code.inline {
   font-weight: 600;
 }
 
+.level-pill,
+.streak-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.level-pill { color: var(--purple); }
+.streak-pill { color: #ff8a3d; }
+
+@media (max-width: 720px) {
+  .level-pill, .streak-pill { display: none; }
+}
+
 .hamburger { display: none; }
 
 /* ---------- Buttons ---------- */
@@ -632,6 +652,123 @@ footer a:hover { color: var(--accent); }
   text-align: center;
   padding: 60px 20px;
   color: var(--text-dim);
+}
+
+/* ---------- Level block (profile header) ---------- */
+.level-block {
+  margin-top: 18px;
+  max-width: 420px;
+}
+.level-block-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: var(--text-dim);
+}
+.level-block-label span:first-child {
+  color: var(--purple);
+  font-weight: 700;
+}
+
+/* ---------- Daily challenge spotlight ---------- */
+.daily-card {
+  border-color: var(--accent-dim);
+  background: linear-gradient(135deg, rgba(255,212,59,0.08), var(--card));
+}
+
+/* ---------- The Python Codex ---------- */
+.codex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+.card-slot {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  background: var(--card);
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card-slot.locked {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-dim);
+  opacity: 0.55;
+  border-style: dashed;
+}
+.card-slot-icon { font-size: 1.4rem; }
+.card-slot-source {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.card-slot-text {
+  font-size: 0.85rem;
+  color: #c3ccd8;
+  font-style: italic;
+}
+.card-slot.rarity-rare { border-color: var(--blue); }
+.card-slot.rarity-legendary {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255,212,59,0.25), 0 0 24px rgba(255,212,59,0.12);
+}
+
+/* ---------- Wrong-answer shake ---------- */
+@keyframes cg-shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+.shake { animation: cg-shake 0.5s; border-color: var(--red) !important; }
+
+/* ---------- Toasts ---------- */
+.cg-toast {
+  position: fixed;
+  top: 78px;
+  right: 20px;
+  max-width: 340px;
+  background: var(--card);
+  border: 1px solid var(--accent-dim);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 0.88rem;
+  color: var(--text);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+  z-index: 200;
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.cg-toast.show { opacity: 1; transform: translateX(0); }
+.cg-toast.big {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, rgba(255,212,59,0.12), var(--card));
+  max-width: 380px;
+  font-size: 0.92rem;
+}
+.cg-toast + .cg-toast { top: 150px; }
+
+/* ---------- Confetti ---------- */
+.cg-confetti-piece {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 300;
+  animation: cg-confetti-fly 0.9s ease-out forwards;
+}
+@keyframes cg-confetti-fly {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
 }
 
 /* ---------- Responsive ---------- */

@@ -71,6 +71,12 @@ function refreshHeaderProgress(room) {
   const pill = document.getElementById("nav-points");
   if (pill) pill.textContent = "⭐ " + totalPoints() + " pts";
 
+  const p = getProgress();
+  const levelPill = document.getElementById("nav-level");
+  if (levelPill) levelPill.textContent = `Lv.${getLevelInfo(p.points).level} ${getLevelInfo(p.points).title}`;
+  const streakPill = document.getElementById("nav-streak");
+  if (streakPill) streakPill.textContent = "🔥 " + (p.streak || 0);
+
   // refresh sidebar dots
   document.querySelectorAll(".task-nav a").forEach((a, i) => {
     if (isTaskDone(room.id, i)) {
@@ -83,6 +89,48 @@ function refreshHeaderProgress(room) {
     const banner = document.getElementById("room-complete-banner");
     if (banner) banner.style.display = "block";
   }
+}
+
+function celebrateCompletion(room, task, index, sourceEl) {
+  const beforePoints = totalPoints();
+  const beforeLevel = getLevelInfo(beforePoints).level;
+  const beforeBadges = earnedBadgeIds(getProgress());
+  const wasRoomComplete = roomIsComplete(room);
+
+  markTaskDone(room.id, index, task.points);
+  recordActivity();
+  markTimeOfDayFlags();
+
+  const rect = sourceEl.getBoundingClientRect();
+  burstConfetti(rect.left + rect.width / 2, rect.top + window.scrollY);
+
+  const afterPoints = totalPoints();
+  const afterLevel = getLevelInfo(afterPoints).level;
+  const afterBadges = earnedBadgeIds(getProgress());
+
+  if (afterLevel > beforeLevel) {
+    const info = getLevelInfo(afterPoints);
+    showToast(`⬆️ <b>Level up!</b> You're now Level ${info.level} — ${info.title}`, { big: true });
+  }
+
+  [...afterBadges].filter(id => !beforeBadges.has(id)).forEach(id => {
+    const b = BADGES.find(x => x.id === id);
+    if (b) showToast(`🏅 Badge unlocked: <b>${b.name}</b> — ${b.desc}`);
+  });
+
+  const nowRoomComplete = roomIsComplete(room);
+  if (!wasRoomComplete && nowRoomComplete) {
+    const { card, isNew } = awardRandomCard();
+    burstConfetti(window.innerWidth / 2, window.innerHeight / 3 + window.scrollY);
+    showToast(
+      `📜 <b>Codex card ${isNew ? "unlocked" : "drawn again"}!</b><br>
+       <span style="color:var(--accent); font-size:0.8rem;">${card.source}</span><br>
+       "${card.text}"`,
+      { big: true, duration: 6000 }
+    );
+  }
+
+  refreshHeaderProgress(room);
 }
 
 function wireUpTask(room, task, index) {
@@ -99,22 +147,30 @@ function wireUpTask(room, task, index) {
       const correct = normalize(task.answer);
 
       if (val === correct) {
-        markTaskDone(room.id, index, task.points);
+        const combo = registerCorrectAnswer();
+        if (combo > 0 && combo % 5 === 0) {
+          showToast(`⚡ <b>Combo x${combo}!</b> You're on fire.`);
+        }
+
         feedback.textContent = "✔ Correct! +" + task.points + " points";
         feedback.className = "answer-feedback correct";
         input.disabled = true;
         submitBtn.disabled = true;
         submitBtn.textContent = "Completed ✔";
-        refreshHeaderProgress(room);
+
+        celebrateCompletion(room, task, index, submitBtn);
       } else {
+        registerWrongAnswer();
         feedback.textContent = "✘ Not quite — check the task content and try again.";
         feedback.className = "answer-feedback wrong";
+        input.classList.remove("shake");
+        void input.offsetWidth;
+        input.classList.add("shake");
       }
     } else {
-      markTaskDone(room.id, index, task.points);
       submitBtn.disabled = true;
       submitBtn.textContent = "Completed ✔";
-      refreshHeaderProgress(room);
+      celebrateCompletion(room, task, index, submitBtn);
     }
   });
 
@@ -164,7 +220,7 @@ function renderRoom(room) {
         ${room.tasks.map((t, i) => renderTask(room, t, i)).join("")}
         <div class="room-complete-banner" id="room-complete-banner" style="${roomIsComplete(room) ? '' : 'display:none;'}">
           <h3>🎉 Room complete!</h3>
-          <p>You've finished every task in ${room.title}. Nice work — check your <a href="profile.html">profile</a> or keep going with more rooms.</p>
+          <p>You've finished every task in ${room.title} and revealed a card for your <a href="profile.html">Codex</a>. Nice work — keep going with more rooms.</p>
           <div style="margin-top:14px;">
             <a href="rooms.html" class="btn btn-outline btn-sm">Back to Rooms</a>
           </div>
