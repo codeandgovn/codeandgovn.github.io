@@ -19499,13 +19499,6 @@ const PATHS = [
     rooms: ["intro-to-tkinter","building-gui-app","automating-tasks","working-with-excel","sending-emails","task-scheduling"]
   },
   {
-    id: "coding-challenges",
-    title: "Coding Challenges",
-    icon: "🏁",
-    description: "Sharpen your skills with classic practice problems, from FizzBuzz to building small CLI apps and games.",
-    rooms: ["challenge-fizzbuzz","challenge-palindrome","challenge-prime-checker","challenge-fibonacci","challenge-factorial","challenge-reverse-string","challenge-anagram","challenge-dedup-list","challenge-matrix-transpose","challenge-word-count","challenge-temp-converter","challenge-calculator","challenge-number-guess","challenge-rock-paper-scissors","challenge-todo-cli","challenge-password-generator"]
-  },
-  {
     id: "ai-and-machine-learning",
     title: "AI & Machine Learning",
     icon: "🤖",
@@ -19536,9 +19529,18 @@ const PATH_ORDER = [
   "databases-with-python",
   "security-fundamentals",
   "automation-and-gui",
-  "coding-challenges",
   "ai-and-machine-learning"
 ];
+
+/* Challenges are a SEPARATE feature from paths — always open, never gated,
+   pick any of them in any order regardless of path progress. They are not
+   listed in any path's `rooms` array, so getPathForRoom() returns null for
+   them and isRoomUnlocked() treats them as permanently unlocked. */
+const CHALLENGE_ROOM_IDS = ["challenge-fizzbuzz","challenge-palindrome","challenge-prime-checker","challenge-fibonacci","challenge-factorial","challenge-reverse-string","challenge-anagram","challenge-dedup-list","challenge-matrix-transpose","challenge-word-count","challenge-temp-converter","challenge-calculator","challenge-number-guess","challenge-rock-paper-scissors","challenge-todo-cli","challenge-password-generator"];
+
+function getChallengeRooms() {
+  return CHALLENGE_ROOM_IDS.map(getRoom).filter(Boolean);
+}
 
 /* ---- Helpers to look up content ---- */
 function getRoom(id) {

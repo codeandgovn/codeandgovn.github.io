@@ -62,7 +62,7 @@
 
     const existingUser = await getSessionUser();
     if (existingUser) {
-      location.href = next ? decodeURIComponent(next) : "rooms.html";
+      location.href = next ? decodeURIComponent(next) : "challenges.html";
       return;
     }
 
@@ -89,7 +89,7 @@
 
       if (data && data.session) {
         // Email confirmation is off for this project — signed in immediately.
-        location.href = next ? decodeURIComponent(next) : "rooms.html";
+        location.href = next ? decodeURIComponent(next) : "challenges.html";
         return;
       }
 

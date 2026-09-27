@@ -190,11 +190,15 @@ function renderRoom(room) {
   const completed = roomCompletedCount(room);
   const total = room.tasks.length;
   const pct = Math.round((completed / total) * 100);
+  const parentPath = getPathForRoom(room.id);
+  const breadcrumb = parentPath
+    ? `<a href="paths.html#${parentPath.id}">${parentPath.title}</a> / ${room.title}`
+    : `<a href="challenges.html">Challenges</a> / ${room.title}`;
 
   const html = `
     <header class="room-header">
       <div class="container">
-        <div class="breadcrumb"><a href="rooms.html">Rooms</a> / ${room.title}</div>
+        <div class="breadcrumb">${breadcrumb}</div>
         <h1>${room.icon} ${room.title}</h1>
         <p class="room-sub">${room.description}</p>
         <div class="room-header-meta">
@@ -219,10 +223,12 @@ function renderRoom(room) {
       <div class="room-tasks">
         ${room.tasks.map((t, i) => renderTask(room, t, i)).join("")}
         <div class="room-complete-banner" id="room-complete-banner" style="${roomIsComplete(room) ? '' : 'display:none;'}">
-          <h3>🎉 Room complete!</h3>
-          <p>You've finished every task in ${room.title} and revealed a card for your <a href="profile.html">Codex</a>. Nice work — keep going with more rooms.</p>
+          <h3>🎉 ${parentPath ? "Room" : "Challenge"} complete!</h3>
+          <p>You've finished every task in ${room.title} and revealed a card for your <a href="profile.html">Codex</a>. Nice work — keep going with more ${parentPath ? "rooms" : "challenges"}.</p>
           <div style="margin-top:14px;">
-            <a href="rooms.html" class="btn btn-outline btn-sm">Back to Rooms</a>
+            ${parentPath
+              ? `<a href="paths.html#${parentPath.id}" class="btn btn-outline btn-sm">Back to ${parentPath.title}</a>`
+              : `<a href="challenges.html" class="btn btn-outline btn-sm">Back to Challenges</a>`}
           </div>
         </div>
       </div>
@@ -244,7 +250,8 @@ function renderLocked(room) {
         <h2>🔒 ${room.title} is locked</h2>
         <p>Code&Go paths unlock one at a time. ${prevPath
           ? `Finish every room in <b>${prevPath.title}</b> first to unlock <b>${path.title}</b>.`
-          : `Finish the previous path first to unlock <b>${path ? path.title : "this path"}</b>.`}</p>
+          : `Finish the previous path first to unlock <b>${path ? path.title : "this path"}</b>.`}
+          Looking for something you can jump into right now? Try the <a href="challenges.html">Challenges</a> library instead — nothing there is ever locked.</p>
         <div style="margin-top:14px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
           ${prevPath ? `<a href="paths.html#${prevPath.id}" class="btn btn-primary">Go to ${prevPath.title}</a>` : ""}
           <a href="paths.html" class="btn btn-outline">View all paths</a>
@@ -258,9 +265,12 @@ function renderNotFound() {
   document.getElementById("room-root").innerHTML = `
     <section class="section container">
       <div class="empty-state">
-        <h2>Room not found</h2>
-        <p>That room doesn't exist yet.</p>
-        <a href="rooms.html" class="btn btn-primary">Browse all rooms</a>
+        <h2>Not found</h2>
+        <p>That room or challenge doesn't exist.</p>
+        <div style="margin-top:14px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="paths.html" class="btn btn-primary">Browse Paths</a>
+          <a href="challenges.html" class="btn btn-outline">Browse Challenges</a>
+        </div>
       </div>
     </section>
   `;

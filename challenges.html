@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rooms — Code&amp;Go</title>
+<title>Challenges — Code&amp;Go</title>
+<meta name="description" content="Free-choice, hands-on Python challenges — no path required, tackle any of them in any order.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -14,7 +15,7 @@
     <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
     <div class="nav-links">
       <a href="index.html" data-page="index.html">Home</a>
-      <a href="rooms.html" data-page="rooms.html" class="active">Rooms</a>
+      <a href="challenges.html" data-page="challenges.html" class="active">Challenges</a>
       <a href="paths.html" data-page="paths.html">Paths</a>
       <a href="profile.html" data-page="profile.html">Profile</a>
     </div>
@@ -26,14 +27,13 @@
 <section class="section container">
   <div class="section-head">
     <div>
-      <h2>All Rooms</h2>
-      <p>Hands-on challenges, grouped into paths you unlock one at a time. Filter by difficulty or search by topic.</p>
+      <h2>Challenges</h2>
+      <p>Free-choice practice problems — never locked, not tied to any path. Pick any of them, in any order, anytime.</p>
     </div>
   </div>
 
   <div class="filter-bar">
-    <input type="search" id="search" placeholder="Search rooms… e.g. loops, classes, strings">
-    <select id="path-filter"><option value="all">All Paths</option></select>
+    <input type="search" id="search" placeholder="Search challenges… e.g. calculator, game, cipher">
     <span class="chip active" data-diff="all">All</span>
     <span class="chip" data-diff="Easy">Easy</span>
     <span class="chip" data-diff="Medium">Medium</span>
@@ -42,13 +42,13 @@
   <p id="result-count" style="color:var(--text-dim); font-size:0.85rem; margin:-10px 0 20px;"></p>
 
   <div class="grid" id="room-grid"></div>
-  <p id="no-results" class="empty-state" style="display:none;">No rooms match your search. Try a different keyword or path.</p>
+  <p id="no-results" class="empty-state" style="display:none;">No challenges match your search.</p>
 </section>
 
 <footer>
   <div class="container">
     <div>© 2026 Code&amp;Go — Learn Python by doing.</div>
-    <div><a href="rooms.html">Rooms</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a></div>
+    <div><a href="challenges.html">Challenges</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a></div>
   </div>
 </footer>
 
@@ -60,13 +60,7 @@
 <script src="assets/js/gamify.js"></script>
 <script>
   let activeDiff = "all";
-  let activePath = "all";
   let query = "";
-
-  function roomToPathId(roomId) {
-    const path = PATHS.find(p => p.rooms.includes(roomId));
-    return path ? path.id : null;
-  }
 
   function diffClass(d) {
     if (d === "Easy") return "tag-easy";
@@ -78,65 +72,49 @@
     const done = roomIsComplete(room);
     const completedCount = roomCompletedCount(room);
     const pct = Math.round((completedCount / room.tasks.length) * 100);
-    const unlocked = isRoomUnlocked(room.id);
-    const tag = unlocked ? "a" : "div";
-    const href = unlocked ? `href="room.html?id=${room.id}"` : "";
     return `
-      <${tag} class="room-card ${unlocked ? '' : 'locked'}" ${href}>
-        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : (unlocked ? '' : '<span class="room-complete-badge locked-badge">🔒 LOCKED</span>')}
-        <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${unlocked ? room.icon : "🔒"}</div>
+      <a class="room-card" href="challenge.html?id=${room.id}">
+        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : ''}
+        <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${room.icon}</div>
         <div class="room-body">
           <h3>${room.title}</h3>
-          <p class="room-desc">${unlocked ? room.description : "Finish the previous path to unlock this challenge."}</p>
+          <p class="room-desc">${room.description}</p>
           <div class="room-meta">
             <span class="tag ${diffClass(room.difficulty)}">${room.difficulty}</span>
             <span class="room-points">${roomTotalPoints(room)} pts</span>
           </div>
-          <div class="progress-bar"><span style="width:${unlocked ? pct : 0}%"></span></div>
+          <div class="progress-bar"><span style="width:${pct}%"></span></div>
         </div>
-      </${tag}>`;
+      </a>`;
   }
 
   function renderGrid() {
     const grid = document.getElementById("room-grid");
     const noResults = document.getElementById("no-results");
     const q = query.trim().toLowerCase();
+    const allChallenges = getChallengeRooms();
 
-    const filtered = ROOMS.filter(r => {
+    const filtered = allChallenges.filter(r => {
       const matchesDiff = activeDiff === "all" || r.difficulty === activeDiff;
-      const matchesPath = activePath === "all" || roomToPathId(r.id) === activePath;
       const haystack = (r.title + " " + r.description + " " + r.tags.join(" ")).toLowerCase();
       const matchesQuery = !q || haystack.includes(q);
-      return matchesDiff && matchesPath && matchesQuery;
+      return matchesDiff && matchesQuery;
     });
 
     grid.innerHTML = filtered.map(renderRoomCard).join("");
     noResults.style.display = filtered.length ? "none" : "block";
     document.getElementById("result-count").textContent =
-      `Showing ${filtered.length} of ${ROOMS.length} rooms`;
+      `Showing ${filtered.length} of ${allChallenges.length} challenges`;
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
     const ok = await requireAuth();
     if (!ok) return;
 
-    const pathSelect = document.getElementById("path-filter");
-    PATH_ORDER.forEach(id => {
-      const p = getPath(id);
-      if (!p) return;
-      const locked = !isPathUnlocked(p.id);
-      pathSelect.innerHTML += `<option value="${p.id}">${locked ? "🔒" : p.icon} ${p.title}${locked ? " (locked)" : ""}</option>`;
-    });
-
     renderGrid();
 
     document.getElementById("search").addEventListener("input", (e) => {
       query = e.target.value;
-      renderGrid();
-    });
-
-    pathSelect.addEventListener("change", (e) => {
-      activePath = e.target.value;
       renderGrid();
     });
 

@@ -56,7 +56,7 @@
 
     const existingUser = await getSessionUser();
     if (existingUser) {
-      location.href = next ? decodeURIComponent(next) : "rooms.html";
+      location.href = next ? decodeURIComponent(next) : "challenges.html";
       return;
     }
 
@@ -80,7 +80,7 @@
         return;
       }
 
-      location.href = next ? decodeURIComponent(next) : "rooms.html";
+      location.href = next ? decodeURIComponent(next) : "challenges.html";
     });
   });
 </script>

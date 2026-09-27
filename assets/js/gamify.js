@@ -199,10 +199,10 @@ function earnedBadgeIds(p) {
   return new Set(BADGES.filter(b => b.check(p)).map(b => b.id));
 }
 
-/* ---- Daily challenge spotlight: a deterministic pick (from unlocked rooms only) that rotates once per day ---- */
+/* ---- Daily challenge spotlight: a deterministic pick from the standalone
+   Challenges library (never the path-gated rooms) that rotates once per day ---- */
 function pickDailyRoom() {
-  const unlocked = ROOMS.filter(r => isRoomUnlocked(r.id));
-  const pool = unlocked.length ? unlocked : ROOMS;
+  const pool = getChallengeRooms();
   const seed = todayStr();
   let hash = 0;
   for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;

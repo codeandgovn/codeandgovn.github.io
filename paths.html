@@ -14,7 +14,7 @@
     <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
     <div class="nav-links">
       <a href="index.html" data-page="index.html">Home</a>
-      <a href="rooms.html" data-page="rooms.html">Rooms</a>
+      <a href="challenges.html" data-page="challenges.html">Challenges</a>
       <a href="paths.html" data-page="paths.html" class="active">Paths</a>
       <a href="profile.html" data-page="profile.html">Profile</a>
     </div>
@@ -27,7 +27,7 @@
   <div class="section-head">
     <div>
       <h2>Learning Paths</h2>
-      <p>Complete each path to unlock the next one — rooms inside an unlocked path are hands-on challenges you can tackle in any order.</p>
+      <p>Complete each path to unlock the next one. Rooms inside an unlocked path can be tackled in any order — for free-choice practice instead, try the separate Challenges library.</p>
     </div>
   </div>
 
@@ -37,7 +37,7 @@
 <footer>
   <div class="container">
     <div>© 2026 Code&amp;Go — Learn Python by doing.</div>
-    <div><a href="rooms.html">Rooms</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a></div>
+    <div><a href="challenges.html">Challenges</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a></div>
   </div>
 </footer>
 
@@ -65,7 +65,7 @@
       const room = getRoom(rid);
       const done = roomIsComplete(room);
       const tag = unlocked ? "a" : "div";
-      const href = unlocked ? `href="room.html?id=${room.id}"` : "";
+      const href = unlocked ? `href="challenge.html?id=${room.id}"` : "";
       return `
         <${tag} ${href} class="room-card ${unlocked ? '' : 'locked'}" style="display:flex; flex-direction:row; align-items:center; gap:14px; padding:14px 16px;">
           <div style="font-size:1.4rem; width:34px; text-align:center;">${done ? "✅" : (unlocked ? (i+1) : "🔒")}</div>

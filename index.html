@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Code&amp;Go — Learn Python by Doing</title>
-<meta name="description" content="Learn Python through hands-on rooms and guided paths, TryHackMe-style — free, in your browser.">
+<meta name="description" content="Learn Python &amp; AI through structured, unlockable paths and a free-choice Challenges library — TryHackMe-style, free, in your browser.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -15,13 +15,13 @@
     <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
     <div class="nav-links">
       <a href="index.html" data-page="index.html" class="active">Home</a>
-      <a href="rooms.html" data-page="rooms.html">Rooms</a>
+      <a href="challenges.html" data-page="challenges.html">Challenges</a>
       <a href="paths.html" data-page="paths.html">Paths</a>
       <a href="profile.html" data-page="profile.html">Profile</a>
     </div>
     <div class="nav-cta-wrap">
       <div class="nav-cta" id="nav-cta"></div>
-      <a href="rooms.html" class="btn btn-primary btn-sm">Start Learning</a>
+      <a href="paths.html" class="btn btn-primary btn-sm">Start Learning</a>
     </div>
     <button class="hamburger" aria-label="menu">☰</button>
   </div>
@@ -32,15 +32,15 @@
     <div>
       <h1>Learn <span class="hl">Python &amp; AI</span> the hands-on way.</h1>
       <p class="lead">Code&amp;Go is a free platform for learning Python and AI/ML through structured
-      <b>paths</b> you unlock one at a time — each one full of hands-on <b>challenge rooms</b> you can
-      tackle in any order. Read a little, build something real, earn points.</p>
+      <b>paths</b> you unlock one at a time — plus a separate, always-open <b>Challenges</b> library
+      of practice problems you can pick from anytime, no path required.</p>
       <div class="hero-actions">
-        <a href="rooms.html" class="btn btn-primary">Browse Rooms</a>
-        <a href="paths.html" class="btn btn-outline">View Learning Paths</a>
+        <a href="paths.html" class="btn btn-primary">View Learning Paths</a>
+        <a href="challenges.html" class="btn btn-outline">Try a Challenge</a>
       </div>
       <div class="stat-row">
-        <div class="stat"><b id="stat-rooms">7</b><span>Rooms</span></div>
-        <div class="stat"><b id="stat-paths">2</b><span>Learning Paths</span></div>
+        <div class="stat"><b id="stat-paths">19</b><span>Learning Paths</span></div>
+        <div class="stat"><b id="stat-challenges">16</b><span>Challenges</span></div>
         <div class="stat"><b>100%</b><span>Free</span></div>
       </div>
     </div>
@@ -96,11 +96,22 @@
   <div class="section-head">
     <div>
       <h2 id="home-room-heading">Start Here</h2>
-      <p id="home-room-sub">Hands-on challenges from your current path.</p>
+      <p id="home-room-sub">Rooms from your current path.</p>
     </div>
-    <a href="rooms.html" class="btn btn-outline btn-sm">See all rooms →</a>
+    <a href="paths.html" class="btn btn-outline btn-sm" id="home-room-cta">See full path →</a>
   </div>
   <div class="grid" id="home-room-grid"></div>
+</section>
+
+<section class="section container">
+  <div class="section-head">
+    <div>
+      <h2>🏁 Challenges</h2>
+      <p>A separate, always-open library of practice problems — not part of any path, never locked. Pick any of these, anytime.</p>
+    </div>
+    <a href="challenges.html" class="btn btn-outline btn-sm">See all challenges →</a>
+  </div>
+  <div class="grid" id="home-challenge-grid"></div>
 </section>
 
 <section class="section container">
@@ -118,7 +129,7 @@
   <div class="container">
     <div>© 2026 Code&amp;Go — Learn Python by doing.</div>
     <div>
-      <a href="rooms.html">Rooms</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a>
+      <a href="challenges.html">Challenges</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a>
     </div>
   </div>
 </footer>
@@ -133,21 +144,31 @@
   document.addEventListener("DOMContentLoaded", async () => {
     await initPublicNav();
 
-    document.getElementById("stat-rooms").textContent = ROOMS.length;
     document.getElementById("stat-paths").textContent = PATHS.length;
+    document.getElementById("stat-challenges").textContent = getChallengeRooms().length;
 
     const activePath = currentActivePath();
+    const homeRoomCta = document.getElementById("home-room-cta");
     if (activePath) {
       document.getElementById("home-room-heading").textContent = `Continue: ${activePath.title}`;
-      document.getElementById("home-room-sub").textContent = "Pick any of these hands-on challenges — you can tackle them in any order.";
+      document.getElementById("home-room-sub").textContent = "Rooms from your current path — tackle them in any order.";
+      homeRoomCta.href = `paths.html#${activePath.id}`;
+      homeRoomCta.textContent = "See full path →";
     } else {
       document.getElementById("home-room-heading").textContent = "You've completed every path! 🏆";
       document.getElementById("home-room-sub").textContent = "Revisit any room below for a refresher.";
+      homeRoomCta.href = "paths.html";
+      homeRoomCta.textContent = "See all paths →";
     }
     const roomGrid = document.getElementById("home-room-grid");
     const previewRooms = (activePath ? activePath.rooms.map(getRoom) : ROOMS).slice(0, 3);
     previewRooms.forEach(room => {
       roomGrid.innerHTML += renderRoomCard(room);
+    });
+
+    const challengeGrid = document.getElementById("home-challenge-grid");
+    getChallengeRooms().slice(0, 3).forEach(room => {
+      challengeGrid.innerHTML += renderRoomCard(room);
     });
 
     const pathGrid = document.getElementById("home-path-grid");
@@ -166,7 +187,7 @@
           </div>
           <h3 style="margin-top:10px;">${daily.title}</h3>
           <p>${daily.description}</p>
-          <a href="room.html?id=${daily.id}" class="btn btn-primary btn-sm">Take on today's room →</a>
+          <a href="challenge.html?id=${daily.id}" class="btn btn-primary btn-sm">Take on today's challenge →</a>
         </div>
       </div>`;
   });
@@ -182,7 +203,7 @@
     const completedCount = roomCompletedCount(room);
     const pct = Math.round((completedCount / room.tasks.length) * 100);
     return `
-      <a class="room-card" href="room.html?id=${room.id}">
+      <a class="room-card" href="challenge.html?id=${room.id}">
         ${done ? '<span class="room-complete-badge">✔ DONE</span>' : ''}
         <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${room.icon}</div>
         <div class="room-body">
