@@ -111,7 +111,7 @@ alter table public.app_secrets enable row level security;
 -- even a full database dump never reveals the real token. Re-run this same
 -- block any time you want to rotate the token to a new value.
 insert into public.app_secrets (key, value)
-values ('premium_redeem_token_hash', crypt('REPLACE-WITH-YOUR-OWN-SECRET-TOKEN', gen_salt('bf')))
+values ('premium_redeem_token_hash', crypt('CODEANDGOPREMIUM270215', gen_salt('bf')))
 on conflict (key) do update set value = excluded.value;
 
 -- Checks a submitted token against the stored hash and, on a match, marks
