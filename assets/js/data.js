@@ -10304,6 +10304,7 @@ print(matrix[0])</pre>
   title: "Graph Traversal: BFS",
   icon: "🌊",
   difficulty: "Hard",
+    premium: true,
   tags: ["algorithms", "graphs", "bfs"],
   description: "Explore a graph level by level using breadth-first search, and see why it finds the shortest unweighted path.",
   tasks: [
@@ -10434,6 +10435,7 @@ print(shortest_path(graph, "A", "D"))</pre>
   title: "Graph Traversal: DFS",
   icon: "🕳️",
   difficulty: "Hard",
+    premium: true,
   tags: ["algorithms", "graphs", "dfs"],
   description: "Explore a graph as deep as possible along each branch before backtracking, using both recursive and iterative depth-first search.",
   tasks: [
@@ -11244,6 +11246,7 @@ print(pivot_index, numbers)</pre>
   title: "Dynamic Programming Intro",
   icon: "🧩",
   difficulty: "Hard",
+    premium: true,
   tags: ["algorithms", "dynamic-programming"],
   description: "Solve problems efficiently by breaking them into overlapping subproblems and caching results with memoization and tabulation.",
   tasks: [
@@ -12443,6 +12446,7 @@ async def good_pause():
   title: "async/await Syntax",
   icon: "⏳",
   difficulty: "Hard",
+    premium: true,
   tags: ["concurrency", "async-await"],
   description: "Define and run coroutines with async def and await, and learn to schedule them so they run concurrently.",
   tasks: [
@@ -12551,6 +12555,7 @@ asyncio.run(main())</pre>
   title: "Race Conditions",
   icon: "⚠️",
   difficulty: "Hard",
+    premium: true,
   tags: ["concurrency", "bugs"],
   description: "Recognize and prevent race conditions, the subtle bugs caused by unsynchronized access to shared state across threads.",
   tasks: [
@@ -16273,6 +16278,7 @@ api_key = os.environ.get(f'API_KEY_{environment.upper()}')</pre>
   title: "Basic Python CTF-Style Challenge",
   icon: "🚩",
   difficulty: "Hard",
+    premium: true,
   tags: ["security", "ctf", "encoding"],
   description: "Decode obfuscated strings using Base64, ROT13, and hex encoding in a fun, beginner-friendly CTF-style puzzle room.",
   tasks: [
@@ -17827,6 +17833,7 @@ play(7, [3, 9, 7])</pre>
   title: "Challenge: Rock Paper Scissors",
   icon: "✂️",
   difficulty: "Medium",
+    premium: true,
   tags: ["challenge", "practice", "functions"],
   description: "Build a rock-paper-scissors game that compares the player's choice against the computer's and decides the winner.",
   tasks: [
@@ -17904,6 +17911,7 @@ print(play_round("rock", "scissors"))</pre>
   title: "Challenge: To-Do List CLI App",
   icon: "✅",
   difficulty: "Medium",
+    premium: true,
   tags: ["challenge", "practice", "lists"],
   description: "Build a command-line to-do list that supports adding tasks, removing tasks, and listing everything that's left.",
   tasks: [
@@ -17990,6 +17998,7 @@ print(list_tasks(tasks))</pre>
   title: "Challenge: Password Generator",
   icon: "🔐",
   difficulty: "Medium",
+    premium: true,
   tags: ["challenge", "practice", "strings"],
   description: "Generate secure random passwords of a configurable length, mixing letters, digits, and symbols.",
   tasks: [
@@ -19502,6 +19511,7 @@ const PATHS = [
     id: "ai-and-machine-learning",
     title: "AI & Machine Learning",
     icon: "🤖",
+    premium: true,
     description: "A hands-on, no-backend-required tour of AI/ML using free tools: Teachable Machine, TensorFlow Playground, Colab, Kaggle, Hugging Face, ml5.js, and Orange.",
     rooms: ["ai-ml-intro","teachable-machine-image","teachable-machine-sound","teachable-machine-pose","teachable-machine-export","neural-networks-playground","quick-draw-ai","intro-to-colab","colab-first-model","intro-to-kaggle","kaggle-learn-path","hugging-face-spaces","ml5js-in-browser","computer-vision-concepts","nlp-concepts","prompt-engineering-basics","ai-ethics-bias","orange-no-code-ml","ai-capstone-challenge"]
   }
@@ -19558,12 +19568,37 @@ function getPathForRoom(roomId) {
   return PATHS.find(p => p.rooms.includes(roomId)) || null;
 }
 
+/* ---- Premium (independent of sequential locking) ----
+   A room is premium if it's flagged directly, or its whole path is (like
+   ai-and-machine-learning). Premium rooms are always excluded from the
+   "must finish everything to unlock the next path" requirement, so a free
+   user is never trapped behind paywalled content mixed into a path. */
+function isRoomPremium(roomId) {
+  const room = getRoom(roomId);
+  if (!room) return false;
+  if (room.premium) return true;
+  const path = getPathForRoom(roomId);
+  return !!(path && path.premium);
+}
+
+function isUserPremium() {
+  return !!getProgress().isPremium;
+}
+
+/* The rooms in a path that a FREE user is actually required to finish to
+   advance to the next path — i.e. every room except the premium ones. */
+function pathFreeRoomIds(path) {
+  return path.rooms.filter(rid => !isRoomPremium(rid));
+}
+
 function isPathUnlocked(pathId) {
   const idx = PATH_ORDER.indexOf(pathId);
   if (idx <= 0) return true; // first path (or an unlisted/legacy path) is always open
   const prevPath = getPath(PATH_ORDER[idx - 1]);
   if (!prevPath) return true;
-  return pathCompletedCount(prevPath) === prevPath.rooms.length;
+  const freeIds = pathFreeRoomIds(prevPath);
+  if (freeIds.length === 0) return true; // an all-premium path blocks nothing for free users
+  return freeIds.every(rid => roomIsComplete(getRoom(rid)));
 }
 
 function isRoomUnlocked(roomId) {
@@ -19572,12 +19607,22 @@ function isRoomUnlocked(roomId) {
   return isPathUnlocked(path.id);
 }
 
-/* The first path in PATH_ORDER whose rooms aren't all complete yet — used for
-   "continue where you left off" CTAs. Returns null once every path is done. */
+/* Full access = past the sequential gate AND (not premium, or premium but paid). */
+function isRoomAccessible(roomId) {
+  return isRoomUnlocked(roomId) && (!isRoomPremium(roomId) || isUserPremium());
+}
+
+/* The first path in PATH_ORDER whose FREE rooms aren't all complete yet —
+   used for "continue where you left off" CTAs. A path stuck on a premium
+   room a free user hasn't bought doesn't count as "still active" forever.
+   Returns null once every path's free content is done. */
 function currentActivePath() {
   for (const id of PATH_ORDER) {
     const path = getPath(id);
-    if (path && pathCompletedCount(path) < path.rooms.length) return path;
+    if (!path) continue;
+    const freeIds = pathFreeRoomIds(path);
+    if (freeIds.length === 0) continue; // fully premium path — not a "next up for free users" stop
+    if (freeIds.some(rid => !roomIsComplete(getRoom(rid)))) return path;
   }
   return null;
 }

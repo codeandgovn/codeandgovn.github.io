@@ -290,5 +290,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderLocked(room);
     return;
   }
+  if (isRoomPremium(room.id) && !isUserPremium()) {
+    const next = encodeURIComponent(currentPagePath() + location.search);
+    location.href = `subscribe.html?next=${next}&room=${encodeURIComponent(room.id)}`;
+    return;
+  }
   renderRoom(room);
 });

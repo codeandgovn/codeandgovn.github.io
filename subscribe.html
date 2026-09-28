@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium — Code&amp;Go</title>
+<meta name="description" content="Unlock the AI &amp; Machine Learning course and advanced challenges with Code&amp;Go Premium.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="brand"><span class="logo-mark">C</span>Code<span class="amp">&amp;</span>Go</a>
+    <div class="nav-links">
+      <a href="index.html" data-page="index.html">Home</a>
+      <a href="challenges.html" data-page="challenges.html">Challenges</a>
+      <a href="paths.html" data-page="paths.html">Paths</a>
+      <a href="profile.html" data-page="profile.html">Profile</a>
+    </div>
+    <div class="nav-cta" id="nav-cta"></div>
+    <button class="hamburger" aria-label="menu">☰</button>
+  </div>
+</nav>
+
+<section class="section container" style="max-width:900px;">
+
+  <div id="already-premium-view" style="display:none; text-align:center; padding:60px 20px;">
+    <div style="font-size:3rem; margin-bottom:10px;">💎</div>
+    <h1>You're already Premium</h1>
+    <p style="color:var(--text-dim);">The AI &amp; Machine Learning course and every advanced challenge are unlocked on your account.</p>
+    <div style="margin-top:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="paths.html" class="btn btn-primary">Go to Paths</a>
+      <a href="challenges.html" class="btn btn-outline">Go to Challenges</a>
+    </div>
+  </div>
+
+  <div id="pricing-view">
+    <div class="section-head" style="display:block; text-align:center;">
+      <h2 style="margin-bottom:6px;">Unlock Code&amp;Go Premium</h2>
+      <p>The AI &amp; Machine Learning course, plus advanced Hard-difficulty rooms and challenges — all in one upgrade.</p>
+      <p id="locked-room-note" style="display:none; margin-top:10px; color:var(--accent); font-weight:600;"></p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="plan-card">
+        <span class="plan-badge">Cancel anytime</span>
+        <h3>Monthly</h3>
+        <div class="plan-price">400,000₫<span>/month</span></div>
+        <ul class="plan-features">
+          <li>✔ Full AI &amp; Machine Learning course</li>
+          <li>✔ All advanced (Hard) premium rooms</li>
+          <li>✔ Advanced bonus challenges</li>
+          <li>✔ Cancel whenever you want</li>
+        </ul>
+        <button class="btn btn-outline btn-block" data-plan="monthly">Subscribe Monthly</button>
+      </div>
+
+      <div class="plan-card popular">
+        <div class="plan-ribbon">⭐ Most people choose this</div>
+        <span class="plan-badge popular">Best value</span>
+        <h3>Lifetime Deal</h3>
+        <div class="plan-price">600,000₫<span>one-time</span></div>
+        <ul class="plan-features">
+          <li>✔ Full AI &amp; Machine Learning course</li>
+          <li>✔ All advanced (Hard) premium rooms</li>
+          <li>✔ Advanced bonus challenges</li>
+          <li>✔ Pay once, unlocked forever</li>
+        </ul>
+        <button class="btn btn-primary btn-block" data-plan="ltd">Get Lifetime Access</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirm-view" style="display:none; max-width:520px; margin:0 auto;">
+    <button class="btn btn-outline btn-sm" id="back-to-plans" style="margin-bottom:20px;">← Back to plans</button>
+
+    <div class="card" style="padding:24px; margin-bottom:22px;">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="color:var(--text-dim); font-size:0.82rem;">Order summary</div>
+          <h3 id="confirm-plan-name" style="margin:4px 0 0;">—</h3>
+        </div>
+        <div id="confirm-plan-price" style="font-size:1.4rem; font-weight:800; color:var(--accent);">—</div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:14px;">Choose a payment method</h3>
+
+    <div class="payment-method-card disabled">
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div class="qr-placeholder">▦</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;">PayOS <span class="tag" style="background:rgba(75,139,190,0.15); color:var(--blue);">VietQR</span></div>
+          <p style="color:var(--text-dim); font-size:0.85rem; margin:4px 0 0;">Scan a VietQR code with your banking app. Launching soon.</p>
+        </div>
+      </div>
+      <button class="btn btn-outline btn-block" disabled style="margin-top:14px;">Coming soon</button>
+    </div>
+
+    <div class="payment-method-card">
+      <div style="font-weight:700;">🔑 Have a secret access code?</div>
+      <p style="color:var(--text-dim); font-size:0.85rem; margin:4px 0 14px;">For testing, or if you received a code from us directly.</p>
+      <form id="redeem-form" style="display:flex; gap:10px; flex-wrap:wrap;">
+        <input type="text" id="redeem-token" placeholder="Enter your code" autocomplete="off"
+          style="flex:1; min-width:180px; background:#0a0f16; border:1px solid var(--border); border-radius:6px; padding:10px 14px; color:var(--text); font-family:'Fira Code', monospace; font-size:0.9rem;">
+        <button type="submit" class="btn btn-primary" id="redeem-submit">Redeem</button>
+      </form>
+      <p class="answer-feedback hidden" id="redeem-feedback"></p>
+    </div>
+  </div>
+
+</section>
+
+<footer>
+  <div class="container">
+    <div>© 2026 Code&amp;Go — Learn Python by doing.</div>
+    <div><a href="challenges.html">Challenges</a> · <a href="paths.html">Paths</a> · <a href="profile.html">Profile</a></div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/gamify.js"></script>
+<script>
+  function getParam(name) {
+    return new URLSearchParams(location.search).get(name);
+  }
+
+  const PLANS = {
+    monthly: { name: "Monthly", price: "400,000₫", period: "/month" },
+    ltd: { name: "Lifetime Deal", price: "600,000₫", period: " one-time" }
+  };
+
+  function showPricing() {
+    document.getElementById("confirm-view").style.display = "none";
+    document.getElementById("pricing-view").style.display = "block";
+  }
+
+  function selectPlan(planKey) {
+    const plan = PLANS[planKey];
+    document.getElementById("confirm-plan-name").textContent = plan.name;
+    document.getElementById("confirm-plan-price").textContent = plan.price + plan.period;
+    document.getElementById("pricing-view").style.display = "none";
+    document.getElementById("confirm-view").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    const ok = await requireAuth();
+    if (!ok) return;
+
+    const next = getParam("next");
+    const roomId = getParam("room");
+    const room = roomId ? getRoom(roomId) : null;
+
+    if (isUserPremium()) {
+      document.getElementById("pricing-view").style.display = "none";
+      document.getElementById("already-premium-view").style.display = "block";
+      return;
+    }
+
+    if (room) {
+      const note = document.getElementById("locked-room-note");
+      note.style.display = "block";
+      note.innerHTML = `🔒 <b>${room.title}</b> is a Premium room — subscribe or redeem a code to unlock it.`;
+    }
+
+    document.querySelectorAll("[data-plan]").forEach(btn => {
+      btn.addEventListener("click", () => selectPlan(btn.dataset.plan));
+    });
+
+    document.getElementById("back-to-plans").addEventListener("click", showPricing);
+
+    document.getElementById("redeem-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const token = document.getElementById("redeem-token").value.trim();
+      const feedback = document.getElementById("redeem-feedback");
+      const submitBtn = document.getElementById("redeem-submit");
+      if (!token) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Checking…";
+
+      const { data, error } = await sb.rpc("redeem_premium_code", { token });
+
+      if (error) {
+        feedback.textContent = "✘ Something went wrong. Try again.";
+        feedback.className = "answer-feedback wrong";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Redeem";
+        return;
+      }
+
+      if (data === true) {
+        await refreshPremiumStatus();
+        feedback.textContent = "✔ Premium unlocked! Redirecting…";
+        feedback.className = "answer-feedback correct";
+        submitBtn.textContent = "Unlocked ✔";
+        renderNavAccountState(await getSessionUser());
+        setTimeout(() => {
+          location.href = next ? decodeURIComponent(next) : "profile.html";
+        }, 1200);
+      } else {
+        feedback.textContent = "✘ That code isn't valid.";
+        feedback.className = "answer-feedback wrong";
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Redeem";
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -202,9 +202,10 @@
     const done = roomIsComplete(room);
     const completedCount = roomCompletedCount(room);
     const pct = Math.round((completedCount / room.tasks.length) * 100);
+    const premium = isRoomPremium(room.id) && !isUserPremium();
     return `
       <a class="room-card" href="challenge.html?id=${room.id}">
-        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : ''}
+        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : (premium ? '<span class="room-complete-badge premium-badge">💎 PREMIUM</span>' : '')}
         <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${room.icon}</div>
         <div class="room-body">
           <h3>${room.title}</h3>
@@ -221,16 +222,21 @@
   function renderPathCardMini(path) {
     const done = pathCompletedCount(path);
     const unlocked = isPathUnlocked(path.id);
+    const premiumLocked = path.premium && !isUserPremium();
+    let cta;
+    if (!unlocked) cta = "🔒 Locked — see paths →";
+    else if (premiumLocked) cta = "💎 Premium — see paths →";
+    else cta = `${done}/${path.rooms.length} rooms complete →`;
     return `
       <div class="path-card ${unlocked ? '' : 'path-locked'}">
-        <div class="path-icon">${unlocked ? path.icon : "🔒"}</div>
+        <div class="path-icon">${!unlocked ? "🔒" : (premiumLocked ? "💎" : path.icon)}</div>
         <div>
-          <h3>${path.title}</h3>
+          <h3>${path.title} ${premiumLocked ? '<span class="tag" style="background:rgba(255,212,59,0.15); color:var(--accent);">PREMIUM</span>' : ''}</h3>
           <p>${path.description}</p>
           <div class="path-rooms-mini">
             ${path.rooms.map(rid => `<span>${getRoom(rid).icon} ${getRoom(rid).title}</span>`).join("")}
           </div>
-          <a href="paths.html#${path.id}" class="btn btn-outline btn-sm">${unlocked ? `${done}/${path.rooms.length} rooms complete →` : "🔒 Locked — see paths →"}</a>
+          <a href="paths.html#${path.id}" class="btn btn-outline btn-sm">${cta}</a>
         </div>
       </div>`;
   }

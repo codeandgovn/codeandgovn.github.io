@@ -73,3 +73,70 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- ============================================================================
+-- Premium (locked rooms/paths, redeemed with a secret token for now — a real
+-- payment webhook can flip is_premium the same way later, e.g. from an Edge
+-- Function once PayOS is wired up).
+-- ============================================================================
+
+alter table public.profiles add column if not exists is_premium boolean not null default false;
+
+-- CRITICAL: RLS policies control which ROWS a user can touch, not which
+-- COLUMNS. The profiles_update_own policy above (using auth.uid() = id)
+-- would otherwise let a signed-in user set their OWN is_premium to true
+-- with an ordinary client update call. This column-level revoke closes
+-- that off — is_premium can only ever be written by a function running
+-- with elevated (security definer) privileges, like redeem_premium_code
+-- below, never directly by the client.
+revoke insert (is_premium), update (is_premium) on public.profiles from authenticated, anon;
+
+create extension if not exists pgcrypto;
+
+-- Holds the hashed redeem token. RLS is enabled with NO policies at all
+-- defined on it, so no client — anon or authenticated — can ever SELECT,
+-- INSERT, UPDATE, or DELETE this table directly through the API. Only a
+-- SECURITY DEFINER function (which bypasses RLS, running as the table
+-- owner) can read it.
+create table if not exists public.app_secrets (
+  key   text primary key,
+  value text not null
+);
+alter table public.app_secrets enable row level security;
+
+-- Set your premium redeem token here: replace the placeholder text below
+-- with your own secret, then run this block once. The plaintext only ever
+-- exists in this one statement (briefly, in your SQL Editor's own history) —
+-- it's hashed with bcrypt (via pgcrypto) before it touches the table, so
+-- even a full database dump never reveals the real token. Re-run this same
+-- block any time you want to rotate the token to a new value.
+insert into public.app_secrets (key, value)
+values ('premium_redeem_token_hash', crypt('REPLACE-WITH-YOUR-OWN-SECRET-TOKEN', gen_salt('bf')))
+on conflict (key) do update set value = excluded.value;
+
+-- Checks a submitted token against the stored hash and, on a match, marks
+-- the CALLING user's own profile as premium (auth.uid() reflects whoever's
+-- JWT made the request, not the function owner, even under security
+-- definer). Returns true/false — the hash itself is never sent back.
+create or replace function public.redeem_premium_code(token text)
+returns boolean
+language plpgsql
+security definer set search_path = public
+as $$
+declare
+  stored_hash text;
+begin
+  select value into stored_hash from public.app_secrets where key = 'premium_redeem_token_hash';
+  if stored_hash is null then
+    return false;
+  end if;
+  if crypt(token, stored_hash) = stored_hash then
+    update public.profiles set is_premium = true where id = auth.uid();
+    return true;
+  end if;
+  return false;
+end;
+$$;
+
+revoke all on function public.redeem_premium_code(text) from public;
+grant execute on function public.redeem_premium_code(text) to authenticated;

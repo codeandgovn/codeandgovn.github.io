@@ -202,7 +202,7 @@ function earnedBadgeIds(p) {
 /* ---- Daily challenge spotlight: a deterministic pick from the standalone
    Challenges library (never the path-gated rooms) that rotates once per day ---- */
 function pickDailyRoom() {
-  const pool = getChallengeRooms();
+  const pool = getChallengeRooms().filter(r => !isRoomPremium(r.id));
   const seed = todayStr();
   let hash = 0;
   for (let i = 0; i < seed.length; i++) hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;

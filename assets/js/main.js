@@ -17,7 +17,8 @@ function defaultProgress() {
     maxCombo: 0,
     wrongAnswers: 0,
     nightOwl: false,
-    earlyBird: false
+    earlyBird: false,
+    isPremium: false
   };
 }
 
@@ -34,10 +35,15 @@ function rowToProfile(row) {
     maxCombo: row.max_combo || 0,
     wrongAnswers: row.wrong_answers || 0,
     nightOwl: !!row.night_owl,
-    earlyBird: !!row.early_bird
+    earlyBird: !!row.early_bird,
+    isPremium: !!row.is_premium
   };
 }
 
+/* Deliberately excludes is_premium: the DB revokes client write access to
+   that column (see supabase/schema.sql), so including it here would make
+   every ordinary saveProgress() call fail outright. It can only be set via
+   the redeem_premium_code RPC (subscribe.html), never a plain .update(). */
 function profileToRow(p) {
   return {
     points: p.points,
@@ -141,9 +147,20 @@ function setUsername(name) {
 }
 
 function resetProgress() {
+  const wasPremium = getProgress().isPremium;
   const p = defaultProgress();
   p.username = getProgress().username;
+  p.isPremium = wasPremium; // reset progress, but redeeming premium isn't undone by this
   saveProgress(p);
+}
+
+/* Re-reads is_premium from the DB (e.g. right after a successful redeem on
+   subscribe.html) without refetching every other field. */
+async function refreshPremiumStatus() {
+  if (!_userId) return false;
+  const { data, error } = await sb.from("profiles").select("is_premium").eq("id", _userId).single();
+  if (!error && data && _profile) _profile.isPremium = !!data.is_premium;
+  return !error && !!data && !!data.is_premium;
 }
 
 /* ---------- Auth gating + shared navbar rendering ---------- */
@@ -188,6 +205,9 @@ function renderNavAccountState(user) {
         <span class="level-pill" id="nav-level">Lv.${info.level} ${info.title}</span>
         <span class="streak-pill" id="nav-streak">🔥 ${p.streak || 0}</span>
         <span class="points-pill" id="nav-points">⭐ ${p.points || 0} pts</span>
+        ${p.isPremium
+          ? `<span class="premium-pill">💎 Premium</span>`
+          : `<a href="subscribe.html" class="btn btn-primary btn-sm">💎 Upgrade</a>`}
         <button class="btn btn-outline btn-sm" id="nav-signout">Sign Out</button>
       `;
       const signOutBtn = document.getElementById("nav-signout");

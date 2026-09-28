@@ -72,9 +72,10 @@
     const done = roomIsComplete(room);
     const completedCount = roomCompletedCount(room);
     const pct = Math.round((completedCount / room.tasks.length) * 100);
+    const premium = isRoomPremium(room.id) && !isUserPremium();
     return `
       <a class="room-card" href="challenge.html?id=${room.id}">
-        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : ''}
+        ${done ? '<span class="room-complete-badge">✔ DONE</span>' : (premium ? '<span class="room-complete-badge premium-badge">💎 PREMIUM</span>' : '')}
         <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${room.icon}</div>
         <div class="room-body">
           <h3>${room.title}</h3>

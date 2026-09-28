@@ -24,6 +24,13 @@ create tables — so this step can't be automated from the client side.
 Until that's done, sign-up/sign-in still work (Supabase Auth doesn't need
 the table), but profile rows can't be created, so no progress will save.
 
+**Set your Premium redeem token** in the same file: `schema.sql` has an
+`insert into public.app_secrets (...)` block with a placeholder
+`'REPLACE-WITH-YOUR-OWN-SECRET-TOKEN'` — swap that for your own secret
+before running it. It's hashed with bcrypt before it ever touches a table
+(see "Premium" below for why this is safe to run in a shared SQL Editor).
+Re-run just that block any time you want to rotate the token.
+
 ## Structure
 
 - `index.html` — public landing page (shows Sign In/Sign Up when logged out)
@@ -86,6 +93,43 @@ to any path — that's what keeps it unlocked.
 Every room has `id`, `title`, `icon`, `difficulty`, `tags`, `description`,
 and `tasks` (each with `title`, `points`, `content` HTML, and optionally
 `question`/`answer`/`hint` for a graded check).
+
+## Premium
+
+The whole AI & Machine Learning path, 6 advanced (Hard) rooms scattered
+across the free paths, and 3 of the standalone Challenges are gated behind
+`premium: true` on their room or path object in `data.js`. Premium is
+**independent of the sequential path lock** — a premium room inside an
+otherwise-free path never blocks that path from being marked complete for
+a free user (`isPathUnlocked`/`currentActivePath` only ever require the
+*non*-premium rooms in a path). Tapping a premium-locked room redirects to
+`subscribe.html?next=<back-here>&room=<id>`.
+
+`subscribe.html` shows two plans (Monthly ₫400,000/mo, "Lifetime Deal"
+₫600,000 one-time), then an order-confirmation view with two payment
+methods: PayOS/VietQR (a placeholder — real webhook integration lands
+later) and a working "redeem a secret code" box. Redeeming calls the
+`redeem_premium_code` Postgres RPC in `supabase/schema.sql`, which:
+
+1. Hashes the submitted token and compares it to the one stored (already
+   hashed) in `public.app_secrets` — a table with RLS enabled and **zero
+   policies**, so no client, authenticated or not, can ever read it directly.
+2. On a match, sets `is_premium = true` on the *calling* user's own
+   `profiles` row (`auth.uid()`, resolved from their session, not the
+   function's owner) and returns `true`/`false` — never the hash.
+
+The function runs `security definer` (elevated privileges) specifically so
+it can read `app_secrets` and write `is_premium` despite both being locked
+down from ordinary client access — including from the row's own owner:
+`profiles.is_premium` has `update`/`insert` **revoked at the column level**
+for the `authenticated` role, so a user can't just call
+`supabase.from('profiles').update({is_premium: true})` on their own row.
+That's why `assets/js/main.js`'s `profileToRow()` deliberately never
+includes `isPremium` — sending it would make the whole update fail.
+
+When PayOS webhooks are wired up later, they should flip `is_premium` the
+same way this RPC does (as a service-role/Edge Function call, bypassing
+RLS) rather than ever granting the client column-level write access.
 
 ## Courses
 

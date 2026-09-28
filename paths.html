@@ -60,41 +60,52 @@
     const pct = Math.round((doneCount / totalRooms) * 100);
     const totalPathPoints = path.rooms.reduce((sum, rid) => sum + roomTotalPoints(getRoom(rid)), 0);
     const isDone = doneCount === totalRooms;
+    const pathPremiumLocked = unlocked && path.premium && !isUserPremium();
 
     const roomRows = path.rooms.map((rid, i) => {
       const room = getRoom(rid);
       const done = roomIsComplete(room);
+      const roomPremiumLocked = unlocked && isRoomPremium(rid) && !isUserPremium();
       const tag = unlocked ? "a" : "div";
       const href = unlocked ? `href="challenge.html?id=${room.id}"` : "";
+      const rowIcon = !unlocked ? "🔒" : (roomPremiumLocked ? "💎" : (done ? "✅" : (i + 1)));
       return `
-        <${tag} ${href} class="room-card ${unlocked ? '' : 'locked'}" style="display:flex; flex-direction:row; align-items:center; gap:14px; padding:14px 16px;">
-          <div style="font-size:1.4rem; width:34px; text-align:center;">${done ? "✅" : (unlocked ? (i+1) : "🔒")}</div>
+        <${tag} ${href} class="room-card ${!unlocked ? 'locked' : (roomPremiumLocked ? 'premium-locked' : '')}" style="display:flex; flex-direction:row; align-items:center; gap:14px; padding:14px 16px;">
+          <div style="font-size:1.4rem; width:34px; text-align:center;">${rowIcon}</div>
           <div style="flex:1;">
-            <div style="font-weight:700;">${unlocked ? room.icon : "🔒"} ${room.title}</div>
+            <div style="font-weight:700;">${!unlocked ? "🔒" : (roomPremiumLocked ? "💎" : room.icon)} ${room.title}</div>
             <div style="color:var(--text-dim); font-size:0.82rem;">${room.description}</div>
           </div>
-          <span class="tag ${diffClass(room.difficulty)}">${room.difficulty}</span>
+          <span class="tag ${roomPremiumLocked ? 'tag-premium' : diffClass(room.difficulty)}">${roomPremiumLocked ? 'PREMIUM' : room.difficulty}</span>
           <span class="room-points">${roomTotalPoints(room)} pts</span>
         </${tag}>`;
     }).join("");
 
+    let statusTag;
+    if (!unlocked) statusTag = '<span class="tag tag-hard">LOCKED</span>';
+    else if (pathPremiumLocked) statusTag = '<span class="tag tag-premium">💎 PREMIUM</span>';
+    else if (isDone) statusTag = '<span class="tag tag-easy">✔ COMPLETE</span>';
+    else statusTag = '<span class="tag tag-medium">IN PROGRESS</span>';
+
     return `
       <div class="path-card ${unlocked ? '' : 'path-locked'}" id="${path.id}" style="flex-direction:column; align-items:stretch;">
         <div style="display:flex; gap:22px; align-items:flex-start;">
-          <div class="path-icon">${unlocked ? path.icon : "🔒"}</div>
+          <div class="path-icon">${!unlocked ? "🔒" : (pathPremiumLocked ? "💎" : path.icon)}</div>
           <div style="flex:1;">
             <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
               <h3 style="margin:0;">${path.title}</h3>
-              ${isDone ? '<span class="tag tag-easy">✔ COMPLETE</span>' : (unlocked ? '<span class="tag tag-medium">IN PROGRESS</span>' : '<span class="tag tag-hard">LOCKED</span>')}
+              ${statusTag}
             </div>
             <p>${path.description}</p>
-            ${unlocked ? `
+            ${!unlocked ? `<p style="color:var(--text-dim); font-size:0.85rem;">🔒 Finish the path above to unlock this one.</p>` : (pathPremiumLocked ? `
+              <p style="color:var(--text-dim); font-size:0.85rem;">💎 This entire path requires <a href="subscribe.html">Premium</a>.</p>
+            ` : `
               <div class="room-meta" style="margin-bottom:8px;">
                 <span>${doneCount}/${totalRooms} rooms complete</span>
                 <span class="room-points">${totalPathPoints} pts total</span>
               </div>
               <div class="progress-bar"><span style="width:${pct}%"></span></div>
-            ` : `<p style="color:var(--text-dim); font-size:0.85rem;">🔒 Finish the path above to unlock this one.</p>`}
+            `)}
           </div>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">

@@ -149,12 +149,17 @@
       const pct = Math.round((completed / total) * 100);
       const done = roomIsComplete(room);
       const unlocked = isRoomUnlocked(room.id);
+      const premiumLocked = unlocked && isRoomPremium(room.id) && !isUserPremium();
       const tag = unlocked ? "a" : "div";
       const href = unlocked ? `href="challenge.html?id=${room.id}"` : "";
+      let badge = "";
+      if (done) badge = '<span class="room-complete-badge">✔ DONE</span>';
+      else if (!unlocked) badge = '<span class="room-complete-badge locked-badge">🔒 LOCKED</span>';
+      else if (premiumLocked) badge = '<span class="room-complete-badge premium-badge">💎 PREMIUM</span>';
       return `
-        <${tag} ${href} class="room-card ${unlocked ? '' : 'locked'}">
-          ${done ? '<span class="room-complete-badge">✔ DONE</span>' : (unlocked ? '' : '<span class="room-complete-badge locked-badge">🔒 LOCKED</span>')}
-          <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${unlocked ? room.icon : "🔒"}</div>
+        <${tag} ${href} class="room-card ${!unlocked ? 'locked' : (premiumLocked ? 'premium-locked' : '')}">
+          ${badge}
+          <div class="room-banner" style="background: radial-gradient(circle, rgba(255,212,59,0.12), transparent 70%);">${!unlocked ? "🔒" : (premiumLocked ? "💎" : room.icon)}</div>
           <div class="room-body">
             <h3>${room.title}</h3>
             <div class="room-meta">
