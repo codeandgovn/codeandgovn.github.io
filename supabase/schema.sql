@@ -140,3 +140,7 @@ $$;
 
 revoke all on function public.redeem_premium_code(text) from public;
 grant execute on function public.redeem_premium_code(text) to authenticated;
+
+-- Force PostgREST to pick up the new function immediately instead of
+-- waiting on its own auto-reload (which has been flaky on this project).
+notify pgrst, 'reload schema';
