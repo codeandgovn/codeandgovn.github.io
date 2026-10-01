@@ -105,13 +105,17 @@ create table if not exists public.app_secrets (
 alter table public.app_secrets enable row level security;
 
 -- Set your premium redeem token here: replace the placeholder text below
--- with your own secret, then run this block once. The plaintext only ever
--- exists in this one statement (briefly, in your SQL Editor's own history) —
--- it's hashed with bcrypt (via pgcrypto) before it touches the table, so
--- even a full database dump never reveals the real token. Re-run this same
--- block any time you want to rotate the token to a new value.
+-- with your own secret, then run this block once.
+--
+-- NEVER commit this file to git with a real token in it — anyone can read
+-- your repo's commit history, hash or no hash, so a token that ever touches
+-- a committed file is compromised the moment it's pushed. Edit this line
+-- only in the Supabase SQL Editor directly (or in an uncommitted local
+-- scratch copy), paste your real token there, run it, then leave this
+-- repo file with the placeholder below. Re-run the same block any time
+-- you want to rotate to a new token.
 insert into public.app_secrets (key, value)
-values ('premium_redeem_token_hash', crypt('CODEANDGOPREMIUM270215', gen_salt('bf')))
+values ('premium_redeem_token_hash', crypt('REPLACE-WITH-YOUR-OWN-SECRET-TOKEN', gen_salt('bf')))
 on conflict (key) do update set value = excluded.value;
 
 -- Checks a submitted token against the stored hash and, on a match, marks
