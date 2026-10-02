@@ -94,7 +94,25 @@ print("Next year you'll be", age + 1)</pre>
         answer: "int",
         hint: "Same name as the data type for whole numbers."
       }
-    ]
+    ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 20,
+      type: "code",
+      content: `
+        <p>Time to write real code. Implement <code class="inline">greet(name)</code> so it returns a
+        greeting string — for example, <code class="inline">greet("Ada")</code> should return
+        <code class="inline">"Hello, Ada!"</code>.</p>
+      `,
+      starterCode: "def greet(name):\n    # your code here\n    pass\n",
+      functionName: "greet",
+      testCases: [
+        { args: ["World"], expected: "Hello, World!" },
+        { args: ["Ada"], expected: "Hello, Ada!" }
+      ],
+      hint: "An f-string like f\"Hello, {name}!\" builds this in one line."
+    }
+  ]
   },
 
   {
@@ -188,7 +206,27 @@ while count &lt; 3:
         answer: "break",
         hint: "The opposite of continuing."
       }
-    ]
+    ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 20,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">grade(score)</code> that returns a letter grade:
+        <code class="inline">"A"</code> for 90 and above, <code class="inline">"B"</code> for 80-89,
+        <code class="inline">"C"</code> for 70-79, and <code class="inline">"F"</code> below 70.</p>
+      `,
+      starterCode: "def grade(score):\n    # your code here\n    pass\n",
+      functionName: "grade",
+      testCases: [
+        { args: [95], expected: "A" },
+        { args: [82], expected: "B" },
+        { args: [70], expected: "C" },
+        { args: [50], expected: "F" }
+      ],
+      hint: "Check the highest threshold first with if, then elif for each lower one."
+    }
+  ]
   },
 
   {
@@ -269,7 +307,26 @@ print(nums)  # {1, 2, 3}</pre>
         answer: "3",
         hint: "Sets remove duplicate values."
       }
-    ]
+    ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">sum_list(nums)</code> that adds up every number in a list using a
+        loop (not the built-in <code class="inline">sum()</code>).</p>
+      `,
+      starterCode: "def sum_list(nums):\n    # your code here\n    pass\n",
+      functionName: "sum_list",
+      testCases: [
+        { args: [[1, 2, 3]], expected: 6 },
+        { args: [[]], expected: 0 },
+        { args: [[5]], expected: 5 },
+        { args: [[1, -1, 2]], expected: 2 }
+      ],
+      hint: "Start a running total at 0, then add each item to it inside a for loop."
+    }
+  ]
   },
 
   {
@@ -354,7 +411,26 @@ print(sorted(nums, key=lambda n: -n))  # [3, 2, 1]</pre>
         answer: "lambda",
         hint: "It's in the task title."
       }
-    ]
+    ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">max_of_three(a, b, c)</code> that returns the largest of three
+        numbers.</p>
+      `,
+      starterCode: "def max_of_three(a, b, c):\n    # your code here\n    pass\n",
+      functionName: "max_of_three",
+      testCases: [
+        { args: [1, 5, 3], expected: 5 },
+        { args: [10, 2, 7], expected: 10 },
+        { args: [4, 4, 4], expected: 4 },
+        { args: [-1, -5, -2], expected: -1 }
+      ],
+      hint: "Python's built-in max() accepts more than two arguments: max(a, b, c)."
+    }
+  ]
   },
 
   {
@@ -437,7 +513,26 @@ print(text.find("teaches"))     # index of the match</pre>
         answer: "in",
         hint: "\"Python\" ____ text"
       }
-    ]
+    ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">count_vowels(s)</code> that returns how many vowels
+        (<code class="inline">a, e, i, o, u</code>) appear in <code class="inline">s</code>, case-insensitive.</p>
+      `,
+      starterCode: "def count_vowels(s):\n    # your code here\n    pass\n",
+      functionName: "count_vowels",
+      testCases: [
+        { args: ["hello"], expected: 2 },
+        { args: ["PYTHON"], expected: 1 },
+        { args: [""], expected: 0 },
+        { args: ["aeiou"], expected: 5 }
+      ],
+      hint: "Lowercase the string first, then check each character against \"aeiou\" with `in`."
+    }
+  ]
   },
 
   {
@@ -522,7 +617,27 @@ with open("notes.txt", "r") as f:
         answer: "read",
         hint: "f.____()"
       }
-    ]
+    ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">safe_divide(a, b)</code> that returns
+        <code class="inline">a / b</code>, but returns the string
+        <code class="inline">"Cannot divide by zero"</code> instead of crashing when
+        <code class="inline">b</code> is 0.</p>
+      `,
+      starterCode: "def safe_divide(a, b):\n    # your code here\n    pass\n",
+      functionName: "safe_divide",
+      testCases: [
+        { args: [10, 2], expected: 5 },
+        { args: [5, 0], expected: "Cannot divide by zero" },
+        { args: [9, 3], expected: 3 }
+      ],
+      hint: "Wrap the division in try/except ZeroDivisionError."
+    }
+  ]
   },
 
   {
@@ -2990,6 +3105,26 @@ broken(1)
       answer: "RecursionError",
       hint: "It's a specific built-in exception name."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">sum_up_to(n)</code> <b>recursively</b> so it returns the sum of
+        every whole number from 1 to <code class="inline">n</code>. For <code class="inline">n</code> of 0 or
+        less, return 0.</p>
+      `,
+      starterCode: "def sum_up_to(n):\n    # your code here\n    pass\n",
+      functionName: "sum_up_to",
+      testCases: [
+        { args: [0], expected: 0 },
+        { args: [1], expected: 1 },
+        { args: [5], expected: 15 },
+        { args: [10], expected: 55 }
+      ],
+      hint: "The recursive case is n + sum_up_to(n - 1); the base case stops at n &lt;= 0."
+    }
   ]
 },
 {
@@ -3070,6 +3205,26 @@ print(fib(5))</pre>
       answer: "5",
       hint: "The sequence goes 0, 1, 1, 2, 3, 5."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">countdown_list(n)</code> <b>recursively</b> so it returns a list
+        counting down from <code class="inline">n</code> to 1 — for example,
+        <code class="inline">countdown_list(3)</code> should return <code class="inline">[3, 2, 1]</code>.
+        For <code class="inline">n</code> of 0 or less, return an empty list.</p>
+      `,
+      starterCode: "def countdown_list(n):\n    # your code here\n    pass\n",
+      functionName: "countdown_list",
+      testCases: [
+        { args: [3], expected: [3, 2, 1] },
+        { args: [1], expected: [1] },
+        { args: [0], expected: [] }
+      ],
+      hint: "Build it as [n] + countdown_list(n - 1), stopping once n &lt;= 0."
+    }
   ]
 },
 {
@@ -3146,6 +3301,24 @@ print(product)  # 24</pre>
       question: "Which module must you import to use reduce()?",
       answer: "functools",
       hint: "It's not a builtin like map and filter."
+    }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">double_all(nums)</code> that returns a new list with every number
+        in <code class="inline">nums</code> doubled.</p>
+      `,
+      starterCode: "def double_all(nums):\n    # your code here\n    pass\n",
+      functionName: "double_all",
+      testCases: [
+        { args: [[1, 2, 3]], expected: [2, 4, 6] },
+        { args: [[]], expected: [] },
+        { args: [[0, -1]], expected: [0, -2] }
+      ],
+      hint: "A list comprehension like [x * 2 for x in nums] does this in one line — or use map()."
     }
   ]
 },
@@ -7112,6 +7285,26 @@ print(is_palindrome('level'))</pre>
       answer: "it returns False",
       hint: "It exits the function immediately, without finishing the loop."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">is_palindrome_number(n)</code> that returns
+        <code class="inline">True</code> if the integer <code class="inline">n</code> reads the same forwards
+        and backwards (like 121), and <code class="inline">False</code> otherwise.</p>
+      `,
+      starterCode: "def is_palindrome_number(n):\n    # your code here\n    pass\n",
+      functionName: "is_palindrome_number",
+      testCases: [
+        { args: [121], expected: true },
+        { args: [123], expected: false },
+        { args: [0], expected: true },
+        { args: [-121], expected: false }
+      ],
+      hint: "Convert n to a string with str(n), then compare it to its reverse."
+    }
   ]
 },
 {
@@ -7170,6 +7363,26 @@ print(is_anagram('Dormitory', 'Dirty Room'))</pre>
       question: "Which string method converts all characters to lowercase?",
       answer: "lower()",
       hint: "Its opposite is upper()."
+    }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">check_anagram(a, b)</code> that returns
+        <code class="inline">True</code> if <code class="inline">a</code> and <code class="inline">b</code>
+        are anagrams of each other (same letters, case-insensitive), and
+        <code class="inline">False</code> otherwise.</p>
+      `,
+      starterCode: "def check_anagram(a, b):\n    # your code here\n    pass\n",
+      functionName: "check_anagram",
+      testCases: [
+        { args: ["listen", "silent"], expected: true },
+        { args: ["abc", "abd"], expected: false },
+        { args: ["Night", "Thing"], expected: true }
+      ],
+      hint: "sorted(a.lower()) == sorted(b.lower()) compares both strings' letters regardless of order."
     }
   ]
 },
@@ -7248,6 +7461,27 @@ crack('khoor')</pre>
       answer: "brute-force",
       hint: "Two words, describing an attack that just tries everything."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">caesar_encrypt(text, shift)</code> that shifts every
+        <b>lowercase</b> letter in <code class="inline">text</code> forward by
+        <code class="inline">shift</code> positions in the alphabet, wrapping from z back to a. Leave any
+        non-lowercase character (spaces, punctuation, uppercase) unchanged.</p>
+      `,
+      starterCode: "def caesar_encrypt(text, shift):\n    # your code here\n    pass\n",
+      functionName: "caesar_encrypt",
+      testCases: [
+        { args: ["abc", 1], expected: "bcd" },
+        { args: ["xyz", 3], expected: "abc" },
+        { args: ["hello", 0], expected: "hello" },
+        { args: ["a! b", 1], expected: "b! c" }
+      ],
+      hint: "chr((ord(ch) - ord('a') + shift) % 26 + ord('a')) shifts one lowercase letter with wraparound."
+    }
   ]
 },
 {
@@ -7308,6 +7542,24 @@ print(counts)</pre>
       answer: "string",
       hint: "It's the same module that provides ascii_lowercase."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">word_frequencies(text)</code> that returns a dictionary mapping
+        each lowercase word in <code class="inline">text</code> to how many times it appears.</p>
+      `,
+      starterCode: "def word_frequencies(text):\n    # your code here\n    pass\n",
+      functionName: "word_frequencies",
+      testCases: [
+        { args: ["the cat sat"], expected: { "the": 1, "cat": 1, "sat": 1 } },
+        { args: ["a a b"], expected: { "a": 2, "b": 1 } },
+        { args: [""], expected: {} }
+      ],
+      hint: "freq.get(word, 0) + 1 is a clean way to increment a count that might not exist yet."
+    }
   ]
 },
 {
@@ -7356,6 +7608,25 @@ print(fields)</pre>
       question: "Which string method removes leading and trailing whitespace from a field?",
       answer: "strip()",
       hint: "It doesn't remove whitespace in the middle of a string, only at the edges."
+    }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">parse_csv_line(line)</code> that splits one comma-separated line
+        of text into a list of its fields.</p>
+      `,
+      starterCode: "def parse_csv_line(line):\n    # your code here\n    pass\n",
+      functionName: "parse_csv_line",
+      testCases: [
+        { args: ["a,b,c"], expected: ["a", "b", "c"] },
+        { args: [""], expected: [""] },
+        { args: ["x"], expected: ["x"] },
+        { args: ["1,2,,4"], expected: ["1", "2", "", "4"] }
+      ],
+      hint: "line.split(\",\") does exactly this — no need to write the splitting loop by hand."
     }
   ]
 },
@@ -9084,6 +9355,29 @@ print(len(stack))</pre>
       answer: "O(1)",
       hint: "Both operations happen at the end of the list, with no shifting required."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">is_balanced(s)</code> that returns <code class="inline">True</code>
+        if every <code class="inline">(</code>, <code class="inline">[</code>, and <code class="inline">{</code>
+        in <code class="inline">s</code> is properly closed in the right order, and
+        <code class="inline">False</code> otherwise. Use a stack: push opening brackets, and pop to match
+        each closing bracket.</p>
+      `,
+      starterCode: "def is_balanced(s):\n    # your code here\n    pass\n",
+      functionName: "is_balanced",
+      testCases: [
+        { args: ["(a+b)*(c+d)"], expected: true },
+        { args: ["([)]"], expected: false },
+        { args: ["{[()]}"], expected: true },
+        { args: ["("], expected: false },
+        { args: [""], expected: true }
+      ],
+      hint: "A dict like {')': '(', ']': '[', '}': '{'} maps each closer to the opener it must match."
+    }
   ]
 },
 {
@@ -10428,6 +10722,25 @@ print(shortest_path(graph, "A", "D"))</pre>
       answer: "O(V + E)",
       hint: "Every vertex is visited once and every edge is examined once."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">bfs_order(graph, start)</code> that returns a list of nodes in the
+        order breadth-first search visits them, starting from <code class="inline">start</code>.
+        <code class="inline">graph</code> is a dictionary mapping each node to a list of its neighbors, e.g.
+        <code class="inline">{"A": ["B", "C"], "B": ["D"], "C": ["D"], "D": []}</code>.</p>
+      `,
+      starterCode: "def bfs_order(graph, start):\n    # your code here\n    pass\n",
+      functionName: "bfs_order",
+      testCases: [
+        { args: [{ "A": ["B", "C"], "B": ["D"], "C": ["D"], "D": [] }, "A"], expected: ["A", "B", "C", "D"] },
+        { args: [{ "X": ["Y"], "Y": ["Z"], "Z": [] }, "X"], expected: ["X", "Y", "Z"] }
+      ],
+      hint: "Use a queue (a list works): pop from the front, and push each unvisited neighbor to the back."
+    }
   ]
 },
 {
@@ -10635,6 +10948,25 @@ print(linear_search(numbers, 100))</pre>
       answer: "O(n)",
       hint: "In the worst case, the target is the last item checked, or isn't present at all."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 20,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">linear_search(lst, target)</code> that returns the index of
+        <code class="inline">target</code> in <code class="inline">lst</code>, or -1 if it isn't there.</p>
+      `,
+      starterCode: "def linear_search(lst, target):\n    # your code here\n    pass\n",
+      functionName: "linear_search",
+      testCases: [
+        { args: [[5, 3, 8, 1], 8], expected: 2 },
+        { args: [[1, 2, 3], 5], expected: -1 },
+        { args: [[], 1], expected: -1 },
+        { args: [[7], 7], expected: 0 }
+      ],
+      hint: "enumerate(lst) gives you both the index and the value as you loop."
+    }
   ]
 },
 {
@@ -10739,6 +11071,26 @@ print(binary_search(unsorted_numbers, 1))</pre>
       answer: "-1",
       hint: "Binary search assumes the list is sorted - on unsorted data its halving logic can skip right past the target."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">binary_search(lst, target)</code> that returns the index of
+        <code class="inline">target</code> in a <b>sorted ascending</b> list <code class="inline">lst</code>,
+        or -1 if it isn't there.</p>
+      `,
+      starterCode: "def binary_search(lst, target):\n    # your code here\n    pass\n",
+      functionName: "binary_search",
+      testCases: [
+        { args: [[1, 3, 5, 7, 9], 7], expected: 3 },
+        { args: [[1, 3, 5, 7, 9], 4], expected: -1 },
+        { args: [[], 5], expected: -1 },
+        { args: [[2], 2], expected: 0 }
+      ],
+      hint: "Keep lo and hi pointers, check the midpoint, and narrow the range by half each time."
+    }
   ]
 },
 {
@@ -10830,6 +11182,26 @@ print(bubble_sort_optimized(numbers))</pre>
       question: "For an already-sorted list, what value does swapped hold at the end of the first pass, causing the loop to break early?",
       answer: "False",
       hint: "No adjacent pair is out of order, so no swap ever happens."
+    }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 20,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">bubble_sort(lst)</code> that returns a new list with
+        <code class="inline">lst</code>'s values sorted in ascending order, using the bubble sort algorithm
+        (repeatedly swapping adjacent out-of-order pairs).</p>
+      `,
+      starterCode: "def bubble_sort(lst):\n    arr = list(lst)\n    # your code here\n    return arr\n",
+      functionName: "bubble_sort",
+      testCases: [
+        { args: [[3, 1, 2]], expected: [1, 2, 3] },
+        { args: [[]], expected: [] },
+        { args: [[1]], expected: [1] },
+        { args: [[5, 4, 3, 2, 1]], expected: [1, 2, 3, 4, 5] }
+      ],
+      hint: "Two nested loops: on each full pass, swap arr[j] and arr[j+1] whenever arr[j] &gt; arr[j+1]."
     }
   ]
 },
@@ -10924,6 +11296,26 @@ print(selection_sort_count_swaps(numbers))</pre>
       answer: "3",
       hint: "Selection sort swaps at most once per outer loop iteration, only when the minimum isn't already in place."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 20,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">selection_sort(lst)</code> that returns a new list with
+        <code class="inline">lst</code>'s values sorted in ascending order, using the selection sort
+        algorithm (repeatedly finding the smallest remaining value and swapping it into place).</p>
+      `,
+      starterCode: "def selection_sort(lst):\n    arr = list(lst)\n    # your code here\n    return arr\n",
+      functionName: "selection_sort",
+      testCases: [
+        { args: [[3, 1, 2]], expected: [1, 2, 3] },
+        { args: [[]], expected: [] },
+        { args: [[1]], expected: [1] },
+        { args: [[5, 4, 3, 2, 1]], expected: [1, 2, 3, 4, 5] }
+      ],
+      hint: "For each position, scan the rest of the list for the smallest value, then swap it into place."
+    }
   ]
 },
 {
@@ -11004,6 +11396,26 @@ print(numbers)</pre>
       question: "What is the worst-case time complexity of insertion sort, when the input list is in reverse order?",
       answer: "O(n^2)",
       hint: "Every new element must shift past all previously sorted elements before it."
+    }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 20,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">insertion_sort(lst)</code> that returns a new list with
+        <code class="inline">lst</code>'s values sorted in ascending order, using the insertion sort
+        algorithm (inserting each value into its correct position among the already-sorted ones).</p>
+      `,
+      starterCode: "def insertion_sort(lst):\n    arr = list(lst)\n    # your code here\n    return arr\n",
+      functionName: "insertion_sort",
+      testCases: [
+        { args: [[3, 1, 2]], expected: [1, 2, 3] },
+        { args: [[]], expected: [] },
+        { args: [[1]], expected: [1] },
+        { args: [[5, 4, 3, 2, 1]], expected: [1, 2, 3, 4, 5] }
+      ],
+      hint: "Shift larger values one spot to the right to make room, then drop the current value into the gap."
     }
   ]
 },
@@ -11134,6 +11546,26 @@ print(merge(left, right))</pre>
       answer: "the one from the left list",
       hint: "The comparison favors the left side when values are equal, using less-than-or-equal rather than strictly less-than - this is what makes merge sort stable."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">merge_sort(lst)</code> that returns a new list with
+        <code class="inline">lst</code>'s values sorted in ascending order, using the merge sort algorithm
+        (recursively splitting the list in half, then merging the sorted halves back together).</p>
+      `,
+      starterCode: "def merge_sort(lst):\n    # your code here\n    pass\n",
+      functionName: "merge_sort",
+      testCases: [
+        { args: [[3, 1, 2]], expected: [1, 2, 3] },
+        { args: [[]], expected: [] },
+        { args: [[1]], expected: [1] },
+        { args: [[5, 4, 3, 2, 1]], expected: [1, 2, 3, 4, 5] }
+      ],
+      hint: "A list of length 0 or 1 is already sorted — that's your base case for the recursion."
+    }
   ]
 },
 {
@@ -11238,6 +11670,26 @@ print(pivot_index, numbers)</pre>
       question: "What is the typical additional space complexity of an in-place quick sort implementation, counting recursion stack depth?",
       answer: "O(log n)",
       hint: "Unlike merge sort, quick sort sorts within the original list - the extra space comes only from recursive calls."
+    }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">quick_sort(lst)</code> that returns a new list with
+        <code class="inline">lst</code>'s values sorted in ascending order, using the quick sort algorithm
+        (partitioning around a pivot value, then recursively sorting each side).</p>
+      `,
+      starterCode: "def quick_sort(lst):\n    # your code here\n    pass\n",
+      functionName: "quick_sort",
+      testCases: [
+        { args: [[3, 1, 2]], expected: [1, 2, 3] },
+        { args: [[]], expected: [] },
+        { args: [[1]], expected: [1] },
+        { args: [[5, 4, 3, 2, 1]], expected: [1, 2, 3, 4, 5] }
+      ],
+      hint: "Split lst into values less than, equal to, and greater than a pivot, then recurse on the outer two."
     }
   ]
 },
@@ -11351,6 +11803,28 @@ print(climb_stairs(5))</pre>
       question: "How many distinct ways are there to climb 5 stairs, taking 1 or 2 steps at a time, according to climb_stairs(5)?",
       answer: "8",
       hint: "This follows the same recurrence as Fibonacci - each step count is the sum of the previous two."
+    }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">climb_stairs(n)</code> that returns the number of distinct ways to
+        climb a staircase of <code class="inline">n</code> steps, taking either 1 or 2 steps at a time. This
+        is a classic dynamic programming problem — the answer for <code class="inline">n</code> depends on
+        the answers for <code class="inline">n - 1</code> and <code class="inline">n - 2</code>.</p>
+      `,
+      starterCode: "def climb_stairs(n):\n    # your code here\n    pass\n",
+      functionName: "climb_stairs",
+      testCases: [
+        { args: [1], expected: 1 },
+        { args: [2], expected: 2 },
+        { args: [3], expected: 3 },
+        { args: [4], expected: 5 },
+        { args: [5], expected: 8 }
+      ],
+      hint: "ways(n) = ways(n-1) + ways(n-2) — notice this is the same pattern as Fibonacci."
     }
   ]
 },
@@ -16366,6 +16840,27 @@ print(message)</pre>
       answer: "flag",
       hint: "Convert each pair of hex digits back to a byte, then to text."
     }
+  ,
+    {
+      title: "Practice: Write It Yourself",
+      points: 25,
+      type: "code",
+      content: `
+        <p>Implement <code class="inline">rot13(s)</code>, the classic ROT13 cipher used in plenty of real
+        CTF puzzles: it shifts every letter 13 places through the alphabet, wrapping around, and leaves
+        every other character unchanged. ROT13 is its own inverse — applying it twice returns the original
+        text.</p>
+      `,
+      starterCode: "def rot13(s):\n    # your code here\n    pass\n",
+      functionName: "rot13",
+      testCases: [
+        { args: ["hello"], expected: "uryyb" },
+        { args: ["Python"], expected: "Clguba" },
+        { args: ["Clguba"], expected: "Python" },
+        { args: ["abc! XYZ"], expected: "nop! KLM" }
+      ],
+      hint: "Handle lowercase and uppercase separately — each has its own base character (a or A) to shift from."
+    }
   ]
 },
 {
@@ -16948,89 +17443,55 @@ while True:
   icon: "🔢",
   difficulty: "Easy",
   tags: ["challenge", "practice", "loops"],
-  description: "Solve the classic FizzBuzz interview problem by printing numbers 1 to 100 while swapping multiples of 3 and 5 for words.",
+  description: "Solve the classic FizzBuzz interview problem by writing a function that swaps multiples of 3 and 5 for words.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
         <p>FizzBuzz is one of the most common warm-up interview questions, and it is a great test of basic control flow.</p>
-        <p><b>The challenge:</b> print every number from 1 to 100, one per line. But:</p>
+        <p><b>The challenge:</b> write a function <code class="inline">fizzbuzz(n)</code> that returns a list of strings
+        for every number from 1 to <code class="inline">n</code>. But:</p>
         <ul>
-          <li>If the number is divisible by 3, print <code class="inline">Fizz</code> instead of the number.</li>
-          <li>If the number is divisible by 5, print <code class="inline">Buzz</code> instead of the number.</li>
-          <li>If the number is divisible by both 3 and 5, print <code class="inline">FizzBuzz</code> instead of the number.</li>
-          <li>Otherwise, print the number itself.</li>
+          <li>If the number is divisible by 3, use <code class="inline">"Fizz"</code> instead of the number.</li>
+          <li>If the number is divisible by 5, use <code class="inline">"Buzz"</code> instead of the number.</li>
+          <li>If the number is divisible by both 3 and 5, use <code class="inline">"FizzBuzz"</code> instead of the number.</li>
+          <li>Otherwise, use the number itself, as a string.</li>
         </ul>
-        <p>For example, the first sixteen lines of correct output look like this:</p>
-        <pre>1
-2
-Fizz
-4
-Buzz
-Fizz
-7
-8
-Fizz
-Buzz
-11
-Fizz
-13
-14
-FizzBuzz
-16</pre>
+        <p>For example, <code class="inline">fizzbuzz(5)</code> should return
+        <code class="inline">["1", "2", "Fizz", "4", "Buzz"]</code>.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 10,
+      title: "Write the Code",
+      points: 20,
+      type: "code",
       content: `
-        <p>The trick is to check the more specific condition first. If you check 'divisible by 3' before
-        'divisible by both 3 and 5', you will print <code class="inline">Fizz</code> for 15 and never reach
-        the FizzBuzz case.</p>
-        <p>So the order of checks matters: test 'divisible by 15' (both 3 and 5) first, then 3, then 5, then
-        fall back to the number.</p>
-        <pre>for num in range(1, 101):
+        <p>Implement <code class="inline">fizzbuzz(n)</code> below so it passes every test case.</p>
+        <p>Tip: check the more specific condition first — if you check "divisible by 3" before "divisible by
+        both 3 and 5", you'll never reach the FizzBuzz case for a number like 15.</p>
+        <pre>for num in range(1, n + 1):
     if num % 15 == 0:
-        print("FizzBuzz")
+        # ...
     elif num % 3 == 0:
         # ...
     elif num % 5 == 0:
         # ...
     else:
         # ...</pre>
-        <p>Fill in the missing branches to complete the loop.</p>
       `,
-      question: "Why must the check for divisible by 15 come before the separate checks for 3 and 5?",
-      answer: "Because elif stops at the first true condition, so checking 3 or 5 first would never let the FizzBuzz case run",
-      hint: "elif branches are checked in order, and only one of them ever runs."
-    },
-    {
-      title: "The Solution",
-      points: 10,
-      content: `
-        <p>Here is a complete, working solution:</p>
-        <pre>def fizzbuzz(n):
-    for num in range(1, n + 1):
-        if num % 15 == 0:
-            print("FizzBuzz")
-        elif num % 3 == 0:
-            print("Fizz")
-        elif num % 5 == 0:
-            print("Buzz")
-        else:
-            print(num)
-
-fizzbuzz(15)</pre>
-        <p>Since 15 is divisible by both 3 and 5, the num % 15 == 0 check catches it before the other
-        branches run.</p>
-      `,
-      question: "In the call fizzbuzz(15) above, what exact text is printed for the last line (the number 15)?",
-      answer: "FizzBuzz",
-      hint: "15 is divisible by 3 and 5 at the same time."
+      starterCode: "def fizzbuzz(n):\n    result = []\n    # your code here\n    return result\n",
+      functionName: "fizzbuzz",
+      testCases: [
+        { args: [1], expected: ["1"] },
+        { args: [5], expected: ["1", "2", "Fizz", "4", "Buzz"] },
+        { args: [15], expected: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"] }
+      ],
+      hint: "Append str(num) for the 'otherwise' case — the list holds strings, not numbers."
     }
   ]
 },
+
 {
   id: "challenge-palindrome",
   title: "Challenge: Palindrome Checker",
@@ -17044,60 +17505,37 @@ fizzbuzz(15)</pre>
       points: 0,
       content: `
         <p>A palindrome is a string that reads the same forwards and backwards, like
-        <code class="inline">racecar</code> or <code class="inline">level</code>.</p>
+        <code class="inline">racecar</code> or the phrase <code class="inline">A man a plan a canal Panama</code>
+        (once you ignore spaces and letter case).</p>
         <p><b>The challenge:</b> write a function <code class="inline">is_palindrome(s)</code> that returns
-        <code class="inline">True</code> if the string <code class="inline">s</code> is a palindrome, and
-        <code class="inline">False</code> otherwise. Your function should ignore letter case and spaces, so
-        phrases count too.</p>
-        <p>For example:</p>
-        <pre>is_palindrome("racecar")                      # True
-is_palindrome("hello")                        # False
-is_palindrome("A man a plan a canal Panama")  # True</pre>
+        <code class="inline">True</code> if <code class="inline">s</code> is a palindrome, ignoring case and
+        spaces, and <code class="inline">False</code> otherwise.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 10,
+      title: "Write the Code",
+      points: 20,
+      type: "code",
       content: `
-        <p>The simplest approach is to clean the string first (lowercase it and remove spaces), then compare
-        it with its own reverse. If the cleaned string equals its reverse, it's a palindrome.</p>
-        <pre>def is_palindrome(s):
-    cleaned = s.lower().replace(" ", "")
-    reversed_version = cleaned[::-1]
-    return cleaned == reversed_version</pre>
-        <p>Note this uses slicing to reverse, which is fine for the design step, but the final solution below
-        also shows a two-pointer style so you can compare both approaches.</p>
+        <p>Implement <code class="inline">is_palindrome(s)</code> below so it passes every test case.</p>
+        <p>Normalize the string first — lowercase it and remove spaces — then compare it to its own reverse.</p>
+        <pre>cleaned = s.lower().replace(" ", "")
+# compare cleaned to its reverse (cleaned[::-1])</pre>
       `,
-      question: "Why do we call .lower() before comparing the string with its reverse?",
-      answer: "So that differences in letter case do not cause a true palindrome to be marked false",
-      hint: "Think about comparing 'Panama' character by character against its reverse without lowercasing first."
-    },
-    {
-      title: "The Solution",
-      points: 10,
-      content: `
-        <p>Here is a complete solution that also strips out non-letter characters, so punctuation does not
-        break the check:</p>
-        <pre>def is_palindrome(s):
-    cleaned = "".join(ch.lower() for ch in s if ch.isalnum())
-    left, right = 0, len(cleaned) - 1
-    while left &lt; right:
-        if cleaned[left] != cleaned[right]:
-            return False
-        left += 1
-        right -= 1
-    return True
-
-print(is_palindrome("A man a plan a canal Panama"))</pre>
-        <p>This version walks two pointers inward from both ends, which avoids building a reversed copy of
-        the string.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "True",
-      hint: "Once punctuation and case are removed, this phrase mirrors itself perfectly."
+      starterCode: "def is_palindrome(s):\n    # your code here\n    pass\n",
+      functionName: "is_palindrome",
+      testCases: [
+        { args: ["racecar"], expected: true },
+        { args: ["hello"], expected: false },
+        { args: [""], expected: true },
+        { args: ["Racecar"], expected: true },
+        { args: ["A man a plan a canal Panama"], expected: true }
+      ],
+      hint: "s.lower().replace(' ', '') strips case and spaces; slicing with [::-1] reverses a string."
     }
   ]
 },
+
 {
   id: "challenge-prime-checker",
   title: "Challenge: Prime Number Checker",
@@ -17110,195 +17548,137 @@ print(is_palindrome("A man a plan a canal Panama"))</pre>
       title: "The Challenge",
       points: 0,
       content: `
-        <p>A prime number is a whole number greater than 1 that has no divisors other than 1 and itself.</p>
+        <p>A prime number is a whole number greater than 1 that has no divisors other than 1 and itself.
+        2, 3, 5, 7, 11, and 13 are prime; 1, 4, 6, 8, and 9 are not.</p>
         <p><b>The challenge:</b> write a function <code class="inline">is_prime(n)</code> that returns
         <code class="inline">True</code> if <code class="inline">n</code> is prime, and
         <code class="inline">False</code> otherwise.</p>
-        <p>For example:</p>
-        <pre>is_prime(2)    # True
-is_prime(17)   # True
-is_prime(1)    # False
-is_prime(91)   # False (7 x 13)</pre>
       `
     },
     {
-      title: "The Approach",
-      points: 10,
+      title: "Write the Code",
+      points: 20,
+      type: "code",
       content: `
-        <p>The naive approach checks every number from 2 up to n - 1 as a possible divisor. But you don't need
-        to go that far: if n has a divisor bigger than its square root, it must also have a matching divisor
-        smaller than the square root. So you only need to check up to the square root of n.</p>
-        <pre>import math
-
-def is_prime(n):
-    if n &lt; 2:
+        <p>Implement <code class="inline">is_prime(n)</code> below so it passes every test case.</p>
+        <p>Numbers less than 2 are never prime. Otherwise, check whether any number from 2 up to
+        <code class="inline">n</code> divides it evenly — if none do, it's prime. You only need to check up
+        to the square root of <code class="inline">n</code> for efficiency, but a simple full loop works too.</p>
+        <pre>if n &lt; 2:
+    return False
+for i in range(2, n):
+    if n % i == 0:
         return False
-    for i in range(2, int(math.sqrt(n)) + 1):
-        if n % i == 0:
-            return False
-    # ...</pre>
-        <p>What should the function return if the loop finishes without finding a divisor?</p>
+return True</pre>
       `,
-      question: "If the for loop completes without ever returning False, what should the function return, and why?",
-      answer: "True, because no divisor was found so the number must be prime",
-      hint: "If the loop never triggers the n % i == 0 branch, no factor smaller than the square root exists."
-    },
-    {
-      title: "The Solution",
-      points: 10,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>import math
-
-def is_prime(n):
-    if n &lt; 2:
-        return False
-    for i in range(2, int(math.sqrt(n)) + 1):
-        if n % i == 0:
-            return False
-    return True
-
-print(is_prime(91))</pre>
-        <p>Even though 91 looks prime at a glance, it factors as 7 x 13, so the loop finds 7 as a divisor and
-        returns False.</p>
-      `,
-      question: "What does print(is_prime(91)) output?",
-      answer: "False",
-      hint: "91 is not actually prime, even though it isn't an obvious multiple of small numbers like 2, 3, or 5."
+      starterCode: "def is_prime(n):\n    # your code here\n    pass\n",
+      functionName: "is_prime",
+      testCases: [
+        { args: [2], expected: true },
+        { args: [1], expected: false },
+        { args: [0], expected: false },
+        { args: [17], expected: true },
+        { args: [18], expected: false },
+        { args: [97], expected: true }
+      ],
+      hint: "n % i == 0 means i divides n evenly — that makes n not prime."
     }
   ]
 },
+
 {
   id: "challenge-fibonacci",
   title: "Challenge: Fibonacci Sequence",
   icon: "🌀",
   difficulty: "Medium",
   tags: ["challenge", "practice", "recursion"],
-  description: "Generate the Fibonacci sequence using both an iterative loop and a recursive function, and compare how each approach behaves.",
+  description: "Write a function that returns the nth number in the Fibonacci sequence, where each number is the sum of the two before it.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
-        <p>The Fibonacci sequence starts with 0 and 1, and each following number is the sum of the two before
-        it: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, ...</p>
-        <p><b>The challenge:</b> write two functions that both return the n-th Fibonacci number (with
-        <code class="inline">fib(0) = 0</code> and <code class="inline">fib(1) = 1</code>):</p>
-        <ul>
-          <li><code class="inline">fibonacci_iterative(n)</code> using a loop</li>
-          <li><code class="inline">fibonacci_recursive(n)</code> using recursion</li>
-        </ul>
-        <p>For example:</p>
-        <pre>fibonacci_iterative(10)   # 55
-fibonacci_recursive(10)   # 55</pre>
+        <p>The Fibonacci sequence starts 0, 1, 1, 2, 3, 5, 8, 13, 21... — each number is the sum of the two
+        before it. Counting from 0, <code class="inline">fibonacci(0)</code> is 0,
+        <code class="inline">fibonacci(1)</code> is 1, and <code class="inline">fibonacci(5)</code> is 5.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">fibonacci(n)</code> that returns the
+        nth number in the sequence (0-indexed).</p>
       `
     },
     {
-      title: "The Approach",
-      points: 15,
+      title: "Write the Code",
+      points: 25,
+      type: "code",
       content: `
-        <p>The iterative version just keeps two running values, <code class="inline">a</code> and
-        <code class="inline">b</code>, and slides them forward n times.</p>
-        <pre>def fibonacci_iterative(n):
-    a, b = 0, 1
-    for _ in range(n):
-        a, b = b, a + b
-    return a</pre>
-        <p>The recursive version mirrors the mathematical definition directly:
-        <code class="inline">fib(n) = fib(n - 1) + fib(n - 2)</code>, with base cases for 0 and 1.</p>
-        <pre>def fibonacci_recursive(n):
-    if n &lt; 2:
-        return n
-    return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)</pre>
+        <p>Implement <code class="inline">fibonacci(n)</code> below so it passes every test case. An iterative
+        approach (a loop) is simplest and fast; a recursive approach also works but gets slow for large
+        <code class="inline">n</code>.</p>
+        <pre>a, b = 0, 1
+for _ in range(n):
+    a, b = b, a + b
+return a</pre>
       `,
-      question: "Why does the recursive version get noticeably slower than the iterative one as n grows?",
-      answer: "Because it recomputes the same smaller Fibonacci values many times instead of reusing them",
-      hint: "Draw out the recursive calls for fibonacci_recursive(5) and notice how many times fibonacci_recursive(2) gets called."
-    },
-    {
-      title: "The Solution",
-      points: 15,
-      content: `
-        <p>Both complete solutions together:</p>
-        <pre>def fibonacci_iterative(n):
-    a, b = 0, 1
-    for _ in range(n):
-        a, b = b, a + b
-    return a
-
-def fibonacci_recursive(n):
-    if n &lt; 2:
-        return n
-    return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)
-
-sequence = [fibonacci_iterative(i) for i in range(10)]
-print(sequence)</pre>
-        <p>The list comprehension builds the first ten Fibonacci numbers, starting at index 0.</p>
-      `,
-      question: "What does print(sequence) output?",
-      answer: "[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]",
-      hint: "Index 0 gives fib(0) = 0, and the list has exactly 10 entries (indices 0 through 9)."
+      starterCode: "def fibonacci(n):\n    # your code here\n    pass\n",
+      functionName: "fibonacci",
+      testCases: [
+        { args: [0], expected: 0 },
+        { args: [1], expected: 1 },
+        { args: [2], expected: 1 },
+        { args: [5], expected: 5 },
+        { args: [10], expected: 55 }
+      ],
+      hint: "Keep two running values and update both each time through the loop, like a, b = b, a + b."
     }
   ]
 },
+
 {
   id: "challenge-factorial",
   title: "Challenge: Factorial Calculator",
   icon: "❗",
   difficulty: "Easy",
   tags: ["challenge", "practice", "recursion"],
-  description: "Compute the factorial of a number using both an iterative loop and a recursive function.",
+  description: "Write a function that computes the factorial of a number — the product of every whole number from 1 up to it.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
-        <p>The factorial of a non-negative integer n, written n!, is the product of all positive integers
-        from 1 up to n. By definition, 0! = 1.</p>
-        <p><b>The challenge:</b> write a function <code class="inline">factorial(n)</code> that returns n!.</p>
-        <pre>factorial(0)   # 1
-factorial(5)   # 120  (5 x 4 x 3 x 2 x 1)
-factorial(6)   # 720</pre>
+        <p>The factorial of a number <code class="inline">n</code> (written <code class="inline">n!</code>) is
+        the product of every whole number from 1 up to <code class="inline">n</code>. For example,
+        <code class="inline">5! = 5 × 4 × 3 × 2 × 1 = 120</code>. By definition, <code class="inline">0! = 1</code>.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">factorial(n)</code> that returns
+        <code class="inline">n!</code>.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 10,
+      title: "Write the Code",
+      points: 20,
+      type: "code",
       content: `
-        <p>An iterative solution just multiplies a running total by every number from 1 to n.</p>
-        <pre>def factorial(n):
-    result = 1
-    for i in range(1, n + 1):
-        result = result * i
-    return result</pre>
-        <p>A recursive version instead defines factorial in terms of a smaller factorial:
-        <code class="inline">n! = n * (n - 1)!</code>, stopping at the base case
-        <code class="inline">0! = 1</code>.</p>
+        <p>Implement <code class="inline">factorial(n)</code> below so it passes every test case. An
+        iterative approach (a loop that multiplies as it goes) or a recursive one
+        (<code class="inline">n * factorial(n - 1)</code>, stopping at <code class="inline">n == 0</code>)
+        both work.</p>
+        <pre>result = 1
+for i in range(1, n + 1):
+    result *= i
+return result</pre>
       `,
-      question: "What is the base case that stops the recursive version of factorial from calling itself forever?",
-      answer: "When n equals 0, the function returns 1 without recursing further",
-      hint: "Every recursive function needs a condition where it stops calling itself."
-    },
-    {
-      title: "The Solution",
-      points: 10,
-      content: `
-        <p>Here is the complete recursive solution:</p>
-        <pre>def factorial(n):
-    if n == 0:
-        return 1
-    return n * factorial(n - 1)
-
-print(factorial(6))</pre>
-        <p>This expands as 6 x factorial(5), which expands as 6 x 5 x factorial(4), and so on down to the base
-        case.</p>
-      `,
-      question: "What does print(factorial(6)) output?",
-      answer: "720",
-      hint: "6 x 5 x 4 x 3 x 2 x 1."
+      starterCode: "def factorial(n):\n    # your code here\n    pass\n",
+      functionName: "factorial",
+      testCases: [
+        { args: [0], expected: 1 },
+        { args: [1], expected: 1 },
+        { args: [5], expected: 120 },
+        { args: [6], expected: 720 },
+        { args: [10], expected: 3628800 }
+      ],
+      hint: "Start your running product at 1, not 0 — multiplying by 0 would zero everything out."
     }
   ]
 },
+
 {
   id: "challenge-reverse-string",
   title: "Challenge: Reverse a String",
@@ -17311,57 +17691,39 @@ print(factorial(6))</pre>
       title: "The Challenge",
       points: 0,
       content: `
+        <p>Python can reverse a string in one line with slicing (<code class="inline">s[::-1]</code>), but
+        it's a great exercise to build the same result yourself with a loop.</p>
         <p><b>The challenge:</b> write a function <code class="inline">reverse_string(s)</code> that returns
-        the characters of <code class="inline">s</code> in reverse order. To make it a real exercise, don't
-        use the <code class="inline">s[::-1]</code> slicing shortcut or the built-in
-        <code class="inline">reversed()</code> function — build the result yourself.</p>
-        <pre>reverse_string("hello")   # "olleh"
-reverse_string("Python")  # "nohtyP"</pre>
+        <code class="inline">s</code> reversed, without using <code class="inline">[::-1]</code> or the
+        built-in <code class="inline">reversed()</code>.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 10,
+      title: "Write the Code",
+      points: 20,
+      type: "code",
       content: `
-        <p>One approach is to walk through the original string from the last character to the first,
-        appending each character to a new string as you go.</p>
-        <pre>def reverse_string(s):
-    result = ""
-    index = len(s) - 1
-    while index &gt;= 0:
-        result = result + s[index]
-        # ...
-    return result</pre>
-        <p>Each pass through the loop needs to move <code class="inline">index</code> one step closer to the
-        start of the string, or it will loop forever.</p>
+        <p>Implement <code class="inline">reverse_string(s)</code> below so it passes every test case.</p>
+        <p>One approach: walk through <code class="inline">s</code> from the last character to the first,
+        building up a new string as you go.</p>
+        <pre>result = ""
+for ch in s:
+    result = ch + result
+return result</pre>
       `,
-      question: "What statement is missing inside the while loop to make sure it eventually stops?",
-      answer: "index = index - 1 (or index -= 1), to move toward the start of the string",
-      hint: "Without updating index on every pass, the loop condition would never become false."
-    },
-    {
-      title: "The Solution",
-      points: 10,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>def reverse_string(s):
-    result = ""
-    index = len(s) - 1
-    while index &gt;= 0:
-        result = result + s[index]
-        index -= 1
-    return result
-
-print(reverse_string("Python"))</pre>
-        <p>The loop appends 'n', then 'o', then 't', and so on, building the reversed word one character at a
-        time.</p>
-      `,
-      question: "What does print(reverse_string('Python')) output?",
-      answer: "nohtyP",
-      hint: "Read 'Python' backwards, letter by letter."
+      starterCode: "def reverse_string(s):\n    # your code here\n    pass\n",
+      functionName: "reverse_string",
+      testCases: [
+        { args: ["hello"], expected: "olleh" },
+        { args: [""], expected: "" },
+        { args: ["a"], expected: "a" },
+        { args: ["Python"], expected: "nohtyP" }
+      ],
+      hint: "Prepending each character (result = ch + result) naturally builds the reverse."
     }
   ]
 },
+
 {
   id: "challenge-anagram",
   title: "Challenge: Anagram Checker",
@@ -17374,55 +17736,41 @@ print(reverse_string("Python"))</pre>
       title: "The Challenge",
       points: 0,
       content: `
-        <p>Two strings are anagrams if they contain exactly the same letters, just rearranged, ignoring case
-        and spaces. For example, <code class="inline">listen</code> and <code class="inline">silent</code>
-        are anagrams, and so are <code class="inline">Dormitory</code> and <code class="inline">Dirty Room</code>.</p>
-        <p><b>The challenge:</b> write a function <code class="inline">are_anagrams(a, b)</code> that returns
-        <code class="inline">True</code> if the two strings are anagrams of each other, and
-        <code class="inline">False</code> otherwise.</p>
-        <pre>are_anagrams("listen", "silent")           # True
-are_anagrams("Dormitory", "Dirty Room")    # True
-are_anagrams("hello", "world")             # False</pre>
+        <p>Two strings are anagrams if one can be rearranged to form the other, using every letter exactly
+        once. For example, <code class="inline">listen</code> and <code class="inline">silent</code> are
+        anagrams, and so are <code class="inline">dormitory</code> and <code class="inline">dirty room</code>
+        once you ignore the space.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">is_anagram(a, b)</code> that returns
+        <code class="inline">True</code> if <code class="inline">a</code> and <code class="inline">b</code>
+        are anagrams, ignoring case and spaces.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 15,
+      title: "Write the Code",
+      points: 25,
+      type: "code",
       content: `
-        <p>If two strings are anagrams, then once you strip out spaces, lowercase everything, and sort the
-        remaining letters, both strings should produce the exact same sequence of characters.</p>
-        <pre>def are_anagrams(a, b):
-    cleaned_a = a.lower().replace(" ", "")
-    cleaned_b = b.lower().replace(" ", "")
-    # sort the letters of each and compare them
-    # ...</pre>
-        <p>Sorting turns any arrangement of the same letters into one canonical order, which makes comparison
-        a single equality check.</p>
+        <p>Implement <code class="inline">is_anagram(a, b)</code> below so it passes every test case.</p>
+        <p>Normalize both strings the same way — lowercase and remove spaces — then compare their sorted
+        letters. Two strings are anagrams exactly when their sorted letters match.</p>
+        <pre>clean_a = a.lower().replace(" ", "")
+clean_b = b.lower().replace(" ", "")
+return sorted(clean_a) == sorted(clean_b)</pre>
       `,
-      question: "Once both strings are cleaned, what single Python built-in turns each one into a comparable, ordered sequence of letters?",
-      answer: "sorted(), applied to each cleaned string",
-      hint: "It's the same function you'd use to put a list of numbers in order."
-    },
-    {
-      title: "The Solution",
-      points: 15,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>def are_anagrams(a, b):
-    cleaned_a = sorted(a.lower().replace(" ", ""))
-    cleaned_b = sorted(b.lower().replace(" ", ""))
-    return cleaned_a == cleaned_b
-
-print(are_anagrams("Dormitory", "Dirty Room"))</pre>
-        <p>After cleaning and sorting, both strings reduce to the same list of letters: d, i, m, o, o, r, r,
-        t, y.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "True",
-      hint: "Dormitory and Dirty Room use exactly the same set of letters."
+      starterCode: "def is_anagram(a, b):\n    # your code here\n    pass\n",
+      functionName: "is_anagram",
+      testCases: [
+        { args: ["listen", "silent"], expected: true },
+        { args: ["hello", "world"], expected: false },
+        { args: ["Evil", "Vile"], expected: true },
+        { args: ["Dormitory", "Dirty Room"], expected: true },
+        { args: ["a", "a"], expected: true }
+      ],
+      hint: "sorted('listen') and sorted('silent') produce the exact same list of letters."
     }
   ]
 },
+
 {
   id: "challenge-dedup-list",
   title: "Challenge: List Deduplication",
@@ -17435,58 +17783,42 @@ print(are_anagrams("Dormitory", "Dirty Room"))</pre>
       title: "The Challenge",
       points: 0,
       content: `
-        <p><b>The challenge:</b> write a function <code class="inline">dedupe(items)</code> that returns a
-        new list containing only the first occurrence of each value, in the same order they first appeared.
-        A plain <code class="inline">set()</code> won't work on its own because sets don't preserve order.</p>
-        <pre>dedupe([1, 2, 2, 3, 1, 4])          # [1, 2, 3, 4]
-dedupe(["a", "b", "a", "c", "b"])   # ["a", "b", "c"]</pre>
+        <p>Turning a list into a <code class="inline">set()</code> removes duplicates instantly, but sets
+        don't preserve order — so that shortcut can scramble your list.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">dedup(lst)</code> that returns a new
+        list with duplicates removed, keeping only the <i>first</i> occurrence of each value, in its
+        original position.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 10,
+      title: "Write the Code",
+      points: 20,
+      type: "code",
       content: `
-        <p>The approach is to walk through the list once, keeping track of which values you've already seen
-        in a set (for fast lookups), and only add a value to the result list the first time you see it.</p>
-        <pre>def dedupe(items):
-    seen = set()
-    result = []
-    for item in items:
-        if item not in seen:
-            # add item to result and mark it as seen
-            # ...
-    return result</pre>
-        <p>The <code class="inline">seen</code> set is what lets each check be fast, while
-        <code class="inline">result</code> keeps the original order intact.</p>
+        <p>Implement <code class="inline">dedup(lst)</code> below so it passes every test case.</p>
+        <p>Walk through the list, and keep a value only the first time you see it. A set is useful here —
+        just to remember what you've already seen, not to build the final result.</p>
+        <pre>seen = set()
+result = []
+for item in lst:
+    if item not in seen:
+        seen.add(item)
+        result.append(item)
+return result</pre>
       `,
-      question: "Why use a set for seen instead of just checking if item not in result?",
-      answer: "Checking membership in a set is much faster than scanning a growing list each time",
-      hint: "Think about how 'in' works differently for a set versus a list as the collection grows larger."
-    },
-    {
-      title: "The Solution",
-      points: 10,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>def dedupe(items):
-    seen = set()
-    result = []
-    for item in items:
-        if item not in seen:
-            result.append(item)
-            seen.add(item)
-    return result
-
-print(dedupe([3, 1, 2, 3, 4, 1, 5]))</pre>
-        <p>Each number is added to <code class="inline">result</code> the first time it appears, and later
-        repeats are skipped because they are already in <code class="inline">seen</code>.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "[3, 1, 2, 4, 5]",
-      hint: "Walk through the list left to right and only keep each number's first appearance."
+      starterCode: "def dedup(lst):\n    # your code here\n    pass\n",
+      functionName: "dedup",
+      testCases: [
+        { args: [[1, 2, 2, 3, 1]], expected: [1, 2, 3] },
+        { args: [[]], expected: [] },
+        { args: [[5, 5, 5]], expected: [5] },
+        { args: [["a", "b", "a", "c"]], expected: ["a", "b", "c"] }
+      ],
+      hint: "A set tells you fast whether you've already seen a value — use `in` to check it."
     }
   ]
 },
+
 {
   id: "challenge-matrix-transpose",
   title: "Challenge: Matrix Transpose",
@@ -17499,67 +17831,36 @@ print(dedupe([3, 1, 2, 3, 4, 1, 5]))</pre>
       title: "The Challenge",
       points: 0,
       content: `
-        <p>A matrix can be represented in Python as a list of lists, where each inner list is a row. The
-        transpose of a matrix flips it over its diagonal, turning rows into columns and columns into rows.</p>
+        <p>A matrix's transpose flips it over its diagonal — rows become columns and columns become rows.
+        The matrix <code class="inline">[[1, 2], [3, 4]]</code> transposes to
+        <code class="inline">[[1, 3], [2, 4]]</code>.</p>
         <p><b>The challenge:</b> write a function <code class="inline">transpose(matrix)</code> that returns
-        the transposed matrix.</p>
-        <pre>matrix = [
-    [1, 2, 3],
-    [4, 5, 6]
-]
-
-transpose(matrix)
-# [[1, 4], [2, 5], [3, 6]]</pre>
+        the transposed matrix, given as a list of lists (rows).</p>
       `
     },
     {
-      title: "The Approach",
-      points: 15,
+      title: "Write the Code",
+      points: 25,
+      type: "code",
       content: `
-        <p>The transposed matrix's row <code class="inline">i</code> is made up of the i-th element from
-        every row of the original matrix. So you can build each new row by picking out column
-        <code class="inline">i</code> across all the original rows.</p>
-        <pre>def transpose(matrix):
-    num_cols = len(matrix[0])
-    result = []
-    for col in range(num_cols):
-        new_row = []
-        for row in matrix:
-            # pick out the element at position col from this row
-            # ...
-        result.append(new_row)
-    return result</pre>
-        <p>Python also has a much shorter way to do this using <code class="inline">zip(*matrix)</code>,
-        which pairs up elements across all rows automatically.</p>
+        <p>Implement <code class="inline">transpose(matrix)</code> below so it passes every test case.</p>
+        <p>The value at row <code class="inline">i</code>, column <code class="inline">j</code> of the
+        original matrix becomes row <code class="inline">j</code>, column <code class="inline">i</code> of
+        the result. A list comprehension over column index, then row index, builds this directly.</p>
+        <pre>return [[row[i] for row in matrix] for i in range(len(matrix[0]))]</pre>
       `,
-      question: "In the nested-loop version, what expression grabs the element at position col from a given row list?",
-      answer: "row[col]",
-      hint: "You already have the row as a list, and col is just an index into it."
-    },
-    {
-      title: "The Solution",
-      points: 15,
-      content: `
-        <p>Here is a compact, complete solution using <code class="inline">zip</code>:</p>
-        <pre>def transpose(matrix):
-    return [list(row) for row in zip(*matrix)]
-
-matrix = [
-    [1, 2, 3],
-    [4, 5, 6]
-]
-
-print(transpose(matrix))</pre>
-        <p><code class="inline">zip(*matrix)</code> unpacks the matrix's rows as separate arguments to
-        <code class="inline">zip</code>, which then groups together the first elements of every row, then the
-        second elements, and so on.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "[[1, 4], [2, 5], [3, 6]]",
-      hint: "The original matrix has 2 rows and 3 columns, so the transpose has 3 rows and 2 columns."
+      starterCode: "def transpose(matrix):\n    # your code here\n    pass\n",
+      functionName: "transpose",
+      testCases: [
+        { args: [[[1, 2], [3, 4]]], expected: [[1, 3], [2, 4]] },
+        { args: [[[1, 2, 3]]], expected: [[1], [2], [3]] },
+        { args: [[[1]]], expected: [[1]] }
+      ],
+      hint: "range(len(matrix[0])) counts the number of columns in the original matrix."
     }
   ]
 },
+
 {
   id: "challenge-word-count",
   title: "Challenge: Word Count",
@@ -17572,502 +17873,310 @@ print(transpose(matrix))</pre>
       title: "The Challenge",
       points: 0,
       content: `
-        <p><b>The challenge:</b> write a function <code class="inline">count_words(text)</code> that returns
-        the number of words in <code class="inline">text</code>. Words are separated by whitespace (spaces,
-        tabs, or newlines), and there might be extra spaces between them.</p>
-        <pre>count_words("Python is fun")             # 3
-count_words("  hello    world  ")        # 2
-count_words("one two three")             # 3</pre>
+        <p>Counting words sounds simple, but real text often has extra spaces, tabs, or blank lines between
+        words. A correct word counter needs to handle all of that.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">word_count(text)</code> that returns
+        the number of words in <code class="inline">text</code>, no matter how much whitespace separates them.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 10,
+      title: "Write the Code",
+      points: 20,
+      type: "code",
       content: `
-        <p>You might be tempted to use <code class="inline">text.split(" ")</code>, but that breaks when
-        there are multiple spaces in a row, because it produces empty strings for each extra gap.</p>
-        <pre>text = "  hello    world  "
-text.split(" ")
-# ["", "", "hello", "", "", "", "world", "", ""]</pre>
-        <p>Calling <code class="inline">.split()</code> with no arguments instead splits on any amount of
-        whitespace and automatically ignores leading and trailing gaps.</p>
+        <p>Implement <code class="inline">word_count(text)</code> below so it passes every test case.</p>
+        <p>Calling <code class="inline">.split()</code> with no arguments splits on any run of whitespace
+        (spaces, tabs, newlines) and automatically ignores leading/trailing whitespace — exactly what you need.</p>
+        <pre>words = text.split()
+return len(words)</pre>
       `,
-      question: "What Python method call splits on any run of whitespace and skips empty pieces automatically?",
-      answer: "text.split() with no arguments",
-      hint: "It's the same method as before, just called differently."
-    },
-    {
-      title: "The Solution",
-      points: 10,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>def count_words(text):
-    words = text.split()
-    return len(words)
-
-sample = "  The quick brown  fox jumps over the lazy dog  "
-print(count_words(sample))</pre>
-        <p><code class="inline">split()</code> collapses all the extra spaces into single separators,
-        producing a clean list of 9 words.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "9",
-      hint: "Count the words: The, quick, brown, fox, jumps, over, the, lazy, dog."
+      starterCode: "def word_count(text):\n    # your code here\n    pass\n",
+      functionName: "word_count",
+      testCases: [
+        { args: ["hello world"], expected: 2 },
+        { args: [""], expected: 0 },
+        { args: ["  one   two three  "], expected: 3 },
+        { args: ["single"], expected: 1 }
+      ],
+      hint: "text.split() with no arguments is smarter than text.split(' ') — it collapses repeated spaces."
     }
   ]
 },
+
 {
   id: "challenge-temp-converter",
   title: "Challenge: Temperature Converter",
   icon: "🌡️",
   difficulty: "Easy",
   tags: ["challenge", "practice", "math"],
-  description: "Write functions that convert temperatures between Celsius and Fahrenheit using the standard conversion formulas.",
+  description: "Write a function that converts a temperature from Celsius to Fahrenheit using the standard formula.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
-        <p><b>The challenge:</b> write two functions:</p>
-        <ul>
-          <li><code class="inline">celsius_to_fahrenheit(c)</code> — converts Celsius to Fahrenheit</li>
-          <li><code class="inline">fahrenheit_to_celsius(f)</code> — converts Fahrenheit to Celsius</li>
-        </ul>
-        <pre>celsius_to_fahrenheit(0)     # 32.0
-celsius_to_fahrenheit(25)    # 77.0
-fahrenheit_to_celsius(98.6)  # 37.0</pre>
+        <p>The formula to convert Celsius to Fahrenheit is
+        <code class="inline">F = C × 9/5 + 32</code>. Water freezes at 0°C (32°F) and boils at 100°C (212°F).</p>
+        <p><b>The challenge:</b> write a function <code class="inline">celsius_to_fahrenheit(c)</code> that
+        returns the Fahrenheit equivalent of <code class="inline">c</code> degrees Celsius.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 10,
+      title: "Write the Code",
+      points: 20,
+      type: "code",
       content: `
-        <p>The formulas are fixed by physics: Fahrenheit equals Celsius times 9/5, plus 32. To go the other
-        way, you undo those same steps in reverse order — subtract 32 first, then multiply by 5/9.</p>
-        <pre>def celsius_to_fahrenheit(c):
-    return c * 9 / 5 + 32
-
-def fahrenheit_to_celsius(f):
-    # subtract 32 first, then multiply by 5/9
-    # ...</pre>
+        <p>Implement <code class="inline">celsius_to_fahrenheit(c)</code> below so it passes every test case.</p>
+        <pre>return c * 9 / 5 + 32</pre>
       `,
-      question: "In fahrenheit_to_celsius, which operation must happen first: subtracting 32, or multiplying by 5/9?",
-      answer: "Subtracting 32 must happen first, before multiplying by 5/9",
-      hint: "You're undoing the Celsius-to-Fahrenheit formula, so the steps reverse in the opposite order."
-    },
-    {
-      title: "The Solution",
-      points: 10,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>def celsius_to_fahrenheit(c):
-    return c * 9 / 5 + 32
-
-def fahrenheit_to_celsius(f):
-    return (f - 32) * 5 / 9
-
-print(celsius_to_fahrenheit(25))</pre>
-        <p>25 times 9/5 is 45, and adding 32 gives 77.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "77.0",
-      hint: "25 x 9 / 5 = 45, then add 32."
+      starterCode: "def celsius_to_fahrenheit(c):\n    # your code here\n    pass\n",
+      functionName: "celsius_to_fahrenheit",
+      testCases: [
+        { args: [0], expected: 32 },
+        { args: [100], expected: 212 },
+        { args: [-40], expected: -40 },
+        { args: [20], expected: 68 }
+      ],
+      hint: "Remember order of operations: multiply by 9/5 before adding 32."
     }
   ]
 },
+
 {
   id: "challenge-calculator",
   title: "Challenge: Build a Calculator",
   icon: "🧮",
   difficulty: "Medium",
   tags: ["challenge", "practice", "functions"],
-  description: "Build a simple command-line calculator that performs addition, subtraction, multiplication, and division on two numbers.",
+  description: "Write a function that performs addition, subtraction, multiplication, and division based on an operator you're given.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
-        <p><b>The challenge:</b> write a function <code class="inline">calculate(a, b, operator)</code> that
-        takes two numbers and an operator string (<code class="inline">"+"</code>, <code class="inline">"-"</code>,
-        <code class="inline">"*"</code>, or <code class="inline">"/"</code>), and returns the result of applying
-        that operation. Dividing by zero should return the string
-        <code class="inline">"Error: division by zero"</code> instead of crashing.</p>
-        <pre>calculate(4, 2, "+")   # 6
-calculate(4, 2, "-")   # 2
-calculate(4, 2, "*")   # 8
-calculate(4, 2, "/")   # 2.0
-calculate(4, 0, "/")   # "Error: division by zero"</pre>
+        <p><b>The challenge:</b> write a function <code class="inline">calculate(a, op, b)</code> that
+        applies the operator <code class="inline">op</code> — one of
+        <code class="inline">"+"</code>, <code class="inline">"-"</code>, <code class="inline">"*"</code>,
+        or <code class="inline">"/"</code> — to <code class="inline">a</code> and
+        <code class="inline">b</code>, and returns the result. For example,
+        <code class="inline">calculate(2, "+", 3)</code> should return <code class="inline">5</code>.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 20,
+      title: "Write the Code",
+      points: 25,
+      type: "code",
       content: `
-        <p>The approach is a straightforward chain of conditions checking which operator string was passed
-        in, doing the matching arithmetic for each one. Division needs an extra check first, since dividing by
-        zero is not allowed.</p>
-        <pre>def calculate(a, b, operator):
-    if operator == "+":
-        return a + b
-    elif operator == "-":
-        return a - b
-    elif operator == "*":
-        return a * b
-    elif operator == "/":
-        # handle division by zero, then divide
-        # ...
-    else:
-        return "Error: unknown operator"</pre>
+        <p>Implement <code class="inline">calculate(a, op, b)</code> below so it passes every test case.</p>
+        <p>A chain of <code class="inline">if</code>/<code class="inline">elif</code> comparing
+        <code class="inline">op</code> against each symbol works well here.</p>
+        <pre>if op == "+":
+    return a + b
+elif op == "-":
+    return a - b
+elif op == "*":
+    return a * b
+elif op == "/":
+    return a / b</pre>
       `,
-      question: "What condition should be checked before performing the division, to avoid crashing the program?",
-      answer: "Check if b equals 0, and if so return an error message instead of dividing",
-      hint: "Dividing any number by zero raises an exception in Python."
-    },
-    {
-      title: "The Solution",
-      points: 20,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>def calculate(a, b, operator):
-    if operator == "+":
-        return a + b
-    elif operator == "-":
-        return a - b
-    elif operator == "*":
-        return a * b
-    elif operator == "/":
-        if b == 0:
-            return "Error: division by zero"
-        return a / b
-    else:
-        return "Error: unknown operator"
-
-print(calculate(9, 3, "/"))</pre>
-        <p>Since 3 is not zero, the function skips the error branch and simply returns 9 divided by 3.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "3.0",
-      hint: "Division in Python 3 with / always produces a float, even when the result is a whole number."
+      starterCode: "def calculate(a, op, b):\n    # your code here\n    pass\n",
+      functionName: "calculate",
+      testCases: [
+        { args: [2, "+", 3], expected: 5 },
+        { args: [10, "-", 4], expected: 6 },
+        { args: [3, "*", 4], expected: 12 },
+        { args: [10, "/", 2], expected: 5 }
+      ],
+      hint: "Compare the op string with == inside if/elif branches, one per operator."
     }
   ]
 },
+
 {
   id: "challenge-number-guess",
   title: "Challenge: Number Guessing Game",
   icon: "🎯",
   difficulty: "Medium",
   tags: ["challenge", "practice", "loops"],
-  description: "Build a number guessing game where the player keeps guessing a secret number until they get it right, with hints along the way.",
+  description: "Write the core logic of a number guessing game: comparing a guess to a secret number and reporting back a hint.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
-        <p><b>The challenge:</b> build a guessing game around a secret number. The player keeps entering
-        guesses, and after each one the program tells them whether their guess was too low, too high, or
-        correct. When the player guesses correctly, the program reports how many tries it took and stops.</p>
-        <p>For example, if the secret number is 7 and the player guesses 3, then 9, then 7, the output should
-        look like this:</p>
-        <pre>Too low
-Too high
-Correct! You guessed it in 3 tries.</pre>
+        <p>Every number guessing game needs the same core piece of logic: compare the player's guess to the
+        secret number, and tell them whether to guess higher, lower, or that they got it.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">check_guess(guess, secret)</code> that
+        returns <code class="inline">"correct"</code> if they match, <code class="inline">"too high"</code>
+        if the guess is above the secret number, or <code class="inline">"too low"</code> if it's below.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 15,
+      title: "Write the Code",
+      points: 25,
+      type: "code",
       content: `
-        <p>The core of the game is a loop that keeps asking for a guess until it matches the secret number.
-        Each time through the loop, you compare the guess to the secret number and print the right message,
-        and you keep a counter of how many attempts have been made.</p>
-        <pre>secret = 7
-attempts = 0
-guess = None
-
-while guess != secret:
-    guess = int(input("Guess a number: "))
-    attempts += 1
-    if guess &lt; secret:
-        print("Too low")
-    elif guess &gt; secret:
-        print("Too high")
-    else:
-        # print the success message using attempts
-        # ...</pre>
+        <p>Implement <code class="inline">check_guess(guess, secret)</code> below so it passes every test case.</p>
+        <pre>if guess == secret:
+    return "correct"
+elif guess &gt; secret:
+    return "too high"
+else:
+    return "too low"</pre>
       `,
-      question: "What variable needs to be included in the final success message so the player knows how many tries it took?",
-      answer: "attempts",
-      hint: "It's the counter that gets incremented by 1 on every pass through the loop."
-    },
-    {
-      title: "The Solution",
-      points: 15,
-      content: `
-        <p>Here is a complete solution, using a fixed list of guesses instead of
-        <code class="inline">input()</code> so it can run without a real player and still produce the same
-        behavior:</p>
-        <pre>def play(secret, guesses):
-    attempts = 0
-    for guess in guesses:
-        attempts += 1
-        if guess &lt; secret:
-            print("Too low")
-        elif guess &gt; secret:
-            print("Too high")
-        else:
-            print("Correct! You guessed it in " + str(attempts) + " tries.")
-            break
-
-play(7, [3, 9, 7])</pre>
-        <p>The loop stops as soon as a guess matches the secret number, thanks to the
-        <code class="inline">break</code> statement.</p>
-      `,
-      question: "What is the exact text of the last line printed when play(7, [3, 9, 7]) runs?",
-      answer: "Correct! You guessed it in 3 tries.",
-      hint: "Count how many guesses from the list are tried before 7 is reached, including 7 itself."
+      starterCode: "def check_guess(guess, secret):\n    # your code here\n    pass\n",
+      functionName: "check_guess",
+      testCases: [
+        { args: [5, 5], expected: "correct" },
+        { args: [8, 5], expected: "too high" },
+        { args: [3, 5], expected: "too low" }
+      ],
+      hint: "Check equality first — if that fails, a single greater-than comparison tells you the rest."
     }
   ]
 },
+
 {
   id: "challenge-rock-paper-scissors",
   title: "Challenge: Rock Paper Scissors",
   icon: "✂️",
   difficulty: "Medium",
-    premium: true,
+  premium: true,
   tags: ["challenge", "practice", "functions"],
-  description: "Build a rock-paper-scissors game that compares the player's choice against the computer's and decides the winner.",
+  description: "Write a function that takes both players' choices and decides the winner of a rock-paper-scissors round.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
-        <p><b>The challenge:</b> write a function <code class="inline">play_round(player, computer)</code>
-        that takes the player's choice and the computer's choice (each one of <code class="inline">"rock"</code>,
-        <code class="inline">"paper"</code>, or <code class="inline">"scissors"</code>) and returns a message
-        announcing the winner. Remember the rules: rock beats scissors, scissors beats paper, and paper beats
-        rock. A matching choice is a tie.</p>
-        <pre>play_round("rock", "scissors")   # "You win! Rock beats Scissors."
-play_round("paper", "paper")     # "It's a tie!"
-play_round("scissors", "rock")   # "You lose! Rock beats Scissors."</pre>
+        <p>Rock beats scissors, scissors beats paper, and paper beats rock. Matching choices are a tie.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">determine_winner(p1, p2)</code> that
+        takes two choices — each one of <code class="inline">"rock"</code>, <code class="inline">"paper"</code>,
+        or <code class="inline">"scissors"</code> — and returns <code class="inline">"player1"</code>,
+        <code class="inline">"player2"</code>, or <code class="inline">"tie"</code>.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 20,
+      title: "Write the Code",
+      points: 25,
+      type: "code",
       content: `
-        <p>Instead of writing out every combination by hand, it helps to store the rule 'what beats what' in
-        a dictionary: each choice maps to the choice it defeats. Then you just check whether the player's
-        choice beats the computer's, whether it's the reverse, or whether they match.</p>
-        <pre>beats = {
-    "rock": "scissors",
-    "scissors": "paper",
-    "paper": "rock"
-}
-
-def play_round(player, computer):
-    if player == computer:
-        return "It's a tie!"
-    elif beats[player] == computer:
-        # the player's choice beats the computer's choice
-        # ...
-    else:
-        return "You lose! " + computer.capitalize() + " beats " + player.capitalize() + "."</pre>
+        <p>Implement <code class="inline">determine_winner(p1, p2)</code> below so it passes every test case.</p>
+        <p>Start with the easy case — a tie — then list the three ways player 1 can win. If none of those
+        match, player 2 must have won.</p>
+        <pre>if p1 == p2:
+    return "tie"
+beats = {"rock": "scissors", "scissors": "paper", "paper": "rock"}
+if beats[p1] == p2:
+    return "player1"
+return "player2"</pre>
       `,
-      question: "What does the beats dictionary's value for a given key represent?",
-      answer: "The choice that the key's choice defeats, for example beats of rock is scissors, meaning rock beats scissors",
-      hint: "Look at how beats[player] is used in the elif condition."
-    },
-    {
-      title: "The Solution",
-      points: 20,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>beats = {
-    "rock": "scissors",
-    "scissors": "paper",
-    "paper": "rock"
-}
-
-def play_round(player, computer):
-    if player == computer:
-        return "It's a tie!"
-    elif beats[player] == computer:
-        return "You win! " + player.capitalize() + " beats " + computer.capitalize() + "."
-    else:
-        return "You lose! " + computer.capitalize() + " beats " + player.capitalize() + "."
-
-print(play_round("rock", "scissors"))</pre>
-        <p>Since <code class="inline">beats["rock"]</code> is <code class="inline">"scissors"</code>, which
-        matches the computer's choice, the player wins this round.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "You win! Rock beats Scissors.",
-      hint: "Rock beats scissors, and .capitalize() makes the first letter of each word uppercase."
+      starterCode: "def determine_winner(p1, p2):\n    # your code here\n    pass\n",
+      functionName: "determine_winner",
+      testCases: [
+        { args: ["rock", "scissors"], expected: "player1" },
+        { args: ["paper", "rock"], expected: "player1" },
+        { args: ["rock", "paper"], expected: "player2" },
+        { args: ["rock", "rock"], expected: "tie" },
+        { args: ["scissors", "paper"], expected: "player1" }
+      ],
+      hint: "A dictionary mapping each choice to the one it beats avoids writing out every combination."
     }
   ]
 },
+
 {
   id: "challenge-todo-cli",
   title: "Challenge: To-Do List CLI App",
   icon: "✅",
   difficulty: "Medium",
-    premium: true,
+  premium: true,
   tags: ["challenge", "practice", "lists"],
-  description: "Build a command-line to-do list that supports adding tasks, removing tasks, and listing everything that's left.",
+  description: "Write the core logic of a to-do list: a function that adds a new task to the list and returns the updated list.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
-        <p><b>The challenge:</b> build a simple to-do list manager backed by a list. It should support three
-        operations:</p>
-        <ul>
-          <li><code class="inline">add_task(tasks, name)</code> — adds a new task to the end of the list</li>
-          <li><code class="inline">remove_task(tasks, name)</code> — removes a task by name, if it exists</li>
-          <li><code class="inline">list_tasks(tasks)</code> — returns the tasks as a numbered list of strings</li>
-        </ul>
-        <pre>tasks = []
-add_task(tasks, "Buy milk")
-add_task(tasks, "Walk dog")
-remove_task(tasks, "Buy milk")
-list_tasks(tasks)
-# ["1. Walk dog"]</pre>
+        <p>Every to-do list app needs the same core operation: take the current list of tasks and a new task,
+        and return the updated list with the new task added at the end.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">add_task(tasks, new_task)</code> that
+        returns a new list containing everything in <code class="inline">tasks</code>, plus
+        <code class="inline">new_task</code> added at the end.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 20,
+      title: "Write the Code",
+      points: 25,
+      type: "code",
       content: `
-        <p>Since <code class="inline">tasks</code> is a plain list, adding a task is just
-        <code class="inline">.append()</code>. Removing one needs a check first, in case the task name isn't
-        in the list at all, so it doesn't crash. Listing them just needs to pair each task with its
-        position.</p>
-        <pre>def add_task(tasks, name):
-    tasks.append(name)
-
-def remove_task(tasks, name):
-    if name in tasks:
-        # remove the task from the list
-        # ...
-
-def list_tasks(tasks):
-    result = []
-    for i, task in enumerate(tasks):
-        result.append(str(i + 1) + ". " + task)
-    return result</pre>
+        <p>Implement <code class="inline">add_task(tasks, new_task)</code> below so it passes every test case.</p>
+        <pre>return tasks + [new_task]</pre>
       `,
-      question: "What list method removes a specific value from a list by that value, rather than by its index?",
-      answer: "tasks.remove(name)",
-      hint: "It's different from del or pop, which work by position instead of by value."
-    },
-    {
-      title: "The Solution",
-      points: 20,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>def add_task(tasks, name):
-    tasks.append(name)
-
-def remove_task(tasks, name):
-    if name in tasks:
-        tasks.remove(name)
-
-def list_tasks(tasks):
-    result = []
-    for i, task in enumerate(tasks):
-        result.append(str(i + 1) + ". " + task)
-    return result
-
-tasks = []
-add_task(tasks, "Buy milk")
-add_task(tasks, "Walk dog")
-add_task(tasks, "Read book")
-remove_task(tasks, "Walk dog")
-print(list_tasks(tasks))</pre>
-        <p>After removing 'Walk dog', only 'Buy milk' and 'Read book' remain, and
-        <code class="inline">enumerate</code> renumbers them starting from 1.</p>
-      `,
-      question: "What does the print statement above output?",
-      answer: "['1. Buy milk', '2. Read book']",
-      hint: "The remaining two tasks get renumbered starting at 1, in their original relative order."
+      starterCode: "def add_task(tasks, new_task):\n    # your code here\n    pass\n",
+      functionName: "add_task",
+      testCases: [
+        { args: [[], "Buy milk"], expected: ["Buy milk"] },
+        { args: [["A"], "B"], expected: ["A", "B"] },
+        { args: [["Write code", "Test code"], "Ship it"], expected: ["Write code", "Test code", "Ship it"] }
+      ],
+      hint: "Adding two lists with + joins them into one new list, in order."
     }
   ]
 },
+
 {
   id: "challenge-password-generator",
   title: "Challenge: Password Generator",
   icon: "🔐",
   difficulty: "Medium",
-    premium: true,
+  premium: true,
   tags: ["challenge", "practice", "strings"],
-  description: "Generate secure random passwords of a configurable length, mixing letters, digits, and symbols.",
+  description: "Write a function that checks whether a password is strong: long enough, and mixing uppercase, lowercase, and digits.",
   tasks: [
     {
       title: "The Challenge",
       points: 0,
       content: `
-        <p><b>The challenge:</b> write a function <code class="inline">generate_password(length)</code> that
-        returns a random password of exactly <code class="inline">length</code> characters, made up of a mix
-        of uppercase letters, lowercase letters, digits, and punctuation symbols.</p>
-        <pre>generate_password(12)
-# a random string such as "aK9$mZ2!qLp7" -- a different result every time,
-# but always exactly 12 characters long</pre>
+        <p>Before generating passwords, it's worth being able to recognize a strong one. A common rule: a
+        strong password is at least 8 characters long, and contains at least one uppercase letter, one
+        lowercase letter, and one digit.</p>
+        <p><b>The challenge:</b> write a function <code class="inline">is_strong_password(pw)</code> that
+        returns <code class="inline">True</code> if <code class="inline">pw</code> meets all three rules,
+        and <code class="inline">False</code> otherwise.</p>
       `
     },
     {
-      title: "The Approach",
-      points: 20,
+      title: "Write the Code",
+      points: 25,
+      type: "code",
       content: `
-        <p>Python's <code class="inline">string</code> module already provides ready-made character sets:
-        <code class="inline">string.ascii_letters</code>, <code class="inline">string.digits</code>, and
-        <code class="inline">string.punctuation</code>. You combine them into one pool of allowed characters,
-        then pick <code class="inline">length</code> characters from that pool at random using
-        <code class="inline">random.choice</code>.</p>
-        <pre>import random
-import string
-
-def generate_password(length):
-    pool = string.ascii_letters + string.digits + string.punctuation
-    password = ""
-    for _ in range(length):
-        # pick one random character from pool and add it to password
-        # ...
-    return password</pre>
+        <p>Implement <code class="inline">is_strong_password(pw)</code> below so it passes every test case.</p>
+        <p>Python strings have handy checks for this: <code class="inline">any(c.isdigit() for c in pw)</code>
+        is <code class="inline">True</code> if at least one character is a digit — the same pattern works for
+        <code class="inline">c.isupper()</code> and <code class="inline">c.islower()</code>.</p>
+        <pre>if len(pw) &lt; 8:
+    return False
+has_upper = any(c.isupper() for c in pw)
+has_lower = any(c.islower() for c in pw)
+has_digit = any(c.isdigit() for c in pw)
+return has_upper and has_lower and has_digit</pre>
       `,
-      question: "Which function from the random module picks a single random element out of a sequence like a string?",
-      answer: "random.choice()",
-      hint: "It takes one sequence as an argument and returns one item from it."
-    },
-    {
-      title: "The Solution",
-      points: 20,
-      content: `
-        <p>Here is the complete solution:</p>
-        <pre>import random
-import string
-
-def generate_password(length):
-    pool = string.ascii_letters + string.digits + string.punctuation
-    password = ""
-    for _ in range(length):
-        password += random.choice(pool)
-    return password
-
-pw = generate_password(12)
-print(len(pw))</pre>
-        <p>Since the loop runs exactly <code class="inline">length</code> times, adding one character each
-        time, the resulting password always has exactly that many characters — even though the characters
-        themselves are random and different every run.</p>
-      `,
-      question: "What does print(len(pw)) output when generate_password(12) is used, regardless of which random characters are chosen?",
-      answer: "12",
-      hint: "The randomness affects which characters appear, not how many of them there are."
+      starterCode: "def is_strong_password(pw):\n    # your code here\n    pass\n",
+      functionName: "is_strong_password",
+      testCases: [
+        { args: ["Abcdef12"], expected: true },
+        { args: ["abcdefgh"], expected: false },
+        { args: ["short1A"], expected: false },
+        { args: ["ALLUPPER1"], expected: false },
+        { args: ["Valid123"], expected: true }
+      ],
+      hint: "any(...) returns True as soon as one element in the generator satisfies the condition."
     }
   ]
 },
 
-  /* ---- ai-ml-batch.js ---- */
-  {
+{
   id: "ai-ml-intro",
   title: "What Is Machine Learning?",
   icon: "🤖",

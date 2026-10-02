@@ -26,8 +26,28 @@ function renderTaskNav(room) {
 function renderTask(room, task, index) {
   const done = isTaskDone(room.id, index);
   const hasQuestion = !!task.question;
+  const isCode = task.type === "code";
 
-  const answerSection = hasQuestion ? `
+  let answerSection;
+  if (isCode) {
+    answerSection = `
+      <div class="code-task-box">
+        <p class="code-prompt"><b>Your task:</b> implement <code class="inline">${task.functionName}()</code> so every test below passes.</p>
+        <div class="code-editor-wrap">
+          <textarea id="code-editor-${index}">${(task.starterCode || "").replace(/</g, "&lt;")}</textarea>
+        </div>
+        <div class="code-actions">
+          <button class="btn btn-primary btn-sm" id="submit-${index}" ${done ? "disabled" : ""}>
+            ${done ? "Completed ✔" : "▶ Run Tests"}
+          </button>
+          <span class="code-status" id="code-status-${index}"></span>
+        </div>
+        ${task.hint ? `<details class="answer-hint"><summary>Need a hint?</summary><p>${task.hint}</p></details>` : ""}
+        <div class="code-results" id="code-results-${index}"></div>
+      </div>
+    `;
+  } else if (hasQuestion) {
+    answerSection = `
     <div class="answer-box">
       <p><b>${task.question}</b></p>
       <div class="answer-row">
@@ -39,13 +59,16 @@ function renderTask(room, task, index) {
       ${task.hint ? `<details class="answer-hint"><summary>Need a hint?</summary><p>${task.hint}</p></details>` : ""}
       <p class="answer-feedback hidden" id="feedback-${index}"></p>
     </div>
-  ` : `
+  `;
+  } else {
+    answerSection = `
     <div class="answer-box">
       <button class="btn btn-primary btn-sm" id="submit-${index}" ${done ? "disabled" : ""}>
         ${done ? "Completed ✔" : "Complete Task"}
       </button>
     </div>
   `;
+  }
 
   return `
     <div class="task" id="task-${index}">
@@ -133,7 +156,82 @@ function celebrateCompletion(room, task, index, sourceEl) {
   refreshHeaderProgress(room);
 }
 
+const codeEditors = {};
+
+function initCodeEditor(index, done) {
+  const textarea = document.getElementById(`code-editor-${index}`);
+  if (!textarea || typeof CodeMirror === "undefined") return null;
+  const cm = CodeMirror.fromTextArea(textarea, {
+    mode: "python",
+    theme: "dracula",
+    lineNumbers: true,
+    indentUnit: 4,
+    tabSize: 4,
+    indentWithTabs: false,
+    readOnly: done,
+    extraKeys: { Tab: (editor) => editor.replaceSelection("    ", "end") }
+  });
+  codeEditors[index] = cm;
+  return cm;
+}
+
+function wireUpCodeTask(room, task, index) {
+  const submitBtn = document.getElementById(`submit-${index}`);
+  if (!submitBtn) return;
+  const done = isTaskDone(room.id, index);
+  const cm = initCodeEditor(index, done);
+
+  submitBtn.addEventListener("click", async () => {
+    if (isTaskDone(room.id, index)) return;
+
+    const statusEl = document.getElementById(`code-status-${index}`);
+    const resultsEl = document.getElementById(`code-results-${index}`);
+    const wrap = document.querySelector(`#task-${index} .code-editor-wrap`);
+    const learnerCode = cm ? cm.getValue() : document.getElementById(`code-editor-${index}`).value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Running…";
+    statusEl.textContent = "Starting Python (first run on this page can take a few seconds)…";
+    resultsEl.innerHTML = "";
+
+    try {
+      const { allPassed, cases } = await runCodeTask(learnerCode, task.functionName, task.testCases);
+      statusEl.textContent = "";
+      resultsEl.innerHTML = cases.map(c => `
+        <div class="code-case ${c.ok ? 'pass' : 'fail'}">
+          ${c.ok ? '✔' : '✘'} ${task.functionName}(${c.args.join(', ')}) → ${c.got}
+          ${c.ok ? '' : `<span class="expected">(expected ${c.expected})</span>`}
+        </div>
+      `).join("");
+
+      if (allPassed) {
+        const combo = registerCorrectAnswer();
+        if (combo > 0 && combo % 5 === 0) showToast(`⚡ <b>Combo x${combo}!</b> You're on fire.`);
+        submitBtn.textContent = "Completed ✔";
+        if (cm) cm.setOption("readOnly", true);
+        celebrateCompletion(room, task, index, submitBtn);
+      } else {
+        registerWrongAnswer();
+        submitBtn.disabled = false;
+        submitBtn.textContent = "▶ Run Tests";
+        if (wrap) { wrap.classList.remove("shake"); void wrap.offsetWidth; wrap.classList.add("shake"); }
+      }
+    } catch (err) {
+      registerWrongAnswer();
+      statusEl.textContent = "";
+      resultsEl.innerHTML = `<div class="code-case fail">⚠ ${err.message}</div>`;
+      submitBtn.disabled = false;
+      submitBtn.textContent = "▶ Run Tests";
+    }
+  });
+}
+
 function wireUpTask(room, task, index) {
+  if (task.type === "code") {
+    wireUpCodeTask(room, task, index);
+    return;
+  }
+
   const submitBtn = document.getElementById(`submit-${index}`);
   if (!submitBtn) return;
 
@@ -237,6 +335,10 @@ function renderRoom(room) {
 
   document.getElementById("room-root").innerHTML = html;
   room.tasks.forEach((t, i) => wireUpTask(room, t, i));
+
+  if (room.tasks.some(t => t.type === "code") && typeof prewarmPython === "function") {
+    prewarmPython();
+  }
 }
 
 function renderLocked(room) {

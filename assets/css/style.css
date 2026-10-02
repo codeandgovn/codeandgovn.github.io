@@ -601,6 +601,45 @@ section.section {
 }
 .answer-hint summary { cursor: pointer; color: var(--blue); }
 
+/* ---------- Code-writing tasks ---------- */
+.code-task-box {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--border);
+}
+.code-prompt { margin: 0 0 14px; }
+.code-editor-wrap {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.code-editor-wrap .CodeMirror {
+  height: auto;
+  min-height: 140px;
+  font-family: "Fira Code", "Courier New", monospace;
+  font-size: 0.88rem;
+}
+.code-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+.code-status { color: var(--text-dim); font-size: 0.85rem; }
+.code-results { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+.code-case {
+  font-family: "Fira Code", monospace;
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #0a0f16;
+  border: 1px solid var(--border);
+}
+.code-case.pass { color: var(--green); border-color: rgba(63,185,80,0.3); }
+.code-case.fail { color: var(--red); border-color: rgba(248,81,73,0.3); }
+.code-case .expected { color: var(--text-dim); font-style: italic; }
+.code-editor-wrap.shake { animation: cg-shake 0.5s; border-color: var(--red); }
+
 .room-complete-banner {
   margin-top: 10px;
   padding: 22px;
