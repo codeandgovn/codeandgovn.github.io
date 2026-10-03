@@ -125,7 +125,11 @@ on conflict (key) do update set value = excluded.value;
 create or replace function public.redeem_premium_code(token text)
 returns boolean
 language plpgsql
-security definer set search_path = public
+-- Supabase installs pgcrypto's crypt()/gen_salt() into the `extensions`
+-- schema, not `public`. A SECURITY DEFINER function's search_path is
+-- locked down for safety (never trusts the caller's search_path), so it
+-- must explicitly list `extensions` too or crypt() resolves to nothing.
+security definer set search_path = public, extensions
 as $$
 declare
   stored_hash text;
